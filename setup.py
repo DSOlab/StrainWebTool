@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='StrainWebTool',
-    version='0.1-b',
+    version='0.1-beta1.0',
     description='WebTool for StrainTool',
     url='https://github.com/DSOlab/StrainWebTool.git',
     author='Xanthos Papanikolaou, Dimitris Anastasiou',
