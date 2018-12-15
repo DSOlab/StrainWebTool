@@ -5,7 +5,7 @@ from werkzeug import secure_filename
 UPLOAD_FOLDER = '/uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
@@ -31,6 +31,12 @@ def upload_file():
             return redirect(url_for('uploaded_file',
                                     filename=filename))
     return render_template('upload/upload.html')
+
+@app.route('/getfile')
+def getfile():
+    with open('tmp/CNRS_midas.vel') as f:
+       content = f.read()
+    return render_template("templ.html", content=content)
 
 
 '''
