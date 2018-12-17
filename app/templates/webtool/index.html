@@ -20,52 +20,53 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
     <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
-    <style>
-        .container {
-            margin: 15px auto;
-            display: flex;
-        }
-        #chart_div {
-            width: 80%;
-        }
-        #dparam_div {
-            width: 20%;
-            vertical-align: middle;
-        }
-        #chart_div2 {
-            width: 80%;
-        }
-        #inline-code {
-            background-color: #eee;
-            display: inline;
-            padding: 10px;
-        }
-        #block-code {
-            background-color: #eee;
-            //border: 1px solid #999;
-            //display: block;
-            //padding: 20px;
-            //white-space: pre-wrap;
-            //word-wrap: break-word;
-        }
-        #block-samp {
-            background-color: #eee;
-            border: 1px solid #999;
-            display: block;
-            padding: 20px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        .page-header-p {
-            font-family: verdana, "Lucida Console", Monospace;
-            font-size:3vw;
-            max-height: 100%;
-        }
-        button{
-	    margin: 13px;
-	    box-shadow: 1px 2px 5px #000000; 
+<!--     <link rel="stylesheet" type="text/css" href="../static/style/webtool.css" /> -->
+<style>
+.container {
+    margin: 15px auto;
+    display: flex;
+    }
+#chart_div {
+    width: 80%;
+    }
+#dparam_div {
+    width: 20%;
+    vertical-align: middle;
+    }
+#chart_div2 {
+    width: 80%;
+    }
+#inline-code {
+    background-color: #eee;
+    display: inline;
+    padding: 10px;
+    }
+#block-code {
+    background-color: #eee;
+    //border: 1px solid #999;
+    //display: block;
+    //padding: 20px;
+    //white-space: pre-wrap;
+    //word-wrap: break-word;
+    }
+#block-samp {
+    background-color: #eee;
+    border: 1px solid #999;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    }
+.page-header-p {
+    font-family: verdana, "Lucida Console", Monospace;
+    font-size:3vw;
+    max-height: 100%;
+    }
+button{
+    margin: 13px;
+	box-shadow: 1px 2px 5px #000000; 
 	}
-        a.buttons {
+a.buttons {
 	-webkit-font-smoothing: antialiased;
 	background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/arrow-down.png) no-repeat;
 	font-weight: normal;
@@ -75,14 +76,31 @@
 	height: 30px;
 	}
 
-	a.github {
+a.github {
 		background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/octocat-small.png) no-repeat 1px;
 	}
 
-	a.buttons:hover {
+a.buttons:hover {
 		color: #fff;
 		text-decoration: none;
 	}
+
+a.run_buttons {
+	-webkit-font-smoothing: antialiased;
+	background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/arrow-down.png) no-repeat;
+	font-weight: normal;
+	color: #fff;
+/* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
+	padding: 2px 2px 2px 22px;
+	height: 30px;
+	}
+a.run_buttons:hover {
+	color: #fff;
+	text-decoration: none;
+}
+	
+	
+	
 .selected {
   opacity: 1
 }
@@ -98,12 +116,12 @@ height:0;
 .map-container iframe{
 left:0;
 top:0;
-height:80%;
+height:97%;
 width:100%;
 position:absolute;
 }
-    </style>
- <script>
+</style>
+    <script>
    $(document).ready(function() {
   $('.sev_check').each(function() {
 //     $(this).addClass('unselected');
@@ -201,21 +219,22 @@ position:absolute;
 </div>
 
 <!-- Main application -->
-<div class="row" style="height: 650px;">
+<div class="row" style="height: 690px;">
 
-    <!-- columns in 1st row -->
-    <div class="col-md-2">
+    <!-- Strain Tool arguments column -->
+    <div class="col-md-2" style="padding: 20px; background-color:  #b3d9ff;">
         <div class="row">
+<!--             <div class="col col-md-2"></div> -->
             <div class="col">
                 <div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <span class="input-group-text">Upload</span>
-  </div>
-  <div class="custom-file">
-    <input type="file" class="custom-file-input" id="inputGroupFile01">
-    <label class="custom-file-label" for="inputGroupFile01">Input file</label>
-  </div>
-</div>
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Upload</span>
+                </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile01">
+                    <label class="custom-file-label" for="inputGroupFile01">Input file</label>
+                </div>
+                </div>
             </div>
         </div>
         <!--select method sen or veis          -->
@@ -240,7 +259,7 @@ position:absolute;
                 Set boundary zone:<br>
                 <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="">Longtitude</span>
+                    <span class="input-group-text" id="">Lon.(λ)</span>
                 </div>
                 <input type="text" class="form-control" placeholder="minimum">
                 <input type="text" class="form-control" placeholder="maximum">
@@ -248,7 +267,7 @@ position:absolute;
                 
                 <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="">Latitude</span>
+                    <span class="input-group-text" id="">Lat.(φ)</span>
                 </div>
                 <input type="text" class="form-control" placeholder="minimum">
                 <input type="text" class="form-control" placeholder="maximum">
@@ -315,18 +334,67 @@ position:absolute;
                 </div> 
             </div>
         </div>
+        <div align="center">
+            <button type="button" class="btn btn-danger"><a class="run_buttons" href="#" target="_blank">RUN</a></button>
+        </div>
     </div>
-    <div class="col-md-2">
-    plot
+    <!-- Strain Tool Argments finished      -->
+    
+    <!-- Plot cases -->
+    <div class="col-md-2" style="padding: 20px; background-color:  #fff2e6;">
+        <div class="row">
+            <div class="col">
+            Add to map: <br>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_vel" checked>
+                <label class="custom-control-label" for="plot_vel">Velocities</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_strain" >
+                <label class="custom-control-label" for="plot_strain">Principal Axis</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_rotation" >
+                <label class="custom-control-label" for="plot_rotation">Rotational Rates</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtot" >
+                <label class="custom-control-label" for="plot_gtot">Shear Strain</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtotaxes" >
+                <label class="custom-control-label" for="plot_gtotaxes">Shear Strain Axes</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_secinv" >
+                <label class="custom-control-label" for="plot_secinv">Second Invariant</label>
+                </div>
+            </div>
+ 
+        </div>
+        <div class="row">
+            <div class="col" align="center">
+                <button type="button" class="btn btn-danger"><a class="run_buttons" href="#" target="_blank">ADD</a></button>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                Create GMT Maps: <br>
+                Options:<br>
+                
+            </div>
+        </div>
+    
     </div>
     <div class="col-md-8">
-    maps
+<!--     maps -->
     <div id="map"></div>
     <!--Google map-->
-<!--<div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 300px">
-  <iframe src="https://maps.google.com/maps?ll=39.1811459,23.0690025,7.13&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+<div id="map-container-google-1" class="z-depth-1-half map-container" >
+  <iframe src="https://maps.google.com/maps?ll=39.1811459,23.0690025,7.13z=15&ie=UTF8&iwloc=&output=embed" frameborder="0"
     style="border:0" allowfullscreen></iframe>
-</div>-->
+</div>
 
 <!--Google Maps-->
     </div>
