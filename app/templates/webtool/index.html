@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <!-- add after bootstrap.min.css -->
     <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
     <!-- github icon -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -16,6 +17,8 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
     <!-- add after bootstrap.min.js -->
     <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
     <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
     <style>
         .container {
@@ -80,8 +83,55 @@
 		color: #fff;
 		text-decoration: none;
 	}
-
+.selected {
+  opacity: 1
+}
+.unselected {
+  opacity: 0.5
+}
+.map-container{
+overflow:hidden;
+padding-bottom:56.25%;
+position:relative;
+height:0;
+}
+.map-container iframe{
+left:0;
+top:0;
+height:80%;
+width:100%;
+position:absolute;
+}
     </style>
+ <script>
+   $(document).ready(function() {
+  $('.sev_check').each(function() {
+//     $(this).addClass('unselected');
+  });
+  $('.sev_check').on('click', function() {
+//     $(this).toggleClass('unselected');
+//     $(this).toggleClass('selected');
+    $('.sev_check').not(this).prop('checked', false);
+//     $('.sev_check').not(this).removeClass('selected');
+//     $('.sev_check').not(this).addClass('unselected');
+  });
+});
+</script>
+<!-- OSM script to plot maps -->
+     <script type="text/javascript">
+      var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([37.41, 8.82]),
+          zoom: 4
+        })
+      });
+    </script>
 </head>
 
 <body data-spy="scroll" data-target="#toc">
@@ -113,7 +163,7 @@
                 </div>-->
             </div>
 	    <div class="col-md-3">
-	    <div class="row row-eq-height">
+	    <div class="row row-eq-height align-items-center">
 	        <div class="col-md-3">
 		    <a href="https://www.epos-ip.org" target="blank"><img src="https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/EPOS_logo_small_591_0.png" class="img-fluid" style="max-width: 100%; height: auto; align: center;"></a>
 		</div>
@@ -135,29 +185,162 @@
         <hr>
 </div>
 
+<!-- Header of applications-->
+<div class="row">
+
+    <!-- columns for header row -->
+    <div class="col-md-2">
+    python
+    </div>
+    <div class="col-md-2">
+    plot
+    </div>
+    <div class="col-md-8">
+    maps
+    </div>
+</div>
+
+<!-- Main application -->
+<div class="row" style="height: 650px;">
+
+    <!-- columns in 1st row -->
+    <div class="col-md-2">
+        <div class="row">
+            <div class="col">
+                <div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Upload</span>
+  </div>
+  <div class="custom-file">
+    <input type="file" class="custom-file-input" id="inputGroupFile01">
+    <label class="custom-file-label" for="inputGroupFile01">Input file</label>
+  </div>
+</div>
+            </div>
+        </div>
+        <!--select method sen or veis          -->
+        <div class="row">
+            <div class="col">
+                Select method:<br>
+                <!-- Shen Method-->
+                <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline1" checked>
+                <label class="custom-control-label" for="defaultInline1">Shen</label>
+                </div>
+                <!-- Veis, Delaunay triangles-->
+                <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline2">
+                <label class="custom-control-label" for="defaultInline2">Veis</label>
+                </div>
+            </div>
+        </div>
+        <!-- Set Boundary zone  -->
+        <div class="row">
+            <div class="col">
+                Set boundary zone:<br>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Longtitude</span>
+                </div>
+                <input type="text" class="form-control" placeholder="minimum">
+                <input type="text" class="form-control" placeholder="maximum">
+                </div>
+                
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Latitude</span>
+                </div>
+                <input type="text" class="form-control" placeholder="minimum">
+                <input type="text" class="form-control" placeholder="maximum">
+                </div>
+                <br>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Grid-Step</span>
+                </div>
+                <input type="text" class="form-control" placeholder="X-step">
+                <input type="text" class="form-control" placeholder="Y-step">
+                </div>
+            </div>
+        </div>
+        <!-- Set Model parameters  -->
+        <div class="row">
+            <div class="col">
+                Imterpolation model parameters:<br>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="24">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="500">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
+                </div>
+                OR set:<br>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="200">
+                </div>
+            </div>
+        </div>
+        <!-- Set arguments for python --> 
+        <div class="row">
+            <div class="col">
+                Special arguments:<br>
+                <!-- Default checked -->
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="cut_stations" >
+                <label class="custom-control-label" for="cut_stations">cut excess stations</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="g_statistic">
+                <label class="custom-control-label" for="g_statistic">generate statistics</label>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+    plot
+    </div>
+    <div class="col-md-8">
+    maps
+    <div id="map"></div>
+    <!--Google map-->
+<!--<div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 300px">
+  <iframe src="https://maps.google.com/maps?ll=39.1811459,23.0690025,7.13&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+    style="border:0" allowfullscreen></iframe>
+</div>-->
+
+<!--Google Maps-->
+    </div>
+</div>
 
 
+<!-- Results -->
+<div class="row">
+    <div class="col">
+        Results
+    </div>
+</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 </body>
 
@@ -193,9 +376,9 @@ Disclaimer: the content of this website reflects only the author’s view and th
           <h5 class="text-uppercase font-weight-bold">StrainTool software</h5>
           <p>StrainTool allows the estimation of Strain Tensor parameters, on the earth's crust, given a list of data point, aka points on the earth along with their tectonic velocities.</p>
           <div align="center">
-		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/zipball/master">Download ZIP</a></button>
-		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/tarball/master">Download TAR</a></button>
-		    <button type="button" class="btn btn-success"><a class="buttons github" href="https://github.com/DSOlab/StrainTool">View on GitHub</a></button>
+		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/zipball/master" target="_blank">Download ZIP</a></button>
+		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/tarball/master" target="_blank">Download TAR</a></button>
+		    <button type="button" class="btn btn-success"><a class="buttons github" href="https://github.com/DSOlab/StrainTool" target="_blank">View on GitHub</a></button>
           </div>
 
         </div>
@@ -215,3 +398,6 @@ Disclaimer: the content of this website reflects only the author’s view and th
 
   </footer>
   <!-- Footer -->
+
+  
+ 
