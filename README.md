@@ -14,6 +14,9 @@ sudo yum install python-virtualenv
 
 **Run app**
 <pre id="block-samp"><samp>
+**create virtual enviroment**
+virtualenv flask
+
 **activate venv**
 . flask/bin/activate
 
@@ -24,4 +27,14 @@ flask run
 **OR**
 flask run --host=0.0.0.0
 * will run on your public IP
+</samp></pre>
+
+
+**Files tree**
+<pre id="block-samp"><samp>
+app (main application)
+ |--> templates (html files)
+ |--> static (images, style files, css)
+ |--> website.py : app to serve main website for straintool
+ |--> webtool.py " app to serve template for webtool.ONLY template
 </samp></pre>
