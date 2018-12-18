@@ -8,6 +8,10 @@
     <!-- add after bootstrap.min.css -->
     <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.css">
     <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
+    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>    
     <!-- github icon -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -21,6 +25,7 @@
 
     <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
 <!--     <link rel="stylesheet" type="text/css" href="../static/style/webtool.css" /> -->
+
 <style>
 .container {
     margin: 15px auto;
@@ -107,19 +112,10 @@ a.run_buttons:hover {
 .unselected {
   opacity: 0.5
 }
-.map-container{
-overflow:hidden;
-padding-bottom:56.25%;
-position:relative;
-height:0;
-}
-.map-container iframe{
-left:0;
-top:0;
-height:97%;
-width:100%;
-position:absolute;
-}
+.map {
+        height: 100%;
+        width: 100%;
+      }
 </style>
     <script>
    $(document).ready(function() {
@@ -135,21 +131,7 @@ position:absolute;
   });
 });
 </script>
-<!-- OSM script to plot maps -->
-     <script type="text/javascript">
-      var map = new ol.Map({
-        target: 'map',
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([37.41, 8.82]),
-          zoom: 4
-        })
-      });
-    </script>
+
 </head>
 
 <body data-spy="scroll" data-target="#toc">
@@ -165,7 +147,7 @@ position:absolute;
 		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/stargazers"><img src="https://img.shields.io/github/stars/DSOlab/StrainTool.svg" alt="" /></a></div>
 		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/network"><img src="https://img.shields.io/github/forks/DSOlab/StrainTool.svg" alt="" /></a></div>
 		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/issues"><img src="https://img.shields.io/github/issues/DSOlab/StrainTool.svg" alt="" /></a></div>-->
-		  <div class="col-md-2"><a href="https://doi.org/10.5281/zenodo.1297565"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1297565.svg" alt="DOI"></a></div>
+<!-- 		  <div class="col-md-2"><a href="https://doi.org/10.5281/zenodo.1297565"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1297565.svg" alt="DOI"></a></div> -->
 		</div>
 	    </div>
             <div class="col-md-6" >
@@ -200,15 +182,40 @@ position:absolute;
 	      </div>
             </div>
         </div>
-        <hr>
+<!--         <hr> -->
 </div>
 
 <!-- Header of applications-->
-<div class="row">
+<div class="row" style="background-color: #e69900">
 
     <!-- columns for header row -->
-    <div class="col-md-2">
-    python
+    <div class="col-md-2" align="center">
+    <button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModalLong">StrainTool v1.0</button>
+    <!-- Large modal -->
+<!-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg">L</button> -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">StrainTool v1.0 - HELP</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--         <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
     </div>
     <div class="col-md-2">
     plot
@@ -219,7 +226,7 @@ position:absolute;
 </div>
 
 <!-- Main application -->
-<div class="row" style="height: 690px;">
+<div class="row" style="height: 710px;">
 
     <!-- Strain Tool arguments column -->
     <div class="col-md-2" style="padding: 20px; background-color:  #b3d9ff;">
@@ -344,7 +351,7 @@ position:absolute;
     <div class="col-md-2" style="padding: 20px; background-color:  #fff2e6;">
         <div class="row">
             <div class="col">
-            Add to map: <br>
+            Strain parameters: <br>
                 <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input sev_check" id="plot_vel" checked>
                 <label class="custom-control-label" for="plot_vel">Velocities</label>
@@ -369,12 +376,25 @@ position:absolute;
                 <input type="checkbox" class="custom-control-input sev_check" id="plot_secinv" >
                 <label class="custom-control-label" for="plot_secinv">Second Invariant</label>
                 </div>
+            Statistics:
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_stations">
+                <label class="custom-control-label" for="stat_stations">Stations per cell</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_doptimal" >
+                <label class="custom-control-label" for="stat_doptimal">D optimal</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_sigma" >
+                <label class="custom-control-label" for="stat_sigma">sigma value</label>
+                </div>
             </div>
  
         </div>
         <div class="row">
             <div class="col" align="center">
-                <button type="button" class="btn btn-danger"><a class="run_buttons" href="#" target="_blank">ADD</a></button>
+                <button type="button" class="btn btn-danger"><a class="run_buttons" href="#" target="_blank">ADD to Map</a></button>
             </div>
         </div>
         
@@ -382,21 +402,74 @@ position:absolute;
             <div class="col">
                 Create GMT Maps: <br>
                 Options:<br>
-                
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_stations" >
+                <label class="custom-control-label" for="gmt_stations">plot stations</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_labels">
+                <label class="custom-control-label" for="gmt_labels">add labels</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_deltr">
+                <label class="custom-control-label" for="gmt_deltr">add delaunay triangles</label>
+                </div>
+            Scales:
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">velocities</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN">
+                </div>
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Strains</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN">
+                </div>
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Rotational</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN">
+                </div>
+            Outputs:
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Pre/Suf-fix</span>
+                </div>
+                <input type="text" class="form-control" placeholder="NaN">
+                <input type="text" class="form-control" placeholder="NaN">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" align="center">
+                <button type="button" class="btn btn-danger"><a class="run_buttons" href="#" target="_blank">GMT Map</a></button>
             </div>
         </div>
     
     </div>
     <div class="col-md-8">
 <!--     maps -->
-    <div id="map"></div>
-    <!--Google map-->
-<div id="map-container-google-1" class="z-depth-1-half map-container" >
-  <iframe src="https://maps.google.com/maps?ll=39.1811459,23.0690025,7.13z=15&ie=UTF8&iwloc=&output=embed" frameborder="0"
-    style="border:0" allowfullscreen></iframe>
-</div>
+    <div id="map" class="map" style="width:100%;height:100%;margin:0px;margin:0px;border:1px solid black;"></div>
+<!--     <div id="map-canvas" style="width:100%;height:100%;margin:0px;margin:0px;border:1px solid black;"></div> -->
+
+<!-- <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=11.502685546875002%2C33.61461929233378%2C29.849853515625%2C41.623655390686395&amp;layer=mapnik" style="border: 1px solid black"></iframe> -->
+     <!--Google map-->
+        <!--<div id="map-container-google-1" class="z-depth-1-half map-container" >
+        <iframe src="https://maps.google.com/maps?ll=39.1811459,23.0690025,7.13z=15&ie=UTF8&iwloc=&output=embed" frameborder="0"
+            style="border:0" allowfullscreen></iframe>
+        </div>-->
 
 <!--Google Maps-->
+
+    </div>
+    
+    
+    
+    
+   
     </div>
 </div>
 
@@ -467,5 +540,40 @@ Disclaimer: the content of this website reflects only the author’s view and th
   </footer>
   <!-- Footer -->
 
-  
- 
+<!-- Map script for plotting   -->
+<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script  type="">
+function initialize() {
+  var myLatlng = new google.maps.LatLng(39.9808315428,23.9126069098);
+  var mapOptions = {
+    zoom: 6,
+    center: myLatlng,
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  }
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+//   var myMarkerImage = new google.maps.MarkerImage('/beta2/images/gps-icon.png');
+//   var marker = new google.maps.Marker({
+//       icon: myMarkerImage,
+//       position: myLatlng,
+//       map: map,
+//       title: 'akyr'
+//   });
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script> 
+ -->
+<!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
+    <script type="text/javascript">
+      var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([24.41, 39.82]),
+          zoom: 6
+        })
+      });
+    </script>
