@@ -244,18 +244,24 @@ a.run_buttons:hover {
 
     <!-- Strain Tool arguments column -->
     <div class="col-md-2" style="padding: 20px; background-color:  #b3d9ff;">
-        <div class="row">
+      <div class="row">
 <!--             <div class="col col-md-2"></div> -->
-            <div class="col">
-                <div class="input-group mb-3">
-                <div class="input-group-prepend">
+        <div class="col">
+          <div class="input-group mb-3">
+            <form  method = "POST" 
+              enctype = "multipart/form-data" action="/StrainWebTool/parameters" >
+              <input type = "file" name = "file" />
+              <input type = "submit" value = "Read"/>
+            </form>
+            </div>
+                <!--<div class="input-group-prepend">
                     <span class="input-group-text">Upload</span>
                 </div>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01">
-                    <label class="custom-file-label" for="inputGroupFile01">Input file</label>
+                    <input type="file" name="input_file" class="custom-file-input" id="inputGroupFile01">
+                    <label class="file-upload btn btn-primary" for="inputGroupFile01">Input file</label>
                 </div>
-                </div>
+                </div>-->
             </div>
         </div>
         <!--select method sen or veis          -->
@@ -264,12 +270,12 @@ a.run_buttons:hover {
                 Select method:<br>
                 <!-- Shen Method-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline1" checked>
+                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline1" disabled>
                 <label class="custom-control-label" for="defaultInline1">Shen</label>
                 </div>
                 <!-- Veis, Delaunay triangles-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline2">
+                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline2" disabled>
                 <label class="custom-control-label" for="defaultInline2">Veis</label>
                 </div>
             </div>
@@ -282,24 +288,24 @@ a.run_buttons:hover {
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Lon.(λ)</span>
                 </div>
-                <input type="text" class="form-control" placeholder="minimum">
-                <input type="text" class="form-control" placeholder="maximum">
+                <input type="text" class="form-control" placeholder="minimum" disabled>
+                <input type="text" class="form-control" placeholder="maximum" disabled>
                 </div>
                 
                 <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Lat.(φ)</span>
                 </div>
-                <input type="text" class="form-control" placeholder="minimum">
-                <input type="text" class="form-control" placeholder="maximum">
+                <input type="text" class="form-control" placeholder="minimum" disabled>
+                <input type="text" class="form-control" placeholder="maximum" disabled>
                 </div>
                 <br>
                 <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Grid-Step</span>
                 </div>
-                <input type="text" class="form-control" placeholder="X-step">
-                <input type="text" class="form-control" placeholder="Y-step">
+                <input type="text" class="form-control" placeholder="X-step" disabled>
+                <input type="text" class="form-control" placeholder="Y-step" disabled>
                 </div>
             </div>
         </div>
@@ -311,32 +317,32 @@ a.run_buttons:hover {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="24">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="24" disabled>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1" disabled>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="500">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="500" disabled>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1" disabled>
                 </div>
                 OR set:<br>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="200">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="200" disabled>
                 </div>
             </div>
         </div>
@@ -346,17 +352,17 @@ a.run_buttons:hover {
                 Special arguments:<br>
                 <!-- Default checked -->
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="cut_stations" >
+                <input type="checkbox" class="custom-control-input" id="cut_stations" disabled>
                 <label class="custom-control-label" for="cut_stations">cut excess stations</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="g_statistic">
+                <input type="checkbox" class="custom-control-input" id="g_statistic" disabled>
                 <label class="custom-control-label" for="g_statistic">generate statistics</label>
                 </div> 
             </div>
         </div>
         <div align="center">
-            <button type="button" class="btn btn-danger"><a class="run_buttons" href="#" target="_blank">RUN</a></button>
+            <button type="button" class="btn btn-danger" disabled>RUN</button>
         </div>
     </div>
     <!-- Strain Tool Argments finished      -->
@@ -367,40 +373,40 @@ a.run_buttons:hover {
             <div class="col">
             Strain parameters: <br>
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input sev_check" id="plot_vel" checked>
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_vel" disabled>
                 <label class="custom-control-label" for="plot_vel">Velocities</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input sev_check" id="plot_strain" >
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_strain" disabled>
                 <label class="custom-control-label" for="plot_strain">Principal Axis</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input sev_check" id="plot_rotation" >
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_rotation" disabled>
                 <label class="custom-control-label" for="plot_rotation">Rotational Rates</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtot" >
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtot" disabled>
                 <label class="custom-control-label" for="plot_gtot">Shear Strain</label>
                 </div>
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtotaxes" >
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtotaxes" disabled>
                 <label class="custom-control-label" for="plot_gtotaxes">Shear Strain Axes</label>
                 </div>
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input sev_check" id="plot_secinv" >
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_secinv" disabled>
                 <label class="custom-control-label" for="plot_secinv">Second Invariant</label>
                 </div>
             Statistics:
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input sev_check" id="stat_stations">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_stations" disabled>
                 <label class="custom-control-label" for="stat_stations">Stations per cell</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input sev_check" id="stat_doptimal" >
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_doptimal" disabled>
                 <label class="custom-control-label" for="stat_doptimal">D optimal</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input sev_check" id="stat_sigma" >
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_sigma" disabled>
                 <label class="custom-control-label" for="stat_sigma">sigma value</label>
                 </div>
             </div>
@@ -408,7 +414,7 @@ a.run_buttons:hover {
         </div>
         <div class="row">
             <div class="col" align="center">
-                <button type="button" class="btn btn-danger"><a class="run_buttons" href="#" target="_blank">ADD to Map</a></button>
+                <button type="button" class="btn btn-danger" disabled>ADD to Map</button>
             </div>
         </div>
         
@@ -417,15 +423,15 @@ a.run_buttons:hover {
                 Create GMT Maps: <br>
                 Options:<br>
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="gmt_stations" >
+                <input type="checkbox" class="custom-control-input" id="gmt_stations" disabled>
                 <label class="custom-control-label" for="gmt_stations">plot stations</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="gmt_labels">
+                <input type="checkbox" class="custom-control-input" id="gmt_labels" disabled>
                 <label class="custom-control-label" for="gmt_labels">add labels</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="gmt_deltr">
+                <input type="checkbox" class="custom-control-input" id="gmt_deltr" disabled>
                 <label class="custom-control-label" for="gmt_deltr">add delaunay triangles</label>
                 </div>
             Scales:
@@ -433,33 +439,34 @@ a.run_buttons:hover {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">velocities</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
                 </div>
                 <div class="input-group input-group-sm mb-">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Strains</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
                 </div>
                 <div class="input-group input-group-sm mb-">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Rotational</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
                 </div>
             Outputs:
                 <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Pre/Suf-fix</span>
                 </div>
-                <input type="text" class="form-control" placeholder="NaN">
-                <input type="text" class="form-control" placeholder="NaN">
+                <input type="text" class="form-control" disabled>
+                <input type="text" class="form-control" disabled>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col" align="center">
-                <button type="button" class="btn btn-danger"><a class="run_buttons" href="#" target="_blank">GMT Map</a></button>
+                <button type="button" class="btn btn-danger" disabled>GMT Map</button>
+<!--                 <a href="#" class="btn btn-danger btn-md " role="button" aria-disabled="true">GMT Map</a> -->
             </div>
         </div>
     
