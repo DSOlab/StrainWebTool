@@ -247,20 +247,11 @@ a.run_buttons:hover {
         <div class="row">
 <!--             <div class="col col-md-2"></div> -->
             <div class="col">
-                <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Upload</span>
-                </div>
-                <div class="custom-file">
-<!--                     <input type="file" name="input_file" class="custom-file-input" id="inputGroupFile01"> -->
-<!--                     <label class="custom-file-label" for="inputGroupFile01">Input file</label> -->
-<!--                           <form  method = "POST"  -->
-<!--          enctype = "multipart/form-data" action="/result" > -->
-         <input type = "file" name = "file" />
-         <input type = "submit" value = "Upload"/>
-<!--       </form> -->
-
-                </div>
+            <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Velocity file</b></span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ input_file }}" disabled>
                 </div>
             </div>
         </div>

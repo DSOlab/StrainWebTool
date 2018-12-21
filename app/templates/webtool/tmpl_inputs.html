@@ -244,25 +244,17 @@ a.run_buttons:hover {
 
     <!-- Strain Tool arguments column -->
     <div class="col-md-2" style="padding: 20px; background-color:  #b3d9ff;">
-      <div class="row">
-<!--             <div class="col col-md-2"></div> -->
+      <div class="row" style="background-color: #4da6ff">
         <div class="col">
-          <div class="input-group mb-3">
-            <form  method = "POST" 
-              enctype = "multipart/form-data" action="/StrainWebTool/parameters" >
-              <input type = "file" name = "file" />
-              <input type = "submit" value = "Read"/>
-            </form>
-            </div>
-                <!--<div class="input-group-prepend">
-                    <span class="input-group-text">Upload</span>
-                </div>
-                <div class="custom-file">
-                    <input type="file" name="input_file" class="custom-file-input" id="inputGroupFile01">
-                    <label class="file-upload btn btn-primary" for="inputGroupFile01">Input file</label>
-                </div>
-                </div>-->
-            </div>
+          <form class="form-inline" method="POST" enctype = "multipart/form-data" action="/StrainWebTool/parameters">
+          <div class="col-md-9">
+            <input type = "file" name = "file" />
+          </div>
+          <div class="col-md-3">
+            <input type = "submit" value = "Upload"/>
+          </div>
+          </form>
+        </div>
         </div>
         <!--select method sen or veis          -->
         <div class="row">

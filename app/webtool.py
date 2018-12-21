@@ -24,7 +24,7 @@ def webtool_params():
     file = request.files['file']
     a = file.read()
     result = a
-  return render_template('webtool/tmpl_params.html', content = result)
+  return render_template('webtool/tmpl_params.html', content = result, input_file=file.filename)
 
 
 @app.route('/StrainWebTool/results')
