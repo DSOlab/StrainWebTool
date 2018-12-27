@@ -1,6 +1,32 @@
+#! /usr/bin/env python
+#-*- coding: utf-8 -*-
+#import os
+
+#from __future__ import print_function
+############################################## standard libs
+import sys
 import os
+import time
+from datetime import datetime
+from copy import deepcopy
+from math import degrees, radians, floor, ceil
+##############################################  numpy & argparse
+import numpy
+import argparse
+##############################################  pystrain
+from pystrain.strain import *
+from pystrain.geodesy.utm import *
+from pystrain.iotools.iparser import *
+import pystrain.grid
+from pystrain.station import Station
+
+############################################## ploting
+from scipy.spatial import Delaunay
+from math import sqrt, radians, sin, cos, atan2, pi, asin
+
+
 from flask import Flask, flash, request, redirect, url_for, render_template
-from werkzeug import secure_filename
+#from werkzeug import secure_filename
 
 from math import sqrt, radians, sin, cos, atan2, pi, asin
 
@@ -21,53 +47,34 @@ def webtool():
 def webtool_inputs():
   return render_template('webtool/tmpl_inputs.html')
 
-def set_none(self):
-        '''Set to None.
-
-            Set all instance member values to None.
-        '''
-        self.name = None                                                        
-        self.lon  = None
-        self.lat  = None
-        self.ve   = None
-        self.vn   = None
-        self.se   = None
-        self.sn   = None
-        self.rho  = None
-        self.t    = None
         
 @app.route('/StrainWebTool/parameters', methods=['GET', 'POST'])
 def webtool_params():
   if request.method == 'POST':
     file = request.files['file']
-    a = file.read()
-    result = a
-    self.set_none()
-
-    #stations = []
+    stations = []
     for line in file.readlines():
-      l = input_line.split()
-      try:
-        self.name = l[0]
-        self.lon  = radians(float(l[1]))
-        self.lat  = radians(float(l[2]))
-        self.ve   = float(l[3]) / 1e3
-        self.vn   = float(l[4]) / 1e3
-        self.se   = float(l[5]) / 1e3
-        self.sn   = float(l[6]) / 1e3
-        self.rho  = float(l[7]) / 1e3
-        self.t    = float(l[8])
-        print self.name
-      except:
-        print('[DEBUG] Invalid Station instance constrution.')
-        print('[DEBUG] Input line \"{}\"'.format(input_line.strip()))
-        raise RuntimeError
+      stations.append(Station(line))
     #if len(stations):
       #return stations
     #else:
-      #return None
-
-  return render_template('webtool/tmpl_params.html', content = l, input_file=file.filename)
+        #return None
+  test = [degrees(x.lon) for x in stations]
+  print(test)
+  sta_lst_ell = []
+  for sta in stations:
+     sta_lst_ell.append(sta)
+  for idx, sta in enumerate(sta_lst_ell):
+    sta_lst_ell[idx].lon = degrees(sta.lon)
+    sta_lst_ell[idx].lat = degrees(sta.lat)
+    sta_lst_ell[idx].vn = sta.vn*1.e3
+    sta_lst_ell[idx].ve = sta.ve*1.e3
+    sta_lst_ell[idx].sn = sta.sn*1.e3
+    sta_lst_ell[idx].se = sta.se*1.e3
+    sta_lst_ell[idx].rho = sta.rho*1.e3
+  NoSta = format(len(stations))
+  #print('[DEBUG] Number of stations parsed: {}'.format(len(stations)))
+  return render_template('webtool/tmpl_params.html', content = sta_lst_ell, input_file=file.filename, NoSta = NoSta)
 
 
 @app.route('/StrainWebTool/results')

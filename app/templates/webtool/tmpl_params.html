@@ -247,12 +247,18 @@ a.run_buttons:hover {
         <div class="row">
 <!--             <div class="col col-md-2"></div> -->
             <div class="col">
-            <div class="input-group input-group-sm mb-">
+              <div class="input-group input-group-sm mb-">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm"><b>Velocity file</b></span>
                     </div>
                 <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ input_file }}" disabled>
-                </div>
+              </div>
+              <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Number of Stations</b></span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ NoSta }}" disabled>
+              </div>
             </div>
         </div>
         <!--select method sen or veis          -->
@@ -491,7 +497,10 @@ a.run_buttons:hover {
     <div class="col">
         Results
         <hr>
-        <pre> {{ content }} </pre>
+<!--         <pre> {{ content }} </pre> -->
+        {% for station in content %}
+          <pre>{{ station.name }} {{ station.lat }} {{ station.lon }} {{ station.ve }} {{ station.vn }} {{ station.se }} {{ station.sn }} {{ station.rho }} {{ station.t }}</pre>
+        {% endfor %}
     </div>
 </div>
 
@@ -590,4 +599,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
           zoom: 6
         })
       });
+      {% for station in content %}
+        marker = L.marker([{{ station.lat }}, {{ station.lon }}]).addTo(map);
+        marker.bindPopup("<b>{{ station.name }}</b><br>{{ station.t }}")
+      {% endfor %}
     </script>
