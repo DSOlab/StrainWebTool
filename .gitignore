@@ -1,6 +1,9 @@
 #Flask virtual inviroment
 flask/
 
+#pystrain python library
+pystrain/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
