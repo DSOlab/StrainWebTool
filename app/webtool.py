@@ -71,8 +71,9 @@ def webtool_params():
     sta_lst_ell[idx].se = sta.se*1.e3
     sta_lst_ell[idx].rho = sta.rho*1.e3
   NoSta = format(len(stations))
+  x_mean, y_mean = barycenter(stations)
   #print('[DEBUG] Number of stations parsed: {}'.format(len(stations)))
-  return render_template('webtool/tmpl_params.html', content = sta_lst_ell, input_file=file.filename, NoSta = NoSta)
+  return render_template('webtool/tmpl_params.html', content = sta_lst_ell, input_file=file.filename, NoSta = NoSta, clon = x_mean, clat = y_mean)
 
 
 @app.route('/StrainWebTool/results')

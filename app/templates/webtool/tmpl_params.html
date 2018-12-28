@@ -601,7 +601,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 //         })
 //       });
 
-        var map = L.map('map').setView([38.82, 24.41], 6);
+        var map = L.map('map').setView([{{ clat }} , {{clon }}], 6);
         mapLink = 
             '<a href="http://openstreetmap.org">OpenStreetMap</a>';
         L.tileLayer(
@@ -612,14 +612,39 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
       var lonlatarray=[
         {% for station in content %}
-          [ "{{ station.name }}", {{ station.lat }}, {{ station.lon }} ],
+          [ "{{ station.name }}", {{ station.lat }}, {{ station.lon }}, {{ station.vn }}, {{ station.ve }}, {{ station.sn }}, {{ station.se }}, {{ station.t }} ],
         {% endfor %}
 //         [ name, 0, 0 ]
         ];
      
+//       for (var i = 0; i < lonlatarray.length; i++) {
+//         marker = new L.marker([lonlatarray[i][1],lonlatarray[i][2]])
+//           .bindPopup(lonlatarray[i][0])
+//           .addTo(map);
+//       }
+
       for (var i = 0; i < lonlatarray.length; i++) {
-        marker = new L.marker([lonlatarray[i][1],lonlatarray[i][2]])
-          .bindPopup(lonlatarray[i][0])
-          .addTo(map);
+        var lat2 = lonlatarray[i][1] + lonlatarray[i][3]/20;
+        var lon2 = lonlatarray[i][2] + lonlatarray[i][4]/20;
+        var arrow = L.polyline([[lonlatarray[i][1],lonlatarray[i][2]], [lat2, lon2]], {color: 'blue'})
+        .bindPopup('CODE: ' + lonlatarray[i][0] +
+        '<br>  Lat = ' + lonlatarray[i][1] +
+        '<br>  Lon = ' + lonlatarray[i][2] +
+        '<br>  Vn = ' + lonlatarray[i][3] +
+        '<br>  Ve = ' + lonlatarray[i][4] +
+        '<br>  sn = ' + lonlatarray[i][5] +
+        '<br>  se = ' + lonlatarray[i][6] +
+        '<br>  Time = ' + lonlatarray[i][7]
+        )
+        .addTo(map);
+//         var arrowHead = L.polylineDecorator(arrow, {
+//             patterns: [
+//                 {
+//                     offset: 0,
+//                     repeat: 2000,
+//                     symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true}})
+//                 }
+//             ]
+//         }).addTo(map);
       }
-    </script>
+</script>
