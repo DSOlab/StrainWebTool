@@ -59,8 +59,6 @@ def webtool_params():
       #return stations
     #else:
         #return None
-  test = [degrees(x.lon) for x in stations]
-  print(test)
   sta_lst_ell = []
   for sta in stations:
      sta_lst_ell.append(sta)
