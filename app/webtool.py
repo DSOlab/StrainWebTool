@@ -26,6 +26,8 @@ from math import sqrt, radians, sin, cos, atan2, pi, asin
 
 
 from flask import Flask, flash, request, redirect, url_for, render_template
+from flask_restful import reqparse
+
 #from werkzeug import secure_filename
 
 from math import sqrt, radians, sin, cos, atan2, pi, asin
@@ -55,15 +57,15 @@ def webtool_inputs():
 
 @app.route('/StrainWebTool/parameters', methods=['GET', 'POST'])
 def webtool_params():
+  global NoSta
+  global input_filename
+  global x_mean
+  global y_mean
   sta_lst_ell = []
   x_mean = 0
   y_mean = 0
   NoSta = 0
   input_filename = ""
-  global NoSta
-  global input_filename
-  global x_mean
-  global y_mean
   if request.method == 'POST':
     file = request.files['file']
     stations = []
@@ -102,12 +104,27 @@ def webtool_results():
     lonmax = request.form['lonmax']
     latmin = request.form['latmin']
     latmax = request.form['latmax']
-    x_step = request.form['x_step']
+    #x_step = request.form['x-grid-step']
     y_step = request.form['y_step']
     par_wt = request.form['par_wt']
     par_dmin = request.form['par_dmin']
     par_dmax = request.form['par_dmax']
     par_dstep = request.form['par_dstep']
+ 
+    parser = reqparse.RequestParser()
+    parser.add_argument('x_step',
+      location='form',
+      default=0.5,
+      #metavar='X_GRID_STEP',
+      dest='x_grid_step',
+      type=float,
+      required=False,
+      help='The x-axis grid step size in degrees. This option is only relevant if the program computes more than one strain tensors.')
+    
   else:
     lonmin = 0
-  return render_template('webtool/tmpl_results.html', input_file = input_filename, NoSta = NoSta,clon = x_mean, clat = y_mean, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = x_step, y_step = y_step, par_wt = par_wt, par_dmin = par_dmin, par_dmax = par_dmax, par_dstep = par_dstep)
+    
+  ##  Parse command line arguments and stack them in a dictionary
+  args  = parser.parse_args()
+  #dargs = vars(args)
+  return render_template('webtool/tmpl_results.html', input_file = input_filename, NoSta = NoSta,clon = x_mean, clat = y_mean, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = args.x_grid_step, y_step = y_step, par_wt = par_wt, par_dmin = par_dmin, par_dmax = par_dmax, par_dstep = par_dstep)
