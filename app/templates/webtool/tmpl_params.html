@@ -262,6 +262,8 @@ a.run_buttons:hover {
               </div>
             </div>
         </div>
+        
+<form class="form" method="POST" enctype = "multipart/form-data" action="/StrainWebTool/results">
         <!--select method sen or veis          -->
         <div class="row">
             <div class="col">
@@ -286,24 +288,24 @@ a.run_buttons:hover {
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Lon.(λ)</span>
                 </div>
-                <input type="text" class="form-control" placeholder="minimum">
-                <input type="text" class="form-control" placeholder="maximum">
+                <input type="text" name="lonmin" class="form-control" placeholder="minimum">
+                <input type="text" name="lonmax" class="form-control" placeholder="maximum">
                 </div>
                 
                 <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Lat.(φ)</span>
                 </div>
-                <input type="text" class="form-control" placeholder="minimum">
-                <input type="text" class="form-control" placeholder="maximum">
+                <input type="text" name="latmin" class="form-control" placeholder="minimum">
+                <input type="text" name="latmax" class="form-control" placeholder="maximum">
                 </div>
                 <br>
                 <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Grid-Step</span>
                 </div>
-                <input type="text" class="form-control" placeholder="X-step">
-                <input type="text" class="form-control" placeholder="Y-step">
+                <input type="text" name="x_step" class="form-control" placeholder="X-step">
+                <input type="text" name="y_step" class="form-control" placeholder="Y-step">
                 </div>
             </div>
         </div>
@@ -315,32 +317,32 @@ a.run_buttons:hover {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="24">
+                <input type="text" name="par_wt" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="24">
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
+                <input type="text" name="par_dmin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="500">
+                <input type="text" name="par_dmax" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="500">
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
+                <input type="text" name="par_dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
                 </div>
                 OR set:<br>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="200">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="200" disabled>
                 </div>
             </div>
         </div>
@@ -360,9 +362,11 @@ a.run_buttons:hover {
             </div>
         </div>
         <div align="center">
-            <button type="button" class="btn btn-danger"><a class="run_buttons" href="/StrainWebTool/results" >RUN</a></button>
+          <input type = "submit" class="btn btn-danger" value = "RUN"/>
+<!--             <button type="button" class="btn btn-danger"><a class="run_buttons" href="/StrainWebTool/results" >RUN</a></button> -->
         </div>
     </div>
+</form>
     <!-- Strain Tool Argments finished      -->
     
     <!-- Plot cases -->
@@ -496,12 +500,39 @@ a.run_buttons:hover {
 <!-- Results -->
 <div class="row">
     <div class="col">
-        Results
+        Input File
         <hr>
 <!--         <pre> {{ content }} </pre> -->
-        {% for station in content %}
-          <pre>{{ station.name }} {{ station.lat }} {{ station.lon }} {{ station.ve }} {{ station.vn }} {{ station.se }} {{ station.sn }} {{ station.rho }} {{ station.t }}</pre>
-        {% endfor %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Station</th>
+              <th scope="col">Latitude (<sup>o</sup>)</th>
+              <th scope="col">Longtitude (<sup>o</sup>)</th>
+              <th scope="col">Vn (mm/yr)</th>
+              <th scope="col">Ve (mm/yr)</th>
+              <th scope="col">σVn (mm/yr)</th>
+              <th scope="col">σVe (mm/yr)</th>
+              <th scope="col">rho (/)</th>
+              <th scope="col">T (yrs)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for station in content %}
+              <tr>
+              <th scope="row">{{ station.name }}</th>
+                <td>{{ station.lat }}</td>
+                <td>{{ station.lon }}</td>
+                <td>{{ station.ve }}</td>
+                <td>{{ station.vn }}</td>
+                <td>&plusmn; {{ station.se }}</td>
+                <td>&plusmn; {{ station.sn }}</td>
+                <td> {{ station.rho }}</td>
+                <td>{{ station.t }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
     </div>
 </div>
 

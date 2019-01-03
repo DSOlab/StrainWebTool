@@ -247,17 +247,21 @@ a.run_buttons:hover {
         <div class="row">
 <!--             <div class="col col-md-2"></div> -->
             <div class="col">
-                <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Upload</span>
-                </div>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01" disabled>
-                    <label class="custom-file-label" for="inputGroupFile01">CNRS_midas.vel</label>
-                </div>
-                </div>
+              <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Velocity file</b></span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ input_file }}" disabled>
+              </div>
+              <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Number of Stations</b></span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ NoSta }}" disabled>
+              </div>
             </div>
         </div>
+        
         <!--select method sen or veis          -->
         <div class="row">
             <div class="col">
@@ -282,24 +286,24 @@ a.run_buttons:hover {
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Lon.(λ)</span>
                 </div>
-                <input type="text" class="form-control" placeholder="minimum" disabled>
-                <input type="text" class="form-control" placeholder="maximum" disabled>
+                <input type="text" class="form-control" placeholder="{{ lonmin }}" disabled>
+                <input type="text" class="form-control" placeholder="{{ lonmax }}" disabled>
                 </div>
                 
                 <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Lat.(φ)</span>
                 </div>
-                <input type="text" class="form-control" placeholder="minimum" disabled>
-                <input type="text" class="form-control" placeholder="maximum" disabled>
+                <input type="text" class="form-control" placeholder="{{ latmin }}" disabled>
+                <input type="text" class="form-control" placeholder="{{ latmax }}" disabled>
                 </div>
                 <br>
                 <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Grid-Step</span>
                 </div>
-                <input type="text" class="form-control" placeholder="X-step" disabled>
-                <input type="text" class="form-control" placeholder="Y-step" disabled>
+                <input type="text" class="form-control" placeholder="{{ x_step }}" disabled>
+                <input type="text" class="form-control" placeholder="{{ y_step }}" disabled>
                 </div>
             </div>
         </div>
@@ -311,19 +315,19 @@ a.run_buttons:hover {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="24" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ par_wt }}" disabled>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ par_dmin }}" disabled>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="500" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ par_dmax }}" disabled>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
@@ -588,7 +592,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
           })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([24.41, 39.82]),
+          center: ol.proj.fromLonLat([{{ clon }}, {{ clat }}]),
           zoom: 6
         })
       });
