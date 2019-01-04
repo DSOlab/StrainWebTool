@@ -265,17 +265,24 @@ a.run_buttons:hover {
         <!--select method sen or veis          -->
         <div class="row">
             <div class="col">
-                Select method:<br>
+            <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Selected method</b></span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ method }}" disabled>
+              </div>
+<!--                 Select method:<br> -->
+<!--                 {{ method }} -->
                 <!-- Shen Method-->
-                <div class="custom-control custom-checkbox custom-control-inline">
+                <!--<div class="custom-control custom-checkbox custom-control-inline">
                 <input type="checkbox" class="custom-control-input sev_check" id="defaultInline1" checked disabled>
                 <label class="custom-control-label" for="defaultInline1">Shen</label>
-                </div>
+                </div>-->
                 <!-- Veis, Delaunay triangles-->
-                <div class="custom-control custom-checkbox custom-control-inline">
+                <!--<div class="custom-control custom-checkbox custom-control-inline">
                 <input type="checkbox" class="custom-control-input sev_check" id="defaultInline2" disabled>
                 <label class="custom-control-label" for="defaultInline2">Veis</label>
-                </div>
+                </div>-->
             </div>
         </div>
         <!-- Set Boundary zone  -->
@@ -340,7 +347,7 @@ a.run_buttons:hover {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="200" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="not available" disabled>
                 </div>
             </div>
         </div>

@@ -270,13 +270,13 @@ a.run_buttons:hover {
                 Select method:<br>
                 <!-- Shen Method-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline1" checked>
-                <label class="custom-control-label" for="defaultInline1">Shen</label>
+                  <input type="checkbox" name="shen" class="custom-control-input sev_check" id="defaultInline1" value="shen" checked>
+                  <label class="custom-control-label" for="defaultInline1">Shen</label>
                 </div>
                 <!-- Veis, Delaunay triangles-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline2">
-                <label class="custom-control-label" for="defaultInline2">Veis</label>
+                  <input type="checkbox" name="veis" class="custom-control-input sev_check" id="defaultInline2" value="veis" >
+                  <label class="custom-control-label" for="defaultInline2">Veis</label>
                 </div>
             </div>
         </div>
@@ -304,8 +304,8 @@ a.run_buttons:hover {
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Grid-Step</span>
                 </div>
-                <input type="text" name="x_step" class="form-control" placeholder="X-step">
-                <input type="text" name="y_step" class="form-control" placeholder="Y-step">
+                <input type="text" name="x-grid-step" class="form-control" placeholder="X-step" required>
+                <input type="text" name="y-grid-step" class="form-control" placeholder="Y-step" required>
                 </div>
             </div>
         </div>
@@ -317,32 +317,32 @@ a.run_buttons:hover {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
                     </div>
-                <input type="text" name="par_wt" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="24">
+                <input type="text" name="Wt" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="24" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
                     </div>
-                <input type="text" name="par_dmin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
+                <input type="text" name="dmin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
                     </div>
-                <input type="text" name="par_dmax" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="500">
+                <input type="text" name="dmax" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="500" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
                     </div>
-                <input type="text" name="par_dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
+                <input type="text" name="dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1" required>
                 </div>
                 OR set:<br>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="200" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="not available" disabled>
                 </div>
             </div>
         </div>
@@ -352,11 +352,11 @@ a.run_buttons:hover {
                 Special arguments:<br>
                 <!-- Default checked -->
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="cut_stations" >
+                <input type="checkbox" name="cut-excess-stations" class="custom-control-input" id="cut_stations" >
                 <label class="custom-control-label" for="cut_stations">cut excess stations</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="g_statistic">
+                <input type="checkbox" name="generate-statistics" class="custom-control-input" id="g_statistic">
                 <label class="custom-control-label" for="g_statistic">generate statistics</label>
                 </div> 
             </div>
