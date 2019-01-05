@@ -278,34 +278,44 @@ a.run_buttons:hover {
                   <input type="checkbox" name="veis" class="custom-control-input sev_check" id="defaultInline2" value="veis" >
                   <label class="custom-control-label" for="defaultInline2">Veis</label>
                 </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" name="barycenter" class="custom-control-input" id="one_tensor">
+                  <label class="custom-control-label" for="one_tensor">One Tensor</label>
+                </div>
             </div>
         </div>
         <!-- Set Boundary zone  -->
         <div class="row">
             <div class="col">
                 Set boundary zone:<br>
-                <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="">Lon.(λ)</span>
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">region</span>
+                  </div>
+                  <input type="text" name="region" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="west/east/south/north" required>
                 </div>
-                <input type="text" name="lonmin" class="form-control" placeholder="minimum">
-                <input type="text" name="lonmax" class="form-control" placeholder="maximum">
+                <!--<div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="">Lon.(λ)</span>
+                  </div>
+                  <input type="text" name="lonmin" class="form-control" placeholder="minimum">
+                  <input type="text" name="lonmax" class="form-control" placeholder="maximum">
                 </div>
                 
                 <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="">Lat.(φ)</span>
-                </div>
-                <input type="text" name="latmin" class="form-control" placeholder="minimum">
-                <input type="text" name="latmax" class="form-control" placeholder="maximum">
-                </div>
-                <br>
-                <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="">Grid-Step</span>
-                </div>
-                <input type="text" name="x-grid-step" class="form-control" placeholder="X-step" required>
-                <input type="text" name="y-grid-step" class="form-control" placeholder="Y-step" required>
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="">Lat.(φ)</span>
+                  </div>
+                  <input type="text" name="latmin" class="form-control" placeholder="minimum">
+                  <input type="text" name="latmax" class="form-control" placeholder="maximum">
+                </div>-->
+<!--                 <br> -->
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="">Grid-Step</span>
+                  </div>
+                  <input type="text" name="x-grid-step" class="form-control" placeholder="X-step" required>
+                  <input type="text" name="y-grid-step" class="form-control" placeholder="Y-step" required>
                 </div>
             </div>
         </div>
@@ -352,12 +362,12 @@ a.run_buttons:hover {
                 Special arguments:<br>
                 <!-- Default checked -->
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="cut-excess-stations" class="custom-control-input" id="cut_stations" >
-                <label class="custom-control-label" for="cut_stations">cut excess stations</label>
+                  <input type="checkbox" name="cut-excess-stations" class="custom-control-input" id="cut_stations" >
+                  <label class="custom-control-label" for="cut_stations">cut excess stations</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="generate-statistics" class="custom-control-input" id="g_statistic">
-                <label class="custom-control-label" for="g_statistic">generate statistics</label>
+                  <input type="checkbox" name="generate-statistics" class="custom-control-input" id="g_statistic">
+                  <label class="custom-control-label" for="g_statistic">generate statistics</label>
                 </div> 
             </div>
         </div>

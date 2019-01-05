@@ -262,13 +262,17 @@ a.run_buttons:hover {
                 Select method:<br>
                 <!-- Shen Method-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline1" disabled>
-                <label class="custom-control-label" for="defaultInline1">Shen</label>
+                  <input type="checkbox" class="custom-control-input sev_check" id="defaultInline1" disabled checked>
+                  <label class="custom-control-label" for="defaultInline1">Shen</label>
                 </div>
                 <!-- Veis, Delaunay triangles-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline2" disabled>
-                <label class="custom-control-label" for="defaultInline2">Veis</label>
+                  <input type="checkbox" class="custom-control-input sev_check" id="defaultInline2" disabled>
+                  <label class="custom-control-label" for="defaultInline2">Veis</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="cut_stations" disabled>
+                  <label class="custom-control-label" for="cut_stations">One Tensor</label>
                 </div>
             </div>
         </div>
@@ -344,12 +348,12 @@ a.run_buttons:hover {
                 Special arguments:<br>
                 <!-- Default checked -->
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="cut_stations" disabled>
-                <label class="custom-control-label" for="cut_stations">cut excess stations</label>
+                  <input type="checkbox" class="custom-control-input" id="cut_stations" disabled>
+                  <label class="custom-control-label" for="cut_stations">cut excess stations</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="g_statistic" disabled>
-                <label class="custom-control-label" for="g_statistic">generate statistics</label>
+                  <input type="checkbox" class="custom-control-input" id="g_statistic" disabled>
+                  <label class="custom-control-label" for="g_statistic">generate statistics</label>
                 </div> 
             </div>
         </div>
