@@ -4,6 +4,7 @@
 
 <head>
   <title>StrainWebTool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   <!-- add after bootstrap.min.css -->
   <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.css">
@@ -13,6 +14,8 @@
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>    
   <!-- github icon -->
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
@@ -20,7 +23,7 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
   <!-- add after bootstrap.min.js -->
   <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
 <!--     <link rel="stylesheet" type="text/css" href="../static/style/webtool.css" /> -->
@@ -67,12 +70,12 @@
   max-height: 100%;
   }
 button{
-  margin: 13px;
+  margin: 12px;
 	box-shadow: 1px 2px 5px #000000; 
 	}
 a.buttons {
 	-webkit-font-smoothing: antialiased;
-	background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/arrow-down.png) no-repeat;
+	background: url(../../static/img/arrow-down.png) no-repeat;
 	font-weight: normal;
 	color: #fff;
 /* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
@@ -81,7 +84,7 @@ a.buttons {
 	}
 
 a.github {
-  background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/octocat-small.png) no-repeat 1px;
+  background: url(../../static/img/octocat-small.png) no-repeat 1px;
   }
 
 a.buttons:hover {
@@ -91,7 +94,7 @@ a.buttons:hover {
 
 a.run_buttons {
   -webkit-font-smoothing: antialiased;
-	background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/arrow-down.png) no-repeat;
+	background: url(../../static/img/arrow-down.png) no-repeat;
 	font-weight: normal;
 	color: #fff;
 /* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
@@ -99,6 +102,20 @@ a.run_buttons {
 	height: 30px;
 	}
 a.run_buttons:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+a.new_calc {
+  -webkit-font-smoothing: antialiased;
+	background: url(../../static/img/reload.png) no-repeat;
+	font-weight: normal;
+	color: #fff;
+/* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
+	padding: 2px 2px 2px 22px;
+	height: 30px;
+	}
+a.new_calc:hover {
 	color: #fff;
 	text-decoration: none;
 }
@@ -255,7 +272,7 @@ a.run_buttons:hover {
               </div>
               <div class="input-group input-group-sm mb-">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Number of Stations</b></span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Stations Used</b></span>
                     </div>
                 <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ NoSta }}" disabled>
               </div>
@@ -269,7 +286,13 @@ a.run_buttons:hover {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm"><b>Selected method</b></span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ method }}" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.method }}" disabled>
+              </div>
+              <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Estimated Tensors</b></span>
+                    </div>
+                  <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ NoTensors }}" disabled>
               </div>
 <!--                 Select method:<br> -->
 <!--                 {{ method }} -->
@@ -288,7 +311,7 @@ a.run_buttons:hover {
         <!-- Set Boundary zone  -->
         <div class="row">
             <div class="col">
-                Set boundary zone:<br>
+                Boundary zone:<br>
                 <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Lon.(λ)</span>
@@ -322,25 +345,25 @@ a.run_buttons:hover {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ par_wt }}" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.Wt }}" disabled>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ par_dmin }}" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmin }}" disabled>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ par_dmax }}" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmax }}" disabled>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ par_dstep }}" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dstep }}" disabled>
                 </div>
                 OR set:<br>
                 <div class="input-group input-group-sm mb-3">
@@ -357,17 +380,25 @@ a.run_buttons:hover {
                 Special arguments:<br>
                 <!-- Default checked -->
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="cut_stations"  disabled>
-                <label class="custom-control-label" for="cut_stations">cut excess stations</label>
+                {% if args.cut_outoflim_sta == False %}
+                  <input type="checkbox" class="custom-control-input" id="cut_stations"  disabled>
+                {% else %}
+                  <input type="checkbox" class="custom-control-input" id="cut_stations"  disabled checked>
+                {% endif %}
+                  <label class="custom-control-label" for="cut_stations">cut excess stations</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="g_statistic" disabled>
+                {% if args.generate_stats == False %}
+                  <input type="checkbox" class="custom-control-input" id="g_statistic" disabled>
+                {% else %}
+                  <input type="checkbox" class="custom-control-input" id="g_statistic" disabled checked>
+                {% endif %}
                 <label class="custom-control-label" for="g_statistic">generate statistics</label>
                 </div> 
             </div>
         </div>
         <div align="center">
-            <button type="button" class="btn btn-danger disabled">RUN</button>
+            <button type="button" class="btn btn-danger"><a class="new_calc" href="/StrainWebTool/inputs">New Calculation</a></button>
         </div>
     </div>
     <!-- Strain Tool Argments finished      -->
@@ -502,9 +533,98 @@ a.run_buttons:hover {
 <!-- Results -->
 <div class="row">
     <div class="col">
-        Results
-        <hr>
-        <pre> {{ content }} </pre>
+    <h3>Results</h3>
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="pills-input-tab" data-toggle="pill" href="#pills-input" role="tab" aria-controls="pills-input" aria-selected="true">Input Velocities</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="pills-straininfo-tab" data-toggle="pill" href="#pills-straininfo" role="tab" aria-controls="pills-straininfo" aria-selected="false">Strain Info</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="pills-statistics-tab" data-toggle="pill" href="#pills-statistics" role="tab" aria-controls="pills-statistics" aria-selected="false">Statistics</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="pills-download-tab" data-toggle="pill" href="#pills-download" role="tab" aria-controls="pills-download" aria-selected="false">Download Files</a>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-input" role="tabpanel" aria-labelledby="pills-input-tab">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Station</th>
+              <th scope="col">Latitude (<sup>o</sup>)</th>
+              <th scope="col">Longtitude (<sup>o</sup>)</th>
+              <th scope="col">Vn (mm/yr)</th>
+              <th scope="col">Ve (mm/yr)</th>
+              <th scope="col">σVn (mm/yr)</th>
+              <th scope="col">σVe (mm/yr)</th>
+              <th scope="col">rho (/)</th>
+              <th scope="col">T (yrs)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for station in content %}
+              <tr>
+              <th scope="row">{{ station.name }}</th>
+                <td>{{ station.lat }}</td>
+                <td>{{ station.lon }}</td>
+                <td>{{ station.ve }}</td>
+                <td>{{ station.vn }}</td>
+                <td>&plusmn; {{ station.se }}</td>
+                <td>&plusmn; {{ station.sn }}</td>
+                <td> {{ station.rho }}</td>
+                <td>{{ station.t }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      <hr>
+  </div>
+  <div class="tab-pane fade" id="pills-straininfo" role="tabpanel" aria-labelledby="pills-straininfo-tab">
+  ...
+
+  </div>
+  <div class="tab-pane fade" id="pills-statistics" role="tabpanel" aria-labelledby="pills-statistics-tab">...</div>
+  
+  <div class="tab-pane fade" id="pills-download" role="tabpanel" aria-labelledby="pills-download-tab">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th> No. </th> <th>Description</th> <th> file </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th> 1. </th>
+          <th> Stations used </th>
+          <th><a href="/StrainWebTool/outputs/station_info.dat" target="_blank">station_info.dat</a></th>
+        </tr>
+        <tr>
+          <th> 2. </th>
+          <th> Strain paramemeters </th>
+          <th><a href="/StrainWebTool/outputs/strain_info.dat" target="_blank">strain_info.dat</a></th>
+        </tr>
+        <tr>
+          <th> 3. </th>
+          <th> Statistics </th>
+          <th><a href="/StrainWebTool/outputs/strain_stats.dat" target="_blank">strain_stats.dat</a></th>
+        </tr>
+        <tr>
+          <th> 4. </th>
+          <th>Delaunay Triagnles</th>
+          <th><a href="/StrainWebTool/outputs/delaunay_info.dat" target="_blank">delaunay_info.dat</a></th>
+        <tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+</div>
+        
+        
+        
     </div>
 </div>
 

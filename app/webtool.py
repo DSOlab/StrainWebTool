@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
 #-*- coding: utf-8 -*-
-#import os
 
 #from __future__ import print_function
 ############################################## standard libs
@@ -25,7 +24,7 @@ from scipy.spatial import Delaunay
 #from math import sqrt, radians, sin, cos, atan2, pi, asin
 
 ############################################## Flask
-from flask import Flask, flash, request, redirect, url_for, render_template
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file
 from flask_restful import reqparse
 
 #from werkzeug import secure_filename
@@ -90,8 +89,9 @@ def webtool_params():
     input_filename=file.filename
     NoSta = format(len(stations))
     x_mean, y_mean = barycenter(stations)
+    grd = pystrain.grid.generate_grid(sta_list_ell, 0.5 , 0.5, True)
     #print('[DEBUG] Number of stations parsed: {}'.format(len(stations)))
-    return render_template('webtool/tmpl_params.html', content = sta_list_ell_tmpl, input_file=file.filename, NoSta = NoSta, clon = x_mean, clat = y_mean)
+    return render_template('webtool/tmpl_params.html', content = sta_list_ell_tmpl, input_file=file.filename, NoSta = NoSta, clon = x_mean, clat = y_mean, grd = grd)
 
 def cut_rectangle(xmin, xmax, ymin, ymax, sta_lst, sta_list_to_degrees=False):
     new_sta_lst = []
@@ -114,7 +114,7 @@ def write_station_info(sta_lst, filename='station_info.dat'):
         fout.write('{:^10s} {:^10s} {:^10s} {:7s} {:7s} {:7s} {:7s} \n'.format('', 'deg.', 'deg', 'mm/yr', 'mm/yr', 'mm/yr', 'mm/yr'))
         for idx, sta in enumerate(sta_lst):
             #print('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f}'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03), file=fout)
-            print('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f}'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03))
+            #print('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f}'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03))
             fout.write('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f} \n'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03))
     return
 
@@ -135,21 +135,11 @@ def webtool_results():
     global y_mean
     global sta_list_ell
     
-    #fo = open('test.txt','wb')
-    #fo.write('This is a test file')
-    #fo.close
-    
     if request.method == 'POST':
         lonmin = 0#request.form['lonmin']
         lonmax = 0#request.form['lonmax']
         latmin = 0#request.form['latmin']
         latmax = 0#request.form['latmax']
-        #x_step = request.form['x-grid-step']
-        #y_step = request.form['y_step']
-        #par_wt = request.form['par_wt']
-        #par_dmin = request.form['par_dmin']
-        #par_dmax = request.form['par_dmax']
-        #par_dstep = request.form['par_dstep']
 
         parser = reqparse.RequestParser()
         
@@ -177,8 +167,6 @@ def webtool_results():
                 dest='one_tensor',
                 action='store_true',
                 help='Only estimate one strain tensor, at the region\'s barycentre.')
-        #else:
-            #one_tensor = False
         
         parser.add_argument('region',
             location='form',
@@ -241,8 +229,6 @@ def webtool_results():
                 dest='cut_outoflim_sta',
                 help='This option is only considered if the \'-r\' option is set. If this this option is enabled, then any station (from the input file) outside the region limit (passed in via the \'-r\' option) is not considered in the strain estimation.',
                 action='store_true')
-        #else:
-            #cut_outoflim_sta = False
 
         if request.form.get('generate-statistics'):
             parser.add_argument('generate-statistics',
@@ -250,16 +236,12 @@ def webtool_results():
                 dest='generate_stats',
                 help='Only relevant when \'--mehod=shen\' and \'--barycenter\' is not set. This option will create an output file, named \'strain_stats.dat\', where estimation info and statistics will be written.',
                 action='store_true')
-        #else:
-            #generate_stats = False
-
-        
     else:
         lonmin = 0
-    print(parser.parse_args())
+
     ##  Parse command line arguments and stack them in a dictionary
     args  = parser.parse_args()
-    print(args)
+
     args.verbose_mode = False
     if 'one_tensor' not in args:
         args.one_tensor = False
@@ -272,10 +254,11 @@ def webtool_results():
     
     args.d_coef = None
     args.ltype = 'gaussian'
-    print(args)
     dargs = vars(args)
-    print(dargs)
     
+    ##  Time the program (for opt/ing purpose only)
+    #start_time = time.time()
+
     ## Verbose print (function only exists in verbose mode)
     #vprint = print if args.verbose_mode else lambda *a, **k: None
     
@@ -360,11 +343,12 @@ def webtool_results():
         sstr.print_details(fout, utm_zone)
         fout.close()
         write_station_info(sta_list_ell)
-        print('[DEBUG] Total running time: {:10.2f} sec.'.format((time.time() - start_time)))      
-        sys.exit(0)
+        NoTensors = 1
+        #print('[DEBUG] Total running time: {:10.2f} sec.'.format((time.time() - start_time)))      
+        #sys.exit(0)
     
     # strain_list = [] Probably we do not need to keep the tensors ...
-    if args.method == 'shen':  ## Going for Shen algorithm ...
+    if args.method == 'shen' and not args.one_tensor:  ## Going for Shen algorithm ...
         ##  Construct the grid, in ellipsoidal coordinates --degrees--. If a region
         ##+ is not passed in, the grid.generate_grid will transform lon/lat pairs 
         ##+ to degrees and produce a grid from extracting min/max crds from the
@@ -408,13 +392,15 @@ def webtool_results():
                 print('[DEBUG] Skipping computation at {:+8.4f},{:8.4f} because of limited coverage (max_beta= {:6.2f}deg.)'.format(x, y, degrees(max(sstr.beta_angles()))))
             node_nr += 1
         print('[DEBUG] Estimated Strain Tensors for {} out of {} nodes'.format(nodes_estim, node_nr))
-    else:
+        NoTensors = nodes_estim
+    elif args.method == 'veis' and not args.one_tensor:
         ## Open file to write delaunay triangles.
         print('[DEBUG] Estimating Strain Tensors at the barycentre of Delaunay triangles')
         dlnout = open('delaunay_info.dat', 'w')
         points = numpy.array([ [sta.lon, sta.lat] for sta in sta_list_utm ])
         tri = Delaunay(points)
         print('[DEBUG] Number of Delaunay triangles: {}'.format(len(tri.simplices)))
+        NoTensors = len(tri.simplices)
         for idx, trng in enumerate(tri.simplices):
             #print('[DEBUG] {:5d}/{:7d}'.format(idx+1, len(tri.simplices)), end="\r")
             ## triangle barycentre
@@ -433,6 +419,16 @@ def webtool_results():
 
     fout.close()
     write_station_info(sta_list_ell)
+    
+    #print('[DEBUG] Total running time: {:10.2f} sec.'.format((time.time() - start_time)))
 
-    return render_template('webtool/tmpl_results.html', input_file = input_filename, NoSta = NoSta,clon = x_mean, clat = y_mean, method = args.method, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = args.x_grid_step, y_step = args.y_grid_step, par_wt = args.Wt, par_dmin = args.dmin, par_dmax = args.dmax, par_dstep = args.dstep)
+    return render_template('webtool/tmpl_results.html', input_file = input_filename, NoSta = Npst,clon = x_mean, clat = y_mean, args = args, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = args.x_grid_step, y_step = args.y_grid_step, NoTensors = NoTensors, content = sta_list_ell, strinfo = sstr)
 
+@app.route('/StrainWebTool/outputs/<filename>', methods=['GET', 'POST'])
+def dowloadfile(filename):
+    try:
+        #Boto3 downloading the file file.csv here
+        return send_file(filename, attachment_filename=filename)
+    except Exception as ermsg:
+        print(ermsg)
+        return render_template('#', ermsg=ermsg)

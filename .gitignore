@@ -1,7 +1,7 @@
 # StrainTool outputs
 *.dat
-*.ps
-*.jpg
+#*.ps
+#*.jpg
 
 #Flask virtual inviroment
 flask/
