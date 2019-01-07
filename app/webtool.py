@@ -63,7 +63,6 @@ def webtool_params():
     global y_mean
     global sta_list_ell
     sta_list_ell = []
-    sta_list_ell_tmpl = []
     x_mean = 0
     y_mean = 0
     NoSta = 0
@@ -75,20 +74,22 @@ def webtool_params():
             stations.append(Station(line))
     for sta in stations:
         sta_list_ell.append(sta)
-    sta_list_ell_tmpl = sta_list_ell
-    #print(sta_list_ell)
-    #for idx, sta in enumerate(sta_list_ell_tmpl):
-        #sta_list_ell_tmpl[idx].lon = round(degrees(sta.lon), 3)
-        #sta_list_ell_tmpl[idx].lat = round(degrees(sta.lat), 3)
-        #sta_list_ell_tmpl[idx].vn = round(sta.vn*1.e3, 1)
-        #sta_list_ell_tmpl[idx].ve = round(sta.ve*1.e3, 1)
-        #sta_list_ell_tmpl[idx].sn = round(sta.sn*1.e3, 1)
-        #sta_list_ell_tmpl[idx].se = round(sta.se*1.e3, 1)
-        #sta_list_ell_tmpl[idx].rho = round(sta.rho*1.e3, 1)
-        #sta_list_ell_tmpl[idx].t = round(sta.t, 2)
+
+    sta_list_ell_tmpl = deepcopy(sta_list_ell)
+    for idx, sta in enumerate(sta_list_ell_tmpl):
+        sta_list_ell_tmpl[idx].lon = round(degrees(sta.lon), 3)
+        sta_list_ell_tmpl[idx].lat = round(degrees(sta.lat), 3)
+        sta_list_ell_tmpl[idx].vn = round(sta.vn*1.e3, 1)
+        sta_list_ell_tmpl[idx].ve = round(sta.ve*1.e3, 1)
+        sta_list_ell_tmpl[idx].sn = round(sta.sn*1.e3, 1)
+        sta_list_ell_tmpl[idx].se = round(sta.se*1.e3, 1)
+        sta_list_ell_tmpl[idx].rho = round(sta.rho*1.e3, 1)
+        sta_list_ell_tmpl[idx].t = round(sta.t, 2)
     input_filename=file.filename
     NoSta = format(len(stations))
     x_mean, y_mean = barycenter(stations)
+    x_mean = degrees(x_mean)
+    y_mean = degrees(y_mean)
     grd = pystrain.grid.generate_grid(sta_list_ell, 0.5 , 0.5, True)
     #print('[DEBUG] Number of stations parsed: {}'.format(len(stations)))
     return render_template('webtool/tmpl_params.html', content = sta_list_ell_tmpl, input_file=file.filename, NoSta = NoSta, clon = x_mean, clat = y_mean, grd = grd)
