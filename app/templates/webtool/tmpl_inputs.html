@@ -24,7 +24,9 @@
 
   <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
 <!--     <link rel="stylesheet" type="text/css" href="../static/style/webtool.css" /> -->
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+  
 <style>
 .container {
   margin: 15px auto;
@@ -580,17 +582,21 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </script> 
  -->
 <!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
-    <script type="text/javascript">
-      var map = new ol.Map({
-        target: 'map',
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([24.41, 39.82]),
-          zoom: 6
-        })
-      });
-    </script>
+<script type="text/javascript">
+  var map = L.map('map').setView([39.82 , 24.41], 2);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}).addTo(map);
+  
+//   var map = new ol.Map({
+//         target: 'map',
+//         layers: [
+//           new ol.layer.Tile({
+//             source: new ol.source.OSM()
+//           })
+//         ],
+//         view: new ol.View({
+//           center: ol.proj.fromLonLat([24.41, 39.82]),
+//           zoom: 6
+//         })
+//       });
+</script>

@@ -59,8 +59,8 @@ def webtool_params():
 
     global NoSta
     global input_filename
-    global x_mean
-    global y_mean
+    #global x_mean
+    #global y_mean
     global sta_list_ell
     sta_list_ell = []
     x_mean = 0
@@ -132,8 +132,8 @@ def print_model_info(fout, cmd, clargs):
 def webtool_results():
     global NoSta
     global input_filename
-    global x_mean
-    global y_mean
+    #global x_mean
+    #global y_mean
     global sta_list_ell
     
     if request.method == 'POST':
@@ -421,9 +421,22 @@ def webtool_results():
     fout.close()
     write_station_info(sta_list_ell)
     
+    sta_list_ell_tmpl = deepcopy(sta_list_ell)
+    for idx, sta in enumerate(sta_list_ell_tmpl):
+        sta_list_ell_tmpl[idx].lon = round(degrees(sta.lon), 3)
+        sta_list_ell_tmpl[idx].lat = round(degrees(sta.lat), 3)
+        sta_list_ell_tmpl[idx].vn = round(sta.vn*1.e3, 1)
+        sta_list_ell_tmpl[idx].ve = round(sta.ve*1.e3, 1)
+        sta_list_ell_tmpl[idx].sn = round(sta.sn*1.e3, 1)
+        sta_list_ell_tmpl[idx].se = round(sta.se*1.e3, 1)
+        sta_list_ell_tmpl[idx].rho = round(sta.rho*1.e3, 1)
+        sta_list_ell_tmpl[idx].t = round(sta.t, 2)
     #print('[DEBUG] Total running time: {:10.2f} sec.'.format((time.time() - start_time)))
-
-    return render_template('webtool/tmpl_results.html', input_file = input_filename, NoSta = Npst,clon = x_mean, clat = y_mean, args = args, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = args.x_grid_step, y_step = args.y_grid_step, NoTensors = NoTensors, content = sta_list_ell, strinfo = sstr)
+    x_mean, y_mean = barycenter(sta_list_ell)
+    x_mean = degrees(x_mean)
+    y_mean = degrees(y_mean)
+    
+    return render_template('webtool/tmpl_results.html', input_file = input_filename, NoSta = Npst,clon = x_mean, clat = y_mean, args = args, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = args.x_grid_step, y_step = args.y_grid_step, NoTensors = NoTensors, content = sta_list_ell_tmpl, strinfo = sstr)
 
 @app.route('/StrainWebTool/outputs/<filename>', methods=['GET', 'POST'])
 def dowloadfile(filename):
