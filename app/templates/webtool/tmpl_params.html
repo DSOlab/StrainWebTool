@@ -782,9 +782,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
 //       });
 
         var map = L.map('map').setView([{{ clat }} , {{ clon }}], 4);
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}).addTo(map);
         
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}).addTo(map);
+        
+        var southWest = new L.LatLng({{ grd.y_min }}, {{ grd.x_min }}),
+        northEast = new L.LatLng({{ grd.y_max }}, {{ grd.x_max }}),
+        bounds = new L.LatLngBounds(southWest, northEast);
+        map.fitBounds(bounds, {padding: [5, 5]});
 //         mapLink = 
 //             '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 //         L.tileLayer(
@@ -810,7 +815,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
         var lat2 = lonlatarray[i][1] + lonlatarray[i][3]/20;
         var lon2 = lonlatarray[i][2] + lonlatarray[i][4]/20;
         var arrow = L.polyline([[lonlatarray[i][1],lonlatarray[i][2]], [lat2, lon2]], {color: 'blue'})
-        .bindPopup('CODE: ' + lonlatarray[i][0] +
+        .bindPopup('CODE: <b>' + lonlatarray[i][0] + '</b>' +
         '<br>  Lat = ' + lonlatarray[i][1] +
         '<br>  Lon = ' + lonlatarray[i][2] +
         '<br>  Vn = ' + lonlatarray[i][3] +
@@ -830,5 +835,5 @@ google.maps.event.addDomListener(window, 'load', initialize);
 //             ]
 //         }).addTo(map);
       }
-      
+   
 </script>

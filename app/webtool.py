@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python
 #-*- coding: utf-8 -*-
 
 #from __future__ import print_function
@@ -87,10 +87,12 @@ def webtool_params():
         sta_list_ell_tmpl[idx].t = round(sta.t, 2)
     input_filename=file.filename
     NoSta = format(len(stations))
-    x_mean, y_mean = barycenter(stations)
-    x_mean = degrees(x_mean)
-    y_mean = degrees(y_mean)
+    #x_mean, y_mean = barycenter(stations)
+    #x_mean = degrees(x_mean)
+    #y_mean = degrees(y_mean)
     grd = pystrain.grid.generate_grid(sta_list_ell, 0.5 , 0.5, True)
+    x_mean = (grd.x_min + grd.x_max)/2.
+    y_mean = (grd.y_min + grd.y_max)/2.
     #print('[DEBUG] Number of stations parsed: {}'.format(len(stations)))
     return render_template('webtool/tmpl_params.html', content = sta_list_ell_tmpl, input_file=file.filename, NoSta = NoSta, clon = x_mean, clat = y_mean, grd = grd)
 
@@ -127,6 +129,85 @@ def print_model_info(fout, cmd, clargs):
     for key in clargs:
         fout.write('\t{:20s} -> {:}\n'.format(key, clargs[key]))
     return
+
+class get_strain_param:
+    strain_param_names = ['lat', 'lon', 'vx', 'dvx', 'vy', 'dvy', 'w', 'dw', 'exx', 'dexx', 'exy', 'dexy', 'eyy', 'deyy', 'emax', 'demax', 'emin', 'demin', 'shr', 'dshr', 'azi', 'dazi', 'dilat', 'ddilat', 'secinv', 'dsecinv' ]
+
+    def __init__(self, *args, **kargs):
+        self.set_none()
+
+        if len(args) is not 0:
+            self.init_from_ascii_line(args[0])
+
+        if len(kargs) is not 0:
+            for key, val in kargs.items():
+                if key in station_member_names:
+                    setattr(self, key, val)
+    
+    
+    
+    def init_from_ascii_line(self, input_line):
+
+        l = input_line.split()
+        try:
+            self.lat     = float(l[0])
+            self.lon     = float(l[1])
+            self.vx      = float(l[2])
+            self.dvx     = float(l[3])
+            self.vy      = float(l[4])
+            self.dvy     = float(l[5])
+            self.w       = float(l[6])
+            self.dw      = float(l[7])
+            self.exx     = float(l[8])
+            self.dexx    = float(l[9])
+            self.exy     = float(l[10])
+            self.dexy    = float(l[11])
+            self.eyy     = float(l[12])
+            self.deyy    = float(l[13])
+            self.emax    = float(l[14])
+            self.demax   = float(l[15])
+            self.emin    = float(l[16])
+            self.demin   = float(l[17])
+            self.shr     = float(l[18])
+            self.dshr    = float(l[19])
+            self.azi     = float(l[20])
+            self.dazi    = float(l[21])
+            self.dilat   = float(l[22])
+            self.ddilat  = float(l[23])
+            self.secinv  = float(l[24])
+            self.dsecinv = float(l[25])
+        except:
+            print('[DEBUG] Invalid Station instance constrution.')
+            print('[DEBUG] Input line \"{}\"'.format(input_line.strip()))
+            #raise RuntimeError
+
+    def set_none(self):
+        self.lat     = None
+        self.lon     = None
+        self.vx      = None
+        self.dvx     = None
+        self.vy      = None
+        self.dvy     = None
+        self.w       = None
+        self.dw      = None
+        self.exx     = None
+        self.dexx    = None
+        self.exy     = None
+        self.dexy    = None
+        self.eyy     = None
+        self.deyy    = None
+        self.emax    = None
+        self.demax   = None
+        self.emin    = None
+        self.demin   = None
+        self.shr     = None
+        self.dshr    = None
+        self.azi     = None
+        self.dazi    = None
+        self.dilat   = None
+        self.ddilat  = None
+        self.secinv  = None
+        self.dsecinv = None
 
 @app.route('/StrainWebTool/results', methods=['GET', 'POST'])
 def webtool_results():
@@ -432,11 +513,22 @@ def webtool_results():
         sta_list_ell_tmpl[idx].rho = round(sta.rho*1.e3, 1)
         sta_list_ell_tmpl[idx].t = round(sta.t, 2)
     #print('[DEBUG] Total running time: {:10.2f} sec.'.format((time.time() - start_time)))
-    x_mean, y_mean = barycenter(sta_list_ell)
-    x_mean = degrees(x_mean)
-    y_mean = degrees(y_mean)
+    grd_tmpl = pystrain.grid.generate_grid(sta_list_ell, 0.5 , 0.5, True)
+    x_mean = (grd_tmpl.x_min + grd_tmpl.x_max)/2.
+    y_mean = (grd_tmpl.y_min + grd_tmpl.y_max)/2.
     
-    return render_template('webtool/tmpl_results.html', input_file = input_filename, NoSta = Npst,clon = x_mean, clat = y_mean, args = args, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = args.x_grid_step, y_step = args.y_grid_step, NoTensors = NoTensors, content = sta_list_ell_tmpl, strinfo = sstr)
+    
+    file = open('strain_info.dat', 'r')
+    strain = []
+    for line in file.readlines()[2:]:
+        #print(line)
+        strain.append(get_strain_param(line))
+    strain_info = []
+    for sta in strain:
+        strain_info.append(sta)
+    #print(strain_info)
+        
+    return render_template('webtool/tmpl_results.html', input_file = input_filename, NoSta = Npst,clon = x_mean, clat = y_mean, args = args, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = args.x_grid_step, y_step = args.y_grid_step, NoTensors = NoTensors, content = sta_list_ell_tmpl, strinfo = sstr, grd = grd_tmpl, strain_info = strain_info )
 
 @app.route('/StrainWebTool/outputs/<filename>', methods=['GET', 'POST'])
 def dowloadfile(filename):
