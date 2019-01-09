@@ -1,45 +1,54 @@
+.container-fluid {
+  background-color:  #408000;
+}
 .container {
-    margin: 15px auto;
-    display: flex;
-    }
+  margin: 15px auto;
+  display: flex;
+  }
 #chart_div {
-    width: 80%;
-    }
+  width: 80%;
+  }
 #dparam_div {
-    width: 20%;
-    vertical-align: middle;
-    }
+  width: 20%;
+  vertical-align: middle;
+  }
 #chart_div2 {
-    width: 80%;
-    }
+  width: 80%;
+  }
 #inline-code {
-    background-color: #eee;
-    display: inline;
-    padding: 10px;
-    }
+  background-color: #eee;
+  display: inline;
+  padding: 10px;
+  }
 #block-code {
-    background-color: #eee;
-    //border: 1px solid #999;
-    //display: block;
-    //padding: 20px;
-    //white-space: pre-wrap;
-    //word-wrap: break-word;
-    }
+  background-color: #eee;
+  //border: 1px solid #999;
+  //display: block;
+  //padding: 20px;
+  //white-space: pre-wrap;
+  //word-wrap: break-word;
+  }
 #block-samp {
-    background-color: #eee;
-    border: 1px solid #999;
-    display: block;
-    padding: 20px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    }
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  }
+.page-footer {
+  background-color:  #408000;
+}
+.footer-copyright {
+  background-color:   #0d1a00;
+}
 .page-header-p {
-    font-family: verdana, "Lucida Console", Monospace;
-    font-size:3vw;
-    max-height: 100%;
-    }
+  font-family: verdana, "Lucida Console", Monospace;
+  font-size:3vw;
+  max-height: 100%;
+  }
 button{
-    margin: 13px;
+  margin: 13px;
 	box-shadow: 1px 2px 5px #000000; 
 	}
 a.buttons {
@@ -53,30 +62,53 @@ a.buttons {
 	}
 
 a.github {
-		background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/octocat-small.png) no-repeat 1px;
-	}
+  background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/octocat-small.png) no-repeat 1px;
+  }
 
 a.buttons:hover {
-		color: #fff;
-		text-decoration: none;
-	}
+  color: #fff;
+  text-decoration: none;
+  }
 
+a.run_buttons {
+  -webkit-font-smoothing: antialiased;
+	background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/arrow-down.png) no-repeat;
+	font-weight: normal;
+	color: #fff;
+/* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
+	padding: 2px 2px 2px 22px;
+	height: 30px;
+	}
+a.run_buttons:hover {
+	color: #fff;
+	text-decoration: none;
+}
+	
+	
+	
 .selected {
   opacity: 1
 }
 .unselected {
   opacity: 0.5
 }
-.map-container{
-overflow:hidden;
-padding-bottom:56.25%;
-position:relative;
-height:0;
-}
-.map-container iframe{
-left:0;
-top:0;
-height:80%;
-width:100%;
-position:absolute;
+.map {
+  height: 100%;
+  width: 100%;
+  }
+  
+  .navbar { min-height:18px;   }
+
+a.new_calc {
+  -webkit-font-smoothing: antialiased;
+	background: url(../../static/img/reload.png) no-repeat;
+	font-weight: normal;
+	color: #fff;
+/* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
+	padding: 2px 2px 2px 22px;
+	height: 30px;
+	}
+a.new_calc:hover {
+	color: #fff;
+	text-decoration: none;
 }

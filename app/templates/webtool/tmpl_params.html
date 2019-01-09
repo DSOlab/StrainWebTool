@@ -4,6 +4,9 @@
 
 <head>
   <title>StrainWebTool</title>
+  <title>StrainWebTool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
+  <!--  Bootstral loading  -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   <!-- add after bootstrap.min.css -->
   <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.css">
@@ -13,6 +16,8 @@
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>    
   <!-- github icon -->
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
@@ -20,108 +25,14 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
   <!-- add after bootstrap.min.js -->
   <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
-<!--     <link rel="stylesheet" type="text/css" href="../static/style/webtool.css" /> -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+      <link rel="stylesheet" type="text/css" href="../../static/styles/webtool.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
   
-<style>
-.container {
-  margin: 15px auto;
-  display: flex;
-  }
-#chart_div {
-  width: 80%;
-  }
-#dparam_div {
-  width: 20%;
-  vertical-align: middle;
-  }
-#chart_div2 {
-  width: 80%;
-  }
-#inline-code {
-  background-color: #eee;
-  display: inline;
-  padding: 10px;
-  }
-#block-code {
-  background-color: #eee;
-  //border: 1px solid #999;
-  //display: block;
-  //padding: 20px;
-  //white-space: pre-wrap;
-  //word-wrap: break-word;
-  }
-#block-samp {
-  background-color: #eee;
-  border: 1px solid #999;
-  display: block;
-  padding: 20px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  }
-.page-header-p {
-  font-family: verdana, "Lucida Console", Monospace;
-  font-size:3vw;
-  max-height: 100%;
-  }
-button{
-  margin: 13px;
-	box-shadow: 1px 2px 5px #000000; 
-	}
-a.buttons {
-	-webkit-font-smoothing: antialiased;
-	background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/arrow-down.png) no-repeat;
-	font-weight: normal;
-	color: #fff;
-/* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
-	padding: 2px 2px 2px 22px;
-	height: 30px;
-	}
-
-a.github {
-  background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/octocat-small.png) no-repeat 1px;
-  }
-
-a.buttons:hover {
-  color: #fff;
-  text-decoration: none;
-  }
-
-a.run_buttons {
-  -webkit-font-smoothing: antialiased;
-	background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/arrow-down.png) no-repeat;
-	font-weight: normal;
-	color: #fff;
-/* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
-	padding: 2px 2px 2px 22px;
-	height: 30px;
-	}
-a.run_buttons:hover {
-	color: #fff;
-	text-decoration: none;
-}
-	
-	
-	
-.selected {
-  opacity: 1
-}
-.unselected {
-  opacity: 0.5
-}
-.map {
-  height: 100%;
-  width: 100%;
-  }
   
-
-.navbar { min-height:18px;   }
-
-</style>
 <script>
   $(document).ready(function() {
   $('.sev_check').each(function() {
@@ -141,7 +52,7 @@ a.run_buttons:hover {
 
 <body data-spy="scroll" data-target="#toc">
 
-<div class="container-fluid" style="maxheight: 15%; background-color: #99ccff;"> <!--#e6f2ff-->
+<div class="container-fluid" style="maxheight: 15%;"> <!--#e6f2ff-->
   <div class="row row-eq-height" align="center">
     <div class="col-md-3" >
       <div align="left">
@@ -692,7 +603,7 @@ a.run_buttons:hover {
 
 
 <!-- Footer -->
-<footer class="page-footer font-small teal pt-4" style="background-color: #99ccff;">
+<footer class="page-footer font-small teal pt-4">
 
     <!-- Footer Text -->
     <div class="container-fluid text-center text-md-left">
@@ -736,7 +647,7 @@ Disclaimer: the content of this website reflects only the author’s view and th
     <!-- Footer Text -->
 
     <!-- Copyright -->
-    <div class="footer-copyright text-center py-3" style="background-color:  #0099ff;">© 2018 Copyright:
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
       <a href="http://portal.survey.ntua.gr/main/labs/hgeod/DSO/DSOmain-en.htm"> Dionysos Satellite Observatory</a>
     </div>
     <!-- Copyright -->
