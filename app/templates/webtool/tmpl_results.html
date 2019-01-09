@@ -427,11 +427,15 @@
     </div>
 </div>
 
-
+<div class="row" style="height: 25px; background-color: #e69900">
+<div class="col-md-1"></div>
+<div class="col-md-11"><h4>Results</h4></div>
+<!-- <div class="col-md-8"></div> -->
+</div>
 <!-- Results -->
 <div class="row">
     <div class="col">
-    <h3>Results</h3>
+<!--     <h3>Results</h3> -->
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="pills-input-tab" data-toggle="pill" href="#pills-input" role="tab" aria-controls="pills-input" aria-selected="true">Input Velocities</a>
@@ -487,15 +491,17 @@
           <th scope="col">Lat. (<sup>o</sup>)</th>
           <th scope="col">Lon. (<sup>o</sup>)</th>
           <th scope="col">emax </th>
-          <th scope="col">demax</th>
+<!--           <th scope="col">demax</th> -->
           <th scope="col">emin</th>
-          <th scope="col">demin</th>
+<!--           <th scope="col">demin</th> -->
           <th scope="col">Az<sub>emax</sub> (<sup>o</sup>)</th>
-          <th scope="col">dAz<sub>emax</sub> (<sup>o</sup>)</th>
-          <th scope="col">w</th>
-          <th scope="col">dw</th>
+<!--           <th scope="col">dAz<sub>emax</sub> (<sup>o</sup>)</th> -->
+          <th scope="col">Rotational</th>
+<!--           <th scope="col">dw</th> -->
           <th scope="col">Shear</th>
-          <th scope="col">dShear</th>
+<!--           <th scope="col">dShear</th> -->
+          <th scope="col">Dilatation</th>
+          <th scope="col">2nd Invariant</th>
         </tr>
       </thead>
       <tbody>
@@ -503,16 +509,18 @@
         <tr>
           <td>{{ str.lat }}</td>
           <td>{{ str.lon }}</td>
-          <td>{{ str.emax }}</td>
-          <td>{{ str.demax }}</td>
-          <td>{{ str.emin }}</td>
-          <td>{{ str.demin }}</td>
-          <td>{{ str.azi }}</td>
-          <td>{{ str.dazi }}</td>
-          <td>{{ str.w }}</td>
-          <td>{{ str.dw }}</td>
-          <td>{{ str.shr }}</td>
-          <td>{{ str.dshr }}</td>
+          <td>{{ str.emax }} &plusmn; {{ str.demax }}</td>
+<!--           <td>{{ str.demax }}</td> -->
+          <td>{{ str.emin }} &plusmn; {{ str.demin }}</td>
+<!--           <td>{{ str.demin }}</td> -->
+          <td>{{ str.azi }} &plusmn; {{ str.dazi }}</td>
+<!--           <td>{{ str.dazi }}</td> -->
+          <td>{{ str.w }} &plusmn; {{ str.dw }}</td>
+<!--           <td>{{ str.dw }}</td> -->
+          <td>{{ str.shr }} &plusmn; {{ str.dshr }}</td>
+<!--           <td>{{ str.dshr }}</td> -->
+          <td>{{ str.dilat }} &plusmn; {{ str.ddilat }}</td>
+          <td>{{ str.secinv }}</td>
         </tr>
         {% endfor %}
       </tbody>

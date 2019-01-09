@@ -29,7 +29,7 @@ from flask_restful import reqparse
 
 #from werkzeug import secure_filename
 
-app = Flask(__name__, template_folder="templates")
+app = Flask(__name__, template_folder="templates", static_folder="static")
 
 UPLOAD_FOLDER = '/uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'vel'])
@@ -175,7 +175,7 @@ class get_strain_param:
             self.dilat   = float(l[22])
             self.ddilat  = float(l[23])
             self.secinv  = float(l[24])
-            self.dsecinv = float(l[25])
+            #self.dsecinv = float(l[25])
         except:
             print('[DEBUG] Invalid Station instance constrution.')
             print('[DEBUG] Input line \"{}\"'.format(input_line.strip()))
@@ -207,7 +207,7 @@ class get_strain_param:
         self.dilat   = None
         self.ddilat  = None
         self.secinv  = None
-        self.dsecinv = None
+        #self.dsecinv = None
 
 @app.route('/StrainWebTool/results', methods=['GET', 'POST'])
 def webtool_results():

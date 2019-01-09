@@ -1,3 +1,6 @@
+/* -------------------------------------------------------------------------- */
+/* HEADER STYLE */
+/* -------------------------------------------------------------------------- */
 .container-fluid {
   background-color:  #408000;
 }
@@ -36,17 +39,41 @@
   white-space: pre-wrap;
   word-wrap: break-word;
   }
-.page-footer {
-  background-color:  #408000;
-}
-.footer-copyright {
-  background-color:   #0d1a00;
-}
+   
 .page-header-p {
   font-family: verdana, "Lucida Console", Monospace;
   font-size:3vw;
   max-height: 100%;
   }
+
+  
+a {
+  color: #0066cc;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: justify;
+  text-indent: 0px;
+  text-decoration: none
+}
+a:hover {
+  color: #900;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: justify;
+  text-indent: 0px;
+  text-decoration: none
+}
+
+  
+  
+
+/* -------------------------------------------------------------------------- */
+/* BUTTONS LINK STYLES */
+/* -------------------------------------------------------------------------- */  
 button{
   margin: 13px;
 	box-shadow: 1px 2px 5px #000000; 
@@ -83,21 +110,6 @@ a.run_buttons:hover {
 	color: #fff;
 	text-decoration: none;
 }
-	
-	
-	
-.selected {
-  opacity: 1
-}
-.unselected {
-  opacity: 0.5
-}
-.map {
-  height: 100%;
-  width: 100%;
-  }
-  
-  .navbar { min-height:18px;   }
 
 a.new_calc {
   -webkit-font-smoothing: antialiased;
@@ -112,3 +124,49 @@ a.new_calc:hover {
 	color: #fff;
 	text-decoration: none;
 }
+
+	
+.selected {
+  opacity: 1
+}
+.unselected {
+  opacity: 0.5
+}
+.map {
+  height: 100%;
+  width: 100%;
+  }
+  
+.navbar { min-height:18px;   }
+
+
+
+
+
+
+
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/* FOOTER STYLE */
+/* -------------------------------------------------------------------------- */
+.page-footer {
+  background-color:  #408000;
+}
+.footer-copyright {
+  background-color:   #0d1a00;
+}
+
+p.footer {
+  color: ffffff;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  text-indent: 0px;
+  text-decoration: none
+}
+
