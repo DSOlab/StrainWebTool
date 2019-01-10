@@ -15,8 +15,10 @@
   <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>    
   <!-- github icon -->
+<!--   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -31,7 +33,8 @@
       <link rel="stylesheet" type="text/css" href="../../static/styles/webtool.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-  
+   <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
   
 <script>
   $(document).ready(function() {
@@ -42,6 +45,19 @@
 //     $(this).toggleClass('unselected');
 //     $(this).toggleClass('selected');
   $('.sev_check').not(this).prop('checked', false);
+//     $('.sev_check').not(this).removeClass('selected');
+//     $('.sev_check').not(this).addClass('unselected');
+    });
+  });
+  
+  $(document).ready(function() {
+  $('.sev_model').each(function() {
+//     $(this).addClass('unselected');
+  });
+  $('.sev_model').on('click', function() {
+//     $(this).toggleClass('unselected');
+//     $(this).toggleClass('selected');
+  $('.sev_model').not(this).prop('checked', false);
 //     $('.sev_check').not(this).removeClass('selected');
 //     $('.sev_check').not(this).addClass('unselected');
     });
@@ -75,20 +91,37 @@ function methodVeisnew() {
   document.getElementById("dmin_new").disabled = true;
   document.getElementById("dmax_new").disabled = true;
   document.getElementById("dstep_new").disabled = true;
+  document.getElementById("set_model_new").disabled = true;
+  document.getElementById("set_model_new").checked = false;
   document.getElementById("set_dparam_new").disabled = true;
   document.getElementById("set_dparam_new").checked = false;
   document.getElementById("dparam_new").disabled = true;
   document.getElementById("x-grid-step_new").disabled = true;
   document.getElementById("y-grid-step_new").disabled = true;
   document.getElementById("cut_stations_new").disabled = true;
+  document.getElementById("cut_stations_new").checked = false;
   document.getElementById("g_statistic_new").disabled = true;
+  document.getElementById("g_statistic_new").checked = false;
 }
 function methodShennew() {
   document.getElementById("Wt_new").disabled = false;
   document.getElementById("dmin_new").disabled = false;
   document.getElementById("dmax_new").disabled = false;
   document.getElementById("dstep_new").disabled = false;
+  document.getElementById("set_model_new").disabled = false;
+  document.getElementById("set_model_new").checked = true;
   document.getElementById("set_dparam_new").disabled = false;
+  document.getElementById("dparam_new").disabled = true;
+  document.getElementById("x-grid-step_new").disabled = false;
+  document.getElementById("y-grid-step_new").disabled = false;
+  document.getElementById("cut_stations_new").disabled = false;
+  document.getElementById("g_statistic_new").disabled = false;
+}
+function setModelnew() {
+  document.getElementById("Wt_new").disabled = false;
+  document.getElementById("dmin_new").disabled = false;
+  document.getElementById("dmax_new").disabled = false;
+  document.getElementById("dstep_new").disabled = false;
   document.getElementById("dparam_new").disabled = true;
   document.getElementById("x-grid-step_new").disabled = false;
   document.getElementById("y-grid-step_new").disabled = false;
@@ -255,7 +288,7 @@ function setDparamnew() {
             <div class="col">
                 <!-- Shen Method-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                  <input type="checkbox" name="shen" class="custom-control-input sev_check" id="sel_shen_new" value="shen" onclick="methodShennew()">
+                  <input type="checkbox" name="shen" class="custom-control-input sev_check" id="sel_shen_new" value="shen" onclick="methodShennew()" checked>
                   <label class="custom-control-label" for="sel_shen_new">Shen</label>
                 </div>
                 <!-- Veis, Delaunay triangles-->
@@ -307,7 +340,12 @@ function setDparamnew() {
         <!-- Set Model parameters  -->
         <div class="row"><!--    ROW 3      -->
             <div class="col">
-                Imterpolation model parameters:<br>
+              <div class="custom-control custom-checkbox">
+                
+                  <input type="checkbox" name="set_model_new" class="custom-control-input sev_model" id="set_model_new" onclick="setModelnew()" checked>
+                  <label class="custom-control-label" for="set_model_new">Model Parameters</label>
+              </div>
+<!--               Imterpolation model parameters:<br> -->
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
@@ -335,7 +373,7 @@ function setDparamnew() {
 <!--                 OR set: -->
                 <div class="custom-control custom-checkbox">
                 
-                  <input type="checkbox" name="set_dparam_new" class="custom-control-input" id="set_dparam_new" onclick="setDparamnew()"  >
+                  <input type="checkbox" name="set_dparam_new" class="custom-control-input sev_model" id="set_dparam_new" onclick="setDparamnew()"  >
                   <label class="custom-control-label" for="set_dparam_new">Set D parameter</label>
                 </div>
 <!--                 <br> -->
@@ -360,6 +398,10 @@ function setDparamnew() {
                   <input type="checkbox" name="generate-statistics" class="custom-control-input" id="g_statistic_new">
                   <label class="custom-control-label" for="g_statistic_new">generate statistics</label>
                 </div> 
+                <div>
+                asdefqwer
+<input type="checkbox" data-toggle="toggle" data-onstyle="success" data-size="mini">
+                </div>
             </div>
         </div><!--    ROW 4      -->
         <div align="center">
