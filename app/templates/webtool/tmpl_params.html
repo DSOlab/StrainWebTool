@@ -47,7 +47,66 @@
     });
   });
 </script>
-
+<script>
+function methodVeisdef() {
+  document.getElementById("Wt_def").disabled = true;
+  document.getElementById("dmin_def").disabled = true;
+  document.getElementById("dmax_def").disabled = true;
+  document.getElementById("dstep_def").disabled = true;
+  document.getElementById("dparam_def").disabled = true;
+  document.getElementById("x-grid-step_def").disabled = true;
+  document.getElementById("y-grid-step_def").disabled = true;
+  document.getElementById("cut_stations_def").disabled = true;
+  document.getElementById("g_statistic_def").disabled = true;
+}
+function methodShendef() {
+  document.getElementById("Wt_def").disabled = false;
+  document.getElementById("dmin_def").disabled = false;
+  document.getElementById("dmax_def").disabled = false;
+  document.getElementById("dstep_def").disabled = false;
+  document.getElementById("dparam_def").disabled = true;
+  document.getElementById("x-grid-step_def").disabled = false;
+  document.getElementById("y-grid-step_def").disabled = false;
+  document.getElementById("cut_stations_def").disabled = false;
+  document.getElementById("g_statistic_def").disabled = false;
+}
+function methodVeisnew() {
+  document.getElementById("Wt_new").disabled = true;
+  document.getElementById("dmin_new").disabled = true;
+  document.getElementById("dmax_new").disabled = true;
+  document.getElementById("dstep_new").disabled = true;
+  document.getElementById("set_dparam_new").disabled = true;
+  document.getElementById("set_dparam_new").checked = false;
+  document.getElementById("dparam_new").disabled = true;
+  document.getElementById("x-grid-step_new").disabled = true;
+  document.getElementById("y-grid-step_new").disabled = true;
+  document.getElementById("cut_stations_new").disabled = true;
+  document.getElementById("g_statistic_new").disabled = true;
+}
+function methodShennew() {
+  document.getElementById("Wt_new").disabled = false;
+  document.getElementById("dmin_new").disabled = false;
+  document.getElementById("dmax_new").disabled = false;
+  document.getElementById("dstep_new").disabled = false;
+  document.getElementById("set_dparam_new").disabled = false;
+  document.getElementById("dparam_new").disabled = true;
+  document.getElementById("x-grid-step_new").disabled = false;
+  document.getElementById("y-grid-step_new").disabled = false;
+  document.getElementById("cut_stations_new").disabled = false;
+  document.getElementById("g_statistic_new").disabled = false;
+}
+function setDparamnew() {
+  document.getElementById("Wt_new").disabled = true;
+  document.getElementById("dmin_new").disabled = true;
+  document.getElementById("dmax_new").disabled = true;
+  document.getElementById("dstep_new").disabled = true;
+  document.getElementById("dparam_new").disabled = false;
+  document.getElementById("x-grid-step_new").disabled = false;
+  document.getElementById("y-grid-step_new").disabled = false;
+  document.getElementById("cut_stations_new").disabled = false;
+  document.getElementById("g_statistic_new").disabled = false;
+}
+</script>
 </head>
 
 <body data-spy="scroll" data-target="#toc">
@@ -194,20 +253,19 @@
         <!--select method sen or veis          -->
         <div class="row"><!--     RAW 1     -->
             <div class="col">
-                Select method:<br>
                 <!-- Shen Method-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                  <input type="checkbox" name="shen" class="custom-control-input sev_check" id="defaultInline1" value="shen" >
-                  <label class="custom-control-label" for="defaultInline1">Shen</label>
+                  <input type="checkbox" name="shen" class="custom-control-input sev_check" id="sel_shen_new" value="shen" onclick="methodShennew()">
+                  <label class="custom-control-label" for="sel_shen_new">Shen</label>
                 </div>
                 <!-- Veis, Delaunay triangles-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                  <input type="checkbox" name="veis" class="custom-control-input sev_check" id="defaultInline2" value="veis" >
-                  <label class="custom-control-label" for="defaultInline2">Veis</label>
+                  <input type="checkbox" name="veis" class="custom-control-input sev_check" id="sel_veis_new" value="veis" onclick="methodVeisnew()">
+                  <label class="custom-control-label" for="sel_veis_new">Veis</label>
                 </div>
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" name="barycenter" class="custom-control-input" id="one_tensor">
-                  <label class="custom-control-label" for="one_tensor">One Tensor</label>
+                  <input type="checkbox" name="barycenter" class="custom-control-input" id="one_tensor_new">
+                  <label class="custom-control-label" for="one_tensor_new">One Tensor</label>
                 </div>
             </div>
         </div><!--     RAW 1     -->
@@ -241,8 +299,8 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text" id="">Grid-Step</span>
                   </div>
-                  <input type="text" name="x-grid-step" class="form-control" placeholder="X-step" required>
-                  <input type="text" name="y-grid-step" class="form-control" placeholder="Y-step" required>
+                  <input type="text" name="x-grid-step" class="form-control" placeholder="X-step" id="x-grid-step_new" required>
+                  <input type="text" name="y-grid-step" class="form-control" placeholder="Y-step" id="y-grid-step_new" required>
                 </div>
             </div>
         </div><!--    ROW 2      -->
@@ -254,32 +312,38 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
                     </div>
-                <input type="text" name="Wt" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="24" required>
+                <input type="text" name="Wt" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="Wt_new" placeholder="24" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
                     </div>
-                <input type="text" name="dmin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1" required>
+                <input type="text" name="dmin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmin_new" placeholder="1" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
                     </div>
-                <input type="text" name="dmax" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="500" required>
+                <input type="text" name="dmax" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmax_new" placeholder="500" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
                     </div>
-                <input type="text" name="dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1" required>
+                <input type="text" name="dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dstep_new" placeholder="1" required>
                 </div>
-                OR set:<br>
+<!--                 OR set: -->
+                <div class="custom-control custom-checkbox">
+                
+                  <input type="checkbox" name="set_dparam_new" class="custom-control-input" id="set_dparam_new" onclick="setDparamnew()"  >
+                  <label class="custom-control-label" for="set_dparam_new">Set D parameter</label>
+                </div>
+<!--                 <br> -->
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="not available" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dparam_new" placeholder="" disabled>
                 </div>
             </div>
         </div><!--    ROW 3      -->
@@ -289,12 +353,12 @@
                 Special arguments:<br>
                 <!-- Default checked -->
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" name="cut-excess-stations" class="custom-control-input" id="cut_stations" >
-                  <label class="custom-control-label" for="cut_stations">cut excess stations</label>
+                  <input type="checkbox" name="cut-excess-stations" class="custom-control-input" id="cut_stations_new" >
+                  <label class="custom-control-label" for="cut_stations_new">cut excess stations</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" name="generate-statistics" class="custom-control-input" id="g_statistic">
-                  <label class="custom-control-label" for="g_statistic">generate statistics</label>
+                  <input type="checkbox" name="generate-statistics" class="custom-control-input" id="g_statistic_new">
+                  <label class="custom-control-label" for="g_statistic_new">generate statistics</label>
                 </div> 
             </div>
         </div><!--    ROW 4      -->
@@ -314,12 +378,12 @@
                 Select method:<br>
                 <!-- Shen Method-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                  <input type="checkbox" name="shen" class="custom-control-input sev_check" id="selectShen_def" value="shen" checked>
+                  <input type="checkbox" name="shen" class="custom-control-input sev_check" id="selectShen_def" value="shen" onclick="methodShendef()" checked>
                   <label class="custom-control-label" for="selectShen_def">Shen</label>
                 </div>
                 <!-- Veis, Delaunay triangles-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                  <input type="checkbox" name="veis" class="custom-control-input sev_check" id="selectVeis_def" value="veis" >
+                  <input type="checkbox" name="veis" class="custom-control-input sev_check" id="selectVeis_def" value="veis"  onclick="methodVeisdef()">
                   <label class="custom-control-label" for="selectVeis_def">Veis</label>
                 </div>
                 <div class="custom-control custom-checkbox">
@@ -359,8 +423,8 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text" id="">Grid-Step</span>
                   </div>
-                  <input type="text" name="x-grid-step" class="form-control" value="0.5" required>
-                  <input type="text" name="y-grid-step" class="form-control" value="0.5" required>
+                  <input type="text" name="x-grid-step" class="form-control" value="1" id="x-grid-step_def" required>
+                  <input type="text" name="y-grid-step" class="form-control" value="1" id="y-grid-step_def" required>
                 </div>
             </div>
         </div><!--    ROW 2      -->
@@ -372,32 +436,32 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
                     </div>
-                <input type="text" name="Wt" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="24" required>
+                <input type="text" name="Wt" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="Wt_def" value="24" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
                     </div>
-                <input type="text" name="dmin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="1" required>
+                <input type="text" name="dmin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmin_def" value="1" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
                     </div>
-                <input type="text" name="dmax" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="500" required>
+                <input type="text" name="dmax" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmax_def" value="500" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
                     </div>
-                <input type="text" name="dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="1" required>
+                <input type="text" name="dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dstep_def" value="1" required>
                 </div>
                 OR set:<br>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="not available" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dparam_def" placeholder="" disabled>
                 </div>
             </div>
         </div><!--    ROW 3      -->
@@ -422,6 +486,7 @@
         </div>
 </form>
 </div>
+
 
   </div>
 </div>
