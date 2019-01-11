@@ -6,36 +6,43 @@
   <title>StrainWebTool</title>
   <title>StrainWebTool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">  
+  
   <!--  Bootstral loading  -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  
   <!-- add after bootstrap.min.css -->
-  <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.css">
-  <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
-  <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+<!--   <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.css"> -->
+<!--   <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css"> -->
+<!--   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script> -->
+  
   <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>    
+<!--   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>     -->
+  
   <!-- github icon -->
 <!--   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
-  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> -->
+<!--   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
  
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+<!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script> -->
+<!--   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script> -->
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
   <!-- add after bootstrap.min.js -->
+  
   <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-  <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
-      <link rel="stylesheet" type="text/css" href="../../static/styles/webtool.css" />
+<!--   <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon"> -->
+  <link rel="stylesheet" type="text/css" href="../../static/styles/webtool.css" />
+  <!--  LEAFLET MAPS  -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-   <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-  
+    
 <script>
   $(document).ready(function() {
   $('.sev_check').each(function() {
@@ -286,6 +293,7 @@ function setDparamnew() {
         <!--select method sen or veis          -->
         <div class="row"><!--     RAW 1     -->
             <div class="col">
+            Select method:<br>
                 <!-- Shen Method-->
                 <div class="custom-control custom-checkbox custom-control-inline">
                   <input type="checkbox" name="shen" class="custom-control-input sev_check" id="sel_shen_new" value="shen" onclick="methodShennew()" checked>
@@ -350,25 +358,25 @@ function setDparamnew() {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
                     </div>
-                <input type="text" name="Wt" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="Wt_new" placeholder="24" required>
+                <input type="text" name="Wt" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="Wt_new" placeholder="def: 24" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
                     </div>
-                <input type="text" name="dmin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmin_new" placeholder="1" required>
+                <input type="text" name="dmin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmin_new" placeholder="def: 1" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
                     </div>
-                <input type="text" name="dmax" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmax_new" placeholder="500" required>
+                <input type="text" name="dmax" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmax_new" placeholder="def: 500" required>
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
                     </div>
-                <input type="text" name="dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dstep_new" placeholder="1" required>
+                <input type="text" name="dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dstep_new" placeholder="def: 1" required>
                 </div>
 <!--                 OR set: -->
                 <div class="custom-control custom-checkbox">
@@ -381,7 +389,7 @@ function setDparamnew() {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dparam_new" placeholder="" disabled>
+                <input type="text" name="d-param" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dparam_new" placeholder="" disabled>
                 </div>
             </div>
         </div><!--    ROW 3      -->
@@ -391,17 +399,15 @@ function setDparamnew() {
                 Special arguments:<br>
                 <!-- Default checked -->
                 <div class="custom-control custom-checkbox">
+<!--                   <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-width="100" data-height="5" id="cut_stations_new" > -->
                   <input type="checkbox" name="cut-excess-stations" class="custom-control-input" id="cut_stations_new" >
                   <label class="custom-control-label" for="cut_stations_new">cut excess stations</label>
                 </div> 
                 <div class="custom-control custom-checkbox">
+<!--                   <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="small" id="g_statistic_new" > -->
                   <input type="checkbox" name="generate-statistics" class="custom-control-input" id="g_statistic_new">
                   <label class="custom-control-label" for="g_statistic_new">generate statistics</label>
                 </div> 
-                <div>
-                asdefqwer
-<input type="checkbox" data-toggle="toggle" data-onstyle="success" data-size="mini">
-                </div>
             </div>
         </div><!--    ROW 4      -->
         <div align="center">
@@ -503,7 +509,7 @@ function setDparamnew() {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dparam_def" placeholder="" disabled>
+                <input type="text" name="d-param" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dparam_def" placeholder="" disabled>
                 </div>
             </div>
         </div><!--    ROW 3      -->

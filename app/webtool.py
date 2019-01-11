@@ -305,6 +305,13 @@ def webtool_results():
             required=False,
             help='Only relevant for \'--mehod=shen\' and if \'d-param\' is not passed in. This is the step size for searching for an optimal d-param value. Unit is km.')
 
+        parser.add_argument('d-param',
+            default=None,
+            dest='d_coef',
+            type=float,
+            required=False,
+            help='Only relevant for \'--mehod=shen\'. This is the \'D\' parameter for computing the spatial weights. If this option is used, then the parameters: dmin, dmax, dstep and Wt are not used.')
+
         if request.form.get('cut-excess-stations'):
             parser.add_argument('cut-excess-stations',
                 location='form',
