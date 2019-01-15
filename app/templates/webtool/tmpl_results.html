@@ -591,7 +591,7 @@
   
   var strinfo=[
     {% for str in strain_info %}
-      [ {{ str.lat }}, {{ str.lon }}, {{ str.emax }}, {{ str.emin }} ],
+      [ {{ str.lat }}, {{ str.lon }}, {{ str.emax }}, {{ str.emin }}, {{ str.azi }}, {{ str.shr }} ],
     {% endfor %}
   ];
   
@@ -614,19 +614,97 @@
   
   var strain = L.layerGroup();
 	for (var i = 0; i < strinfo.length; i++) {
-    var lat2 = strinfo[i][0] + strinfo[i][2]/10;
-    var lon2 = strinfo[i][1] + strinfo[i][3]/10;
-    L.polyline([[strinfo[i][0], strinfo[i][1]], [lat2, lon2]], {color: 'red'})
+	  var emax_lat1 = strinfo[i][0] + strinfo[i][2]*Math.cos(strinfo[i][4]*Math.PI/180)/1000;
+	  var emax_lon1 = strinfo[i][1] + strinfo[i][2]*Math.sin(strinfo[i][4]*Math.PI/180)/1000;
+    var emax_lat2 = strinfo[i][0] - strinfo[i][2]*Math.cos(strinfo[i][4]*Math.PI/180)/1000;
+    var emax_lon2 = strinfo[i][1] - strinfo[i][2]*Math.sin(strinfo[i][4]*Math.PI/180)/1000;
+    L.polyline([[emax_lat1, emax_lon1], [emax_lat2, emax_lon2]], {color: 'red'})
     .bindPopup('Lat = ' + strinfo[i][0] +
     '<br>  Lon = ' + strinfo[i][1] +
     '<br>  emax = ' + strinfo[i][2] +
-    '<br>  emin = ' + strinfo[i][3] 
-//     '<br>  sn = ' + strinfo[i][5] +
+    '<br>  emin = ' + strinfo[i][3] +
+    '<br>  Az = ' + strinfo[i][4] 
 //     '<br>  se = ' + strinfo[i][6] +
 //     '<br>  Time = ' + strinfo[i][7]
     )
     .addTo(strain);
   }
+
+  
+  for (var i = 0; i < strinfo.length; i++) {
+	  var emin_lat1 = strinfo[i][0] - strinfo[i][3]*Math.sin(strinfo[i][4]*Math.PI/180)/1000;
+	  var emin_lon1 = strinfo[i][1] - strinfo[i][3]*Math.cos(strinfo[i][4]*Math.PI/180)/1000;
+    var emin_lat2 = strinfo[i][0] + strinfo[i][3]*Math.sin(strinfo[i][4]*Math.PI/180)/1000;
+    var emin_lon2 = strinfo[i][1] + strinfo[i][3]*Math.cos(strinfo[i][4]*Math.PI/180)/1000;
+    L.polyline([[emin_lat1, emin_lon1], [emin_lat2, emin_lon2]], {color: 'blue'})
+    .bindPopup('Lat = ' + strinfo[i][0] +
+    '<br>  Lon = ' + strinfo[i][1] +
+    '<br>  emax = ' + strinfo[i][2] +
+    '<br>  emin = ' + strinfo[i][3] +
+    '<br>  Az = ' + strinfo[i][4] 
+//     '<br>  se = ' + strinfo[i][6] +
+//     '<br>  Time = ' + strinfo[i][7]
+    )
+    .addTo(strain);
+  }
+  
+//  NOT WORKING YET
+//   function style_V_OIKISMOI_0_0(feature) {
+//     if (feature >= 3 && feature <= 20 ) {
+//       return {
+//       pane: 'pane_V_OIKISMOI_0',
+//       radius: 4.0,
+//       opacity: 1,
+//       color: 'rgba(35,35,35,1.0)',
+//       dashArray: '',
+//       lineCap: 'butt',
+//       lineJoin: 'miter',
+//       weight: 1,
+//       fill: true,
+//       fillOpacity: 1,
+//       fillColor: 'rgba(255,255,255,1.0)',
+//       }
+//       }
+//     if (feature >= 20 && feature <= 6400 ) {
+//       return {
+//       pane: 'pane_V_OIKISMOI_0',
+//       radius: 4.0,
+//       opacity: 1,
+//       color: 'rgba(35,35,35,1.0)',
+//       dashArray: '',
+//       lineCap: 'butt',
+//       lineJoin: 'miter',
+//       weight: 1,
+//       fill: true,
+//       fillOpacity: 1,
+//       fillColor: 'rgba(255,255,255,1.0)',
+//       }
+//     }
+//   }
+//   map.createPane('pane_V_OIKISMOI_0');
+//   map.getPane('pane_V_OIKISMOI_0').style.zIndex = 400;
+//   map.getPane('pane_V_OIKISMOI_0').style['mix-blend-mode'] = 'normal';
+//         
+  var shear = L.layerGroup();
+//   for (var i = 0; i < strinfo.length; i++) {
+//     L.circleMarker([strinfo[i][0], strinfo[i][1]], style_V_OIKISMOI_0_0(strinfo[i][5])).addTo(shear);
+//   }
+//   
+//   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
 	var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
 			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -653,13 +731,13 @@
         
 	var baseLayers = {
 		"Velocities": vel,
-		"Principal Axes": strain	
+		"Principal Axes": strain,
+		"Shear": shear
 	};
 
 	var overlays = {
-		"Velocities": vel,
-		"Principal Axes": strain
-	};
+		"Velocities": vel
+		};
 
 	L.control.layers(baseLayers, overlays, {collapsed:false}).addTo(map);
   
@@ -777,10 +855,7 @@
   
   
   
-  
-  
-  
-  
+
   
   
   
