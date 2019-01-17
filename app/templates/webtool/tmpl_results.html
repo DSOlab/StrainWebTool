@@ -5,6 +5,8 @@
 <head>
   <title>StrainWebTool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
   <!--  Bootstral loading  -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   <!-- add after bootstrap.min.css -->
@@ -17,9 +19,8 @@
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!--   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
@@ -29,10 +30,11 @@
 
   <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
       <link rel="stylesheet" type="text/css" href="../../static/styles/webtool.css" />
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-	<link rel="stylesheet" href="../../scripts/Leaflet.Coordinates-0.1.3.css"/>
-  <script type="text/javascript" src="../../scripts/Leaflet.Coordinates-0.1.3.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/scripts/Leaflet.Coordinates-0.1.5.css"/>
+<script type="text/javascript" src="../../static/scripts/Leaflet.Coordinates-0.1.5.min.js"></script>
 
 <script>
   $(document).ready(function() {
@@ -574,7 +576,8 @@
  
 <!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
 <script type="text/javascript">
-	
+
+
   var lonlatarray=[
   {% for station in content %}
     [ "{{ station.name }}", {{ station.lat }}, {{ station.lon }}, {{ station.vn }}, {{ station.ve }}, {{ station.sn }}, {{ station.se }}, {{ station.t }} ],
@@ -630,10 +633,10 @@
   
   var strain = L.layerGroup();
 	for (var i = 0; i < strinfo.length; i++) {
-	  var emax_lat1 = strinfo[i][0] + strinfo[i][2]*Math.abs(Math.cos(strinfo[i][6]*Math.PI/180))/300;
-	  var emax_lon1 = strinfo[i][1] + strinfo[i][2]*Math.abs(Math.sin(strinfo[i][6]*Math.PI/180))/300;
-    var emax_lat2 = strinfo[i][0] - strinfo[i][2]*Math.abs(Math.cos(strinfo[i][6]*Math.PI/180))/300;
-    var emax_lon2 = strinfo[i][1] - strinfo[i][2]*Math.abs(Math.sin(strinfo[i][6]*Math.PI/180))/300;
+	  var emax_lat1 = strinfo[i][0] + strinfo[i][2]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
+	  var emax_lon1 = strinfo[i][1] + strinfo[i][2]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
+    var emax_lat2 = strinfo[i][0] - strinfo[i][2]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
+    var emax_lon2 = strinfo[i][1] - strinfo[i][2]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
     L.polyline([[emax_lat1, emax_lon1], [emax_lat2, emax_lon2]], {color: 'red'})
     .bindPopup('Lat = ' + strinfo[i][0] +
     '<br>  Lon = ' + strinfo[i][1] + 
@@ -650,10 +653,10 @@
 
   
   for (var i = 0; i < strinfo.length; i++) {
-	  var emin_lat1 = strinfo[i][0] + strinfo[i][4]*Math.abs(Math.sin(strinfo[i][6]*Math.PI/180))/300;
-	  var emin_lon1 = strinfo[i][1] + strinfo[i][4]*Math.abs(Math.cos(strinfo[i][6]*Math.PI/180))/300;
-    var emin_lat2 = strinfo[i][0] - strinfo[i][4]*Math.abs(Math.sin(strinfo[i][6]*Math.PI/180))/300;
-    var emin_lon2 = strinfo[i][1] - strinfo[i][4]*Math.abs(Math.cos(strinfo[i][6]*Math.PI/180))/300;
+	  var emin_lat1 = strinfo[i][0] + strinfo[i][4]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
+	  var emin_lon1 = strinfo[i][1] + strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
+    var emin_lat2 = strinfo[i][0] - strinfo[i][4]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
+    var emin_lon2 = strinfo[i][1] - strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
     L.polyline([[emin_lat1, emin_lon1], [emin_lat2, emin_lon2]], {color: 'blue'})
     .bindPopup('Lat = ' + strinfo[i][0] +
     '<br>  Lon = ' + strinfo[i][1] + 
