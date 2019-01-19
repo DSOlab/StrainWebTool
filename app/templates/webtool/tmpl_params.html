@@ -36,12 +36,14 @@
   
   <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--   custom css styles  -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/webtool.css') }}" />
 
-<!--   <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon"> -->
-  <link rel="stylesheet" type="text/css" href="../../static/styles/webtool.css" />
-  <!--  LEAFLET MAPS  -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<!-- JS to prnt coordinates on map -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='js/Leaflet.Coordinates-0.1.5.css') }}"/>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/Leaflet.Coordinates-0.1.5.min.js') }}"></script>  
     
 <script>
   $(document).ready(function() {
@@ -864,5 +866,16 @@ google.maps.event.addDomListener(window, 'load', initialize);
 //             ]
 //         }).addTo(map);
       }
-   
+
+//   Add scale Bar
+  L.control.scale().addTo(map);
+
+  L.control.coordinates({
+    position:"bottomleft",
+// 		useDMS:true,
+    labelTemplateLat:"N {y}",
+    labelTemplateLng:"E {x}",
+    useLatLngOrder:true
+  }).addTo(map);
+
 </script>
