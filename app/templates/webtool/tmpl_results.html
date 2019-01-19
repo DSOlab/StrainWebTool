@@ -5,7 +5,6 @@
 <head>
   <title>StrainWebTool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <!--  Bootstral loading  -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
@@ -18,6 +17,7 @@
   <!-- github icon -->
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
 <!--   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
@@ -29,13 +29,14 @@
   <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"></script>
 
   <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
-      <link rel="stylesheet" type="text/css" href="../../static/styles/webtool.css" />
+<!--   custom css styles  -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/webtool.css') }}" />
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-	<link rel="stylesheet" type="text/css" href="../../static/scripts/Leaflet.Coordinates-0.1.5.css"/>
-<script type="text/javascript" src="../../static/scripts/Leaflet.Coordinates-0.1.5.min.js"></script>
-
+<!-- JS to prnt coordinates on map -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='js/Leaflet.Coordinates-0.1.5.css') }}"/>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/Leaflet.Coordinates-0.1.5.min.js') }}"></script>  
 <script>
   $(document).ready(function() {
   $('.sev_check').each(function() {
@@ -654,9 +655,9 @@
   
   for (var i = 0; i < strinfo.length; i++) {
 	  var emin_lat1 = strinfo[i][0] + strinfo[i][4]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
-	  var emin_lon1 = strinfo[i][1] + strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
+	  var emin_lon1 = strinfo[i][1] - strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
     var emin_lat2 = strinfo[i][0] - strinfo[i][4]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
-    var emin_lon2 = strinfo[i][1] - strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
+    var emin_lon2 = strinfo[i][1] + strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
     L.polyline([[emin_lat1, emin_lon1], [emin_lat2, emin_lon2]], {color: 'blue'})
     .bindPopup('Lat = ' + strinfo[i][0] +
     '<br>  Lon = ' + strinfo[i][1] + 
@@ -825,22 +826,31 @@
 //   Add scale Bar
   L.control.scale().addTo(map);
 
-  L.control.coordinates().addTo(map);
-		//add configured controls
+//   L.control.coordinates().addTo(map);
+// 		//add configured controls
+// 		L.control.coordinates({
+// 			position:"bottomleft",
+// 			decimals:2,
+// 			decimalSeperator:",",
+// 			labelTemplateLat:"Latitude: {y}",
+// 			labelTemplateLng:"Longitude: {x}"
+// 		}).addTo(map);
 		L.control.coordinates({
 			position:"bottomleft",
-			decimals:2,
-			decimalSeperator:",",
-			labelTemplateLat:"Latitude: {y}",
-			labelTemplateLng:"Longitude: {x}"
-		}).addTo(map);
-		L.control.coordinates({
-			position:"topright",
-			useDMS:true,
+// 			useDMS:true,
 			labelTemplateLat:"N {y}",
 			labelTemplateLng:"E {x}",
 			useLatLngOrder:true
 		}).addTo(map);
+//     L.control.coordinates({
+// 			position:"bottomleft",
+// 			useDMS:true,
+// 			labelTemplateLat:"N {y}",
+// 			labelTemplateLng:"E {x}",
+// 			useLatLngOrder:true
+// 		}).addTo(map);
+$('<h6 id="mapTitle"><b>Strain parameters</b></h6>').insertBefore('div.leaflet-control-layers-base');
+
 </script>
 </body>
 
