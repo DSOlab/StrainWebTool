@@ -1,6 +1,5 @@
 <!doctype html>
 <meta charset="UTF-8"> 
-<html>
 
 <head>
   <title>StrainWebTool</title>
@@ -27,7 +26,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
-      <link rel="stylesheet" type="text/css" href="../../static/styles/webtool.css" />
+<!--   custom css styles  -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/webtool.css') }}" />
+<!-- LEAFLET APP -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
 
@@ -45,7 +46,35 @@
     });
   });
 </script>
-
+<script>
+function includeHTML() {
+  var z, i, elmnt, file, xhttp;
+  /* Loop through a collection of all HTML elements: */
+  z = document.getElementsByTagName("*");
+  for (i = 0; i < z.length; i++) {
+    elmnt = z[i];
+    /*search for elements with a certain atrribute:*/
+    file = elmnt.getAttribute("w3-include-html");
+    if (file) {
+      /* Make an HTTP request using the attribute value as the file name: */
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+          /* Remove the attribute, and call this function once more: */
+          elmnt.removeAttribute("w3-include-html");
+          includeHTML();
+        }
+      } 
+      xhttp.open("GET", file, true);
+      xhttp.send();
+      /* Exit the function: */
+      return;
+    }
+  }
+}
+</script>
 </head>
 
 <body data-spy="scroll" data-target="#toc">
@@ -54,14 +83,9 @@
   <div class="row row-eq-height" align="center">
     <div class="col-md-3" >
       <div align="left">
-        <div class="col-md-1"><a href="https://github.com/DSOlab/StrainTool/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="License MIT" /></a></div>
-        <div class="col-md-2"><a href="https://travis-ci.org/DSOlab/StrainTool"><img src="https://travis-ci.org/DSOlab/StrainTool.svg?branch=travis_patch" alt="Build Status" /></a></div>
-        <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/releases/latest"><img src="https://img.shields.io/github/release/DSOlab/StrainTool.svg" alt="" /></a></div>
-<!--		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/tags"><img src="https://img.shields.io/github/tag/DSOlab/StrainTool.svg" alt="" /></a></div>
-		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/stargazers"><img src="https://img.shields.io/github/stars/DSOlab/StrainTool.svg" alt="" /></a></div>
-		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/network"><img src="https://img.shields.io/github/forks/DSOlab/StrainTool.svg" alt="" /></a></div>
-		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/issues"><img src="https://img.shields.io/github/issues/DSOlab/StrainTool.svg" alt="" /></a></div>-->
-<!-- 		  <div class="col-md-2"><a href="https://doi.org/10.5281/zenodo.1297565"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1297565.svg" alt="DOI"></a></div> -->
+        <div class="col-md-1"><a href="https://github.com/DSOlab/StrainWebTool/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="License MIT" /></a></div>
+        <div class="col-md-2"><a href="https://travis-ci.org/DSOlab/StrainWebTool"><img src="https://travis-ci.org/DSOlab/StrainWebTool.svg?branch=travis_patch" alt="Build Status" /></a></div>
+        <div class="col-md-2"><a href="https://github.com/DSOlab/StrainWebTool/releases/latest"><img src="https://img.shields.io/github/release/DSOlab/StrainWebTool.svg" alt="" /></a></div>
       </div>
     </div>
     <div class="col-md-6" >
@@ -99,60 +123,9 @@
 
 </div>
 
-<!-- Header of applications-->
-<div class="row" style="background-color: #e69900">
-  <!-- columns for header row StrainTensor -->
-  <div class="col-md-2" align="center">
-    <button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModalLong">StrainTensor v1.0</button>
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">StrainTensor v1.0 - HELP</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- ADD help bar -->
+<div w3-include-html="{{ url_for('static', filename='help/help-bar.html') }}"></div>
 
-  <!-- columns for header row Plot Tools-->
-  <div class="col-md-2" align="center">
-    <button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModalLong">Plot Tools</button>
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Plot Tools - HELP</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-  <div class="col-md-8" align="center">
-    Active Map 
-  </div>
-</div>
 
 <!-- Main application -->
 <div class="row" style="height: 710px;">
@@ -177,7 +150,7 @@
                 Select method:<br>
                 <!-- Shen Method-->
                 <div class="custom-control custom-checkbox custom-control-inline">
-                  <input type="checkbox" class="custom-control-input sev_check" id="defaultInline1" disabled checked>
+                  <input type="checkbox" class="custom-control-input sev_check" id="defaultInline1" disabled>
                   <label class="custom-control-label" for="defaultInline1">Shen</label>
                 </div>
                 <!-- Veis, Delaunay triangles-->
@@ -474,10 +447,6 @@
           <div class="col-md-1"><a href="https://github.com/DSOlab/StrainTool/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="License MIT" /></a></div>
           <div class="col-md-2"><a href="https://travis-ci.org/DSOlab/StrainTool"><img src="https://travis-ci.org/DSOlab/StrainTool.svg?branch=travis_patch" alt="Build Status" /></a></div>
           <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/releases/latest"><img src="https://img.shields.io/github/release/DSOlab/StrainTool.svg" alt="" /></a></div>
-<!--           <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/tags"><img src="https://img.shields.io/github/tag/DSOlab/StrainTool.svg" alt="" /></a></div> -->
-<!--           <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/stargazers"><img src="https://img.shields.io/github/stars/DSOlab/StrainTool.svg" alt="" /></a></div> -->
-<!--           <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/network"><img src="https://img.shields.io/github/forks/DSOlab/StrainTool.svg" alt="" /></a></div> -->
-<!--           <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/issues"><img src="https://img.shields.io/github/issues/DSOlab/StrainTool.svg" alt="" /></a></div> -->
           <div class="col-md-2"><a href="https://doi.org/10.5281/zenodo.1297565"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1297565.svg" alt="DOI"></a></div>
         </div>
       </div>
@@ -495,44 +464,15 @@
   </footer>
   <!-- Footer -->
 
-<!-- Map script for plotting   -->
-<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-<script  type="">
-function initialize() {
-  var myLatlng = new google.maps.LatLng(39.9808315428,23.9126069098);
-  var mapOptions = {
-    zoom: 6,
-    center: myLatlng,
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  }
-  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-//   var myMarkerImage = new google.maps.MarkerImage('/beta2/images/gps-icon.png');
-//   var marker = new google.maps.Marker({
-//       icon: myMarkerImage,
-//       position: myLatlng,
-//       map: map,
-//       title: 'akyr'
-//   });
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-</script> 
- -->
 <!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
 <script type="text/javascript">
   var map = L.map('map').setView([39.82 , 24.41], 2);
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
 	attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}).addTo(map);
-  
-//   var map = new ol.Map({
-//         target: 'map',
-//         layers: [
-//           new ol.layer.Tile({
-//             source: new ol.source.OSM()
-//           })
-//         ],
-//         view: new ol.View({
-//           center: ol.proj.fromLonLat([24.41, 39.82]),
-//           zoom: 6
-//         })
-//       });
+
+	
 </script>
+<script>
+includeHTML();
+</script>
+</html>

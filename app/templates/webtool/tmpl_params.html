@@ -1,6 +1,5 @@
 <!doctype html>
 <meta charset="UTF-8"> 
-<html>
 
 <head>
   <title>StrainWebTool</title>
@@ -38,7 +37,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!--   custom css styles  -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/webtool.css') }}" />
-
+<!--  LEAFLET APP  -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
 <!-- JS to prnt coordinates on map -->
@@ -71,6 +70,35 @@
 //     $('.sev_check').not(this).addClass('unselected');
     });
   });
+</script>
+<script>
+function includeHTML() {
+  var z, i, elmnt, file, xhttp;
+  /* Loop through a collection of all HTML elements: */
+  z = document.getElementsByTagName("*");
+  for (i = 0; i < z.length; i++) {
+    elmnt = z[i];
+    /*search for elements with a certain atrribute:*/
+    file = elmnt.getAttribute("w3-include-html");
+    if (file) {
+      /* Make an HTTP request using the attribute value as the file name: */
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+          /* Remove the attribute, and call this function once more: */
+          elmnt.removeAttribute("w3-include-html");
+          includeHTML();
+        }
+      } 
+      xhttp.open("GET", file, true);
+      xhttp.send();
+      /* Exit the function: */
+      return;
+    }
+  }
+}
 </script>
 <script>
 function methodVeisdef() {
@@ -157,14 +185,9 @@ function setDparamnew() {
   <div class="row row-eq-height" align="center">
     <div class="col-md-3" >
       <div align="left">
-        <div class="col-md-1"><a href="https://github.com/DSOlab/StrainTool/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="License MIT" /></a></div>
-        <div class="col-md-2"><a href="https://travis-ci.org/DSOlab/StrainTool"><img src="https://travis-ci.org/DSOlab/StrainTool.svg?branch=travis_patch" alt="Build Status" /></a></div>
-        <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/releases/latest"><img src="https://img.shields.io/github/release/DSOlab/StrainTool.svg" alt="" /></a></div>
-<!--		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/tags"><img src="https://img.shields.io/github/tag/DSOlab/StrainTool.svg" alt="" /></a></div>
-		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/stargazers"><img src="https://img.shields.io/github/stars/DSOlab/StrainTool.svg" alt="" /></a></div>
-		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/network"><img src="https://img.shields.io/github/forks/DSOlab/StrainTool.svg" alt="" /></a></div>
-		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/issues"><img src="https://img.shields.io/github/issues/DSOlab/StrainTool.svg" alt="" /></a></div>-->
-<!-- 		  <div class="col-md-2"><a href="https://doi.org/10.5281/zenodo.1297565"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1297565.svg" alt="DOI"></a></div> -->
+        <div class="col-md-1"><a href="https://github.com/DSOlab/StrainWebTool/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="License MIT" /></a></div>
+        <div class="col-md-2"><a href="https://travis-ci.org/DSOlab/StrainWebTool"><img src="https://travis-ci.org/DSOlab/StrainWebTool.svg?branch=travis_patch" alt="Build Status" /></a></div>
+        <div class="col-md-2"><a href="https://github.com/DSOlab/StrainWebTool/releases/latest"><img src="https://img.shields.io/github/release/DSOlab/StrainWebTool.svg" alt="" /></a></div>
       </div>
     </div>
     <div class="col-md-6" >
@@ -202,60 +225,8 @@ function setDparamnew() {
 
 </div>
 
-<!-- Header of applications-->
-<div class="row" style="background-color: #e69900">
-  <!-- columns for header row StrainTensor -->
-  <div class="col-md-2" align="center">
-    <button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModalLong">StrainTensor v1.0</button>
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">StrainTensor v1.0 - HELP</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  <!-- columns for header row Plot Tools-->
-  <div class="col-md-2" align="center">
-    <button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModalLong">Plot Tools</button>
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Plot Tools - HELP</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-  <div class="col-md-8" align="center">
-    Active Map 
-  </div>
-</div>
+<!-- ADD help bar -->
+<div w3-include-html="{{ url_for('static', filename='help/help-bar.html') }}"></div>
 
 <!-- Main application -->
 <div class="row" style="height: 710px;">
@@ -732,34 +703,52 @@ function setDparamnew() {
       <div class="row">
 
         <!-- Grid column -->
-        <div class="col-md-6 mt-md-0 mt-3">
+        <div class="col-md-3 mt-md-0 mt-3">
 
           <!-- Content -->
-          <h5 class="text-uppercase font-weight-bold"></h5>
-          <p>This project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement N° 676564<br>
-
-Disclaimer: the content of this website reflects only the author’s view and the Commission is not responsible for any use that may be made of the information it contains.</p>
+            <h5 class="text-uppercase font-weight-bold"></h5>
+            <p style="line-height:17px;"><img alt="" src="../../static/img/logo-european-commission_0.png" style="float: left; height: 44px; width: 65px; margin-right: 10px; padding: 5px;" /> This project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement N° 676564</p>
+            <p style="line-height:17px;">Disclaimer: the content of this website reflects only the author’s view and the Commission is not responsible for any use that may be made of the information it contains.</p>
 
         </div>
-        <!-- Grid column -->
-
-        <hr class="clearfix w-100 d-md-none pb-3">
 
         <!-- Grid column -->
-        <div class="col-md-6 mb-md-0 mb-3">
+        <div class="col-md-3 mt-md-0 mt-3">
+        <p class="padding-top-20px rteright">| <a href="https://www.epos-ip.org/content/privacy-policy-summary" target="_blank">CONTACT US</a> <a href="#"><span class="glyphicon glyphicon-envelope"></span></a> | <a href="https://www.epos-ip.org/content/privacy-policy-summary" target="_blank">PRIVACY POLICY</a> |</p>
+ <!--       <div class="row">
+          <div class="col-md-7 mt-md-0 mt-3">
+            CONTACT US
+          </div>
+          <div class="col-md-5 mt-md-0 mt-3">
+            CONTACT US
+            <p class="padding-top-20px rtecenter">| <a href="https://www.epos-ip.org/content/privacy-policy-summary" target="_blank">PRIVACY POLICY</a> |</p>
+          </div>
+        </div>-->
+        </div>
 
+        
+
+        <!-- Grid column -->
+        <div class="col-md-4 mb-md-0 mb-3">
+      
           <!-- Content -->
           <h5 class="text-uppercase font-weight-bold">StrainTool software</h5>
           <p>StrainTool allows the estimation of Strain Tensor parameters, on the earth's crust, given a list of data point, aka points on the earth along with their tectonic velocities.</p>
           <div align="center">
-		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/zipball/master" target="_blank">Download ZIP</a></button>
-		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/tarball/master" target="_blank">Download TAR</a></button>
-		    <button type="button" class="btn btn-success"><a class="buttons github" href="https://github.com/DSOlab/StrainTool" target="_blank">View on GitHub</a></button>
+            <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/zipball/master" target="_blank">Download ZIP</a></button>
+            <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/tarball/master" target="_blank">Download TAR</a></button>
+            <button type="button" class="btn btn-success"><a class="buttons github" href="https://github.com/DSOlab/StrainTool" target="_blank">View on GitHub</a></button>
           </div>
 
         </div>
         <!-- Grid column -->
-
+        <!-- Grid column -->
+        <div class="col-md-2 mt-md-0 mt-3" style="padding: 10px;">
+          <div class="col-md-1"><a href="https://github.com/DSOlab/StrainTool/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="License MIT" /></a></div>
+          <div class="col-md-2"><a href="https://travis-ci.org/DSOlab/StrainTool"><img src="https://travis-ci.org/DSOlab/StrainTool.svg?branch=travis_patch" alt="Build Status" /></a></div>
+          <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/releases/latest"><img src="https://img.shields.io/github/release/DSOlab/StrainTool.svg" alt="" /></a></div>
+          <div class="col-md-2"><a href="https://doi.org/10.5281/zenodo.1297565"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1297565.svg" alt="DOI"></a></div>
+        </div>
       </div>
       <!-- Grid row -->
 
@@ -767,7 +756,7 @@ Disclaimer: the content of this website reflects only the author’s view and th
     <!-- Footer Text -->
 
     <!-- Copyright -->
-    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+    <div class="footer-copyright text-center text-muted py-3" >© 2018 Copyright:
       <a href="http://portal.survey.ntua.gr/main/labs/hgeod/DSO/DSOmain-en.htm"> Dionysos Satellite Observatory</a>
     </div>
     <!-- Copyright -->
@@ -776,27 +765,8 @@ Disclaimer: the content of this website reflects only the author’s view and th
   <!-- Footer -->
 
 <!-- Map script for plotting   -->
-<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-<script  type="">
-function initialize() {
-  var myLatlng = new google.maps.LatLng(39.9808315428,23.9126069098);
-  var mapOptions = {
-    zoom: 6,
-    center: myLatlng,
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  }
-  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-//   var myMarkerImage = new google.maps.MarkerImage('/beta2/images/gps-icon.png');
-//   var marker = new google.maps.Marker({
-//       icon: myMarkerImage,
-//       position: myLatlng,
-//       map: map,
-//       title: 'akyr'
-//   });
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-</script> 
- -->
+
+
 <!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
     <script type="text/javascript">
 //       var map = new ol.Map({
@@ -879,3 +849,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
   }).addTo(map);
 
 </script>
+<script>
+includeHTML();
+</script>
+</html>
