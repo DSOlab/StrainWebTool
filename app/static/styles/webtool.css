@@ -1,50 +1,60 @@
 /* -------------------------------------------------------------------------- */
 /* HEADER STYLE */
 /* -------------------------------------------------------------------------- */
+body {
+  max-width: 95%;
+  margin-right: auto;
+  margin-left: auto;
+    background-color: #FAFAFA;
+
+}
+
 .container-fluid {
-  background-color:  #408000;
+  background-color:#408000;
 }
 .container {
-  margin: 15px auto;
+/*   margin: 15px auto; */
+/*   padding: 20px; */
   display: flex;
   }
-#chart_div {
+/*#chart_div {
   width: 80%;
-  }
-#dparam_div {
+  }*/
+/*#dparam_div {
   width: 20%;
   vertical-align: middle;
-  }
-#chart_div2 {
+  }*/
+/*#chart_div2 {
   width: 80%;
-  }
-#inline-code {
+  }*/
+/*#inline-code {
   background-color: #eee;
   display: inline;
   padding: 10px;
-  }
-#block-code {
+  }*/
+/*#block-code {
   background-color: #eee;
   //border: 1px solid #999;
   //display: block;
   //padding: 20px;
   //white-space: pre-wrap;
   //word-wrap: break-word;
-  }
-#block-samp {
+  }*/
+/*#block-samp {
   background-color: #eee;
   border: 1px solid #999;
   display: block;
   padding: 20px;
   white-space: pre-wrap;
   word-wrap: break-word;
-  }
+  }*/
    
 .page-header-p {
   font-family: verdana, "Lucida Console", Monospace;
   font-size:3vw;
   max-height: 100%;
   }
+
 
   
 a {
@@ -68,7 +78,26 @@ a:hover {
   text-decoration: none
 }
 
-  
+a.awhite {
+  color: #fff;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: justify;
+  text-indent: 0px;
+  text-decoration: none
+}
+a.awhite:hover {
+  color: #900;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: justify;
+  text-indent: 0px;
+  text-decoration: none
+}
   
 
 /* -------------------------------------------------------------------------- */
@@ -144,22 +173,32 @@ a.new_calc:hover {
 /* -------------------------------------------------------------------------- */
 /* Modal css */
 /* -------------------------------------------------------------------------- */
-.modal.modal-wide .modal-dialog {
-  width: 90%;
+.modal-dialog {
+  max-width: 70%;
+/*           width: 1k60px; */
+/*   height:600px !important; */
 }
-.modal-wide .modal-body {
-  overflow-y: auto;
+ 
+.modal-content {  
+  /* 80% of window height */
+  height: 60%;
+/*   background-color:#BBD6EC; */
+}       
+ 
+.modal-header {
+/*   background-color: #337AB7; */
+  padding:16px 16px;
+/*   color:#FFF; */
+/*   border-bottom:2px dashed #337AB7; */
 }
 
-/* #StrainTensorHelp .modal-body p { margin-bottom: 900px } */
-
-
-
+.dl-horizontal dt{float:left;width:140px;overflow:hidden;clear:left;text-align:right;text-overflow:ellipsis;white-space:nowrap}
+.dl-horizontal dd{margin-left:160px}
 
 /* -------------------------------------------------------------------------- */
 /* LEAFLET MAP STYLE */
 /* -------------------------------------------------------------------------- */
-.leaflet-control-coordinates{background-color:#D8D8D8;background-color:rgba(255,255,255,.8);cursor:pointer}.leaflet-control-coordinates,.leaflet-control-coordinates .uiElement input{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px}.leaflet-control-coordinates .uiElement{margin:4px}.leaflet-control-coordinates .uiElement .labelFirst{margin-right:4px}.leaflet-control-coordinates .uiHidden{display:none}.leaflet-control-coordinates .uiElement.label{color:inherit;font-weight:inherit;font-size:inherit;padding:0;display:inherit}
+/* .leaflet-control-coordinates{background-color:#D8D8D8;background-color:rgba(255,255,255,.8);cursor:pointer}.leaflet-control-coordinates,.leaflet-control-coordinates .uiElement input{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px}.leaflet-control-coordinates .uiElement{margin:4px}.leaflet-control-coordinates .uiElement .labelFirst{margin-right:4px}.leaflet-control-coordinates .uiHidden{display:none}.leaflet-control-coordinates .uiElement.label{color:inherit;font-weight:inherit;font-size:inherit;padding:0;display:inherit} */
 
 
 

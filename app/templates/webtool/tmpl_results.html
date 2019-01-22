@@ -83,52 +83,13 @@ function includeHTML() {
 
 <body data-spy="scroll" data-target="#toc">
 
-<div class="container-fluid" style="maxheight: 15%;"> <!--#e6f2ff-->
-  <div class="row row-eq-height" align="center">
-    <div class="col-md-3" >
-      <div align="left">
-        <div class="col-md-1"><a href="https://github.com/DSOlab/StrainWebTool/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="License MIT" /></a></div>
-        <div class="col-md-2"><a href="https://travis-ci.org/DSOlab/StrainWebTool"><img src="https://travis-ci.org/DSOlab/StrainWebTool.svg?branch=travis_patch" alt="Build Status" /></a></div>
-        <div class="col-md-2"><a href="https://github.com/DSOlab/StrainWebTool/releases/latest"><img src="https://img.shields.io/github/release/DSOlab/StrainWebTool.svg" alt="" /></a></div>
-      </div>
-    </div>
-    <div class="col-md-6" >
-      <div class="page-header"><h1>StrainWebTool</h1></div>
-        <p> Web Tool estimate strain tensors using StrainTool Software v1.0</p>
-                <!--<small class="text-muted">Github Link</small>
-                <a class="btn btn-lg btn-social-icon btn-git" href="https://github.com/DSOlab/StrainTool" title="StrainTool on github">
-                <span class="fa fa-github"></span></a>-->
-<!--                <div align="center">
-		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/zipball/master">Download ZIP</a></button>
-		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/tarball/master">Download TAR</a></button>
-		    <button type="button" class="btn btn-success"><a class="buttons github" href="https://github.com/DSOlab/StrainTool">View on GitHub</a></button>
-                </div>-->
-    </div>
-    <div class="col-md-3">
-	    <div class="row row-eq-height align-items-center">
-        <div class="col-md-3">
-          <a href="https://www.epos-ip.org" target="blank"><img src="https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/EPOS_logo_small_591_0.png" class="img-fluid" style="max-width: 100%; height: auto; align: center;"></a>
-        </div>
-      <div class="col-md-3">
-        <a href="https://www.epos-ip.org/tcs/gnss-data-and-products" target="_blank"><img src="https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/EPOS_IP_TCS_10_b_transp.png" class="img-fluid" style="max-width: 60%; height: auto; align: center;"></a>
-      </div>
-<!--	      </div>
-                
-	      <div class="row row-eq-height">-->
-      <div class="col-md-3">
-        <a href="http://www.noa.gr/index.php?lang=en" target="_blank"><img src="https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/eaa.jpg" class="img-fluid" style="max-width: 100%; height: auto; align: center;"></a>
-      </div>
-      <div class="col-md-3">
-        <a href="http://portal.survey.ntua.gr/main/labs/hgeod/DSO/DSOmain-en.htm" target="_blank"><img src="https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" class="img-fluid" style="max-width: 100%; height: auto; align: center;"></a>
-      </div>
-    </div>
-  </div>
-</div>
-
-</div>
+<!-- ADD header -->
+<div w3-include-html="{{ url_for('static', filename='html/header.html') }}"></div>
 
 <!-- ADD help bar -->
 <div w3-include-html="{{ url_for('static', filename='help/help-bar.html') }}"></div>
+
+<div class="container-fluid">
 
 <!-- Main application -->
 <div class="row" style="height: 710px;">
@@ -823,80 +784,14 @@ function includeHTML() {
 $('<h6 id="mapTitle"><b>Strain parameters</b></h6>').insertBefore('div.leaflet-control-layers-base');
 
 </script>
+
+</div><!--end of container div  -->
 </body>
 
 
+<!-- ADD FOOTER stable html -->
+<div w3-include-html="{{ url_for('static', filename='html/footer.html') }}"></div>
 
-<!-- Footer -->
-<footer class="page-footer font-small teal pt-4">
-
-    <!-- Footer Text -->
-    <div class="container-fluid text-center text-md-left">
-
-      <!-- Grid row -->
-      <div class="row">
-
-        <!-- Grid column -->
-        <div class="col-md-3 mt-md-0 mt-3">
-
-          <!-- Content -->
-            <h5 class="text-uppercase font-weight-bold"></h5>
-            <p style="line-height:17px;"><img alt="" src="../../static/img/logo-european-commission_0.png" style="float: left; height: 44px; width: 65px; margin-right: 10px; padding: 5px;" /> This project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement N° 676564</p>
-            <p style="line-height:17px;">Disclaimer: the content of this website reflects only the author’s view and the Commission is not responsible for any use that may be made of the information it contains.</p>
-
-        </div>
-
-        <!-- Grid column -->
-        <div class="col-md-3 mt-md-0 mt-3">
-        <p class="padding-top-20px rteright">| <a href="https://www.epos-ip.org/content/privacy-policy-summary" target="_blank">CONTACT US</a> <a href="#"><span class="glyphicon glyphicon-envelope"></span></a> | <a href="https://www.epos-ip.org/content/privacy-policy-summary" target="_blank">PRIVACY POLICY</a> |</p>
- <!--       <div class="row">
-          <div class="col-md-7 mt-md-0 mt-3">
-            CONTACT US
-          </div>
-          <div class="col-md-5 mt-md-0 mt-3">
-            CONTACT US
-            <p class="padding-top-20px rtecenter">| <a href="https://www.epos-ip.org/content/privacy-policy-summary" target="_blank">PRIVACY POLICY</a> |</p>
-          </div>
-        </div>-->
-        </div>
-
-        
-
-        <!-- Grid column -->
-        <div class="col-md-4 mb-md-0 mb-3">
-      
-          <!-- Content -->
-          <h5 class="text-uppercase font-weight-bold">StrainTool software</h5>
-          <p>StrainTool allows the estimation of Strain Tensor parameters, on the earth's crust, given a list of data point, aka points on the earth along with their tectonic velocities.</p>
-          <div align="center">
-            <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/zipball/master" target="_blank">Download ZIP</a></button>
-            <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/tarball/master" target="_blank">Download TAR</a></button>
-            <button type="button" class="btn btn-success"><a class="buttons github" href="https://github.com/DSOlab/StrainTool" target="_blank">View on GitHub</a></button>
-          </div>
-
-        </div>
-        <!-- Grid column -->
-        <!-- Grid column -->
-        <div class="col-md-2 mt-md-0 mt-3" style="padding: 10px;">
-          <div class="col-md-1"><a href="https://github.com/DSOlab/StrainTool/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="License MIT" /></a></div>
-          <div class="col-md-2"><a href="https://travis-ci.org/DSOlab/StrainTool"><img src="https://travis-ci.org/DSOlab/StrainTool.svg?branch=travis_patch" alt="Build Status" /></a></div>
-          <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/releases/latest"><img src="https://img.shields.io/github/release/DSOlab/StrainTool.svg" alt="" /></a></div>
-          <div class="col-md-2"><a href="https://doi.org/10.5281/zenodo.1297565"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1297565.svg" alt="DOI"></a></div>
-        </div>
-      </div>
-      <!-- Grid row -->
-
-    </div>
-    <!-- Footer Text -->
-
-    <!-- Copyright -->
-    <div class="footer-copyright text-center text-muted py-3" >© 2018 Copyright:
-      <a href="http://portal.survey.ntua.gr/main/labs/hgeod/DSO/DSOmain-en.htm"> Dionysos Satellite Observatory</a>
-    </div>
-    <!-- Copyright -->
-
-  </footer>
-  <!-- Footer -->
   
 <script>
 includeHTML();
