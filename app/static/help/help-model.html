@@ -15,17 +15,17 @@
               <h6>Use model parameters</h6>
               <dl class="dl-horizontal">
                 <dt> Wt</dt>
-                <dd> test </dd>
+                <dd>  Only relevant for '--method=shen' and if 'd-param' is not passed in. Let W=Σ_i*G_i, the total reweighting coefficients of the data, and let Wt be the threshold of W. For a given Wt, the smoothing constant D is determined by Wd=Wt . It should be noted that W is a function of the interpolation coordinate, therefore for the same Wt assigned, D varies spatially based on the in situ data strength; that is, the denser the local data array is, the smaller is D, and vice versa. Default is Wt=24. </dd>
                 <dt> D min </dt>
-                <dd> teste </dd>
-                <dt> Dmax </dt>
-                <dd> test </dd>
+                <dd> Only relevant for '--method=shen' and if 'd-param' is not passed in. This is the lower limit for searching for an optimal d-param value. Unit is km. Default is dmin=1km. </dd>
+                <dt> D max </dt>
+                <dd> Only relevant for '--method=shen' and if 'd-param' is not passed in. This is the upper limit for searching for an optimal d-param value. Unit is km. Default is dmax=500km.</dd>
                 <dt> D step </dt>
-                <dd> testestest</dd>
+                <dd> Only relevant for '--method=shen' and if 'd-param' is not passed in. This is the step size for searching for an optimal d-param value. Unit is km. Default is dstep=2km.</dd>
               </dl>
               <hr>
               <h6> Estimate parameters from D </h6>
-              <p>test D parameters</p>
+              <p>  Only relevant for '--method=shen'. This is the 'D' parameter for computing the spatial weights. If this option is used, then the parameters: dmin, dmax, dstep and Wt are not used. </p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

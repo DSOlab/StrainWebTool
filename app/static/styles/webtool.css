@@ -169,7 +169,17 @@ a.new_calc:hover {
 .navbar { min-height:18px;   }
 
 
-
+.block-input {
+  display: block;
+  width: 100%;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  padding: 5px 30%;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
 /* -------------------------------------------------------------------------- */
 /* Modal css */
 /* -------------------------------------------------------------------------- */
@@ -192,8 +202,8 @@ a.new_calc:hover {
 /*   border-bottom:2px dashed #337AB7; */
 }
 
-.dl-horizontal dt{float:left;width:140px;overflow:hidden;clear:left;text-align:right;text-overflow:ellipsis;white-space:nowrap}
-.dl-horizontal dd{margin-left:160px}
+.dl-horizontal dt{float:left;width:120px;overflow:hidden;clear:left;text-align:right;text-overflow:ellipsis;white-space:nowrap}
+.dl-horizontal dd{margin-left:140px}
 
 /* -------------------------------------------------------------------------- */
 /* LEAFLET MAP STYLE */
