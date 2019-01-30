@@ -176,6 +176,28 @@ function setDparamnew() {
   document.getElementById("cut_stations_new").disabled = false;
   document.getElementById("g_statistic_new").disabled = false;
 }
+function setModeldef() {
+  document.getElementById("Wt_def").disabled = false;
+  document.getElementById("dmin_def").disabled = false;
+  document.getElementById("dmax_def").disabled = false;
+  document.getElementById("dstep_def").disabled = false;
+  document.getElementById("dparam_def").disabled = true;
+  document.getElementById("x-grid-step_def").disabled = false;
+  document.getElementById("y-grid-step_def").disabled = false;
+  document.getElementById("cut_stations_def").disabled = false;
+  document.getElementById("g_statistic_def").disabled = false;
+}
+function setDparamdef() {
+  document.getElementById("Wt_def").disabled = true;
+  document.getElementById("dmin_def").disabled = true;
+  document.getElementById("dmax_def").disabled = true;
+  document.getElementById("dstep_def").disabled = true;
+  document.getElementById("dparam_def").disabled = false;
+  document.getElementById("x-grid-step_def").disabled = false;
+  document.getElementById("y-grid-step_def").disabled = false;
+  document.getElementById("cut_stations_def").disabled = false;
+  document.getElementById("g_statistic_def").disabled = false;
+}
 </script>
 </head>
 
@@ -190,7 +212,7 @@ function setDparamnew() {
 <div class="container-fluid">
 
 <!-- Main application -->
-<div class="row" style="height: 710px;">
+<div class="row" style="height: 750px;">
 
     <!-- Strain Tool arguments column -->
     <div class="col-md-2" style="padding: 20px; background-color:  #b3d9ff;">
@@ -413,7 +435,12 @@ function setDparamnew() {
         <!-- Set Model parameters  -->
         <div class="row"><!--    ROW 3      -->
             <div class="col">
-                Imterpolation model parameters:<br>
+            <div class="custom-control custom-checkbox">
+                
+                  <input type="checkbox" name="set_model_def" class="custom-control-input sev_model" id="set_model_def" onclick="setModeldef()" checked>
+                  <label class="custom-control-label" for="set_model_def">Model Parameters</label>
+              </div>
+<!--                 Imterpolation model parameters:<br> -->
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
@@ -438,7 +465,12 @@ function setDparamnew() {
                     </div>
                 <input type="text" name="dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dstep_def" value="1" required>
                 </div>
-                OR set:<br>
+<!--                 OR set:<br> -->
+                <div class="custom-control custom-checkbox">
+                
+                  <input type="checkbox" name="set_dparam_def" class="custom-control-input sev_model" id="set_dparam_def" onclick="setDparamdef()"  >
+                  <label class="custom-control-label" for="set_dparam_def">Set D parameter</label>
+                </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
@@ -450,6 +482,7 @@ function setDparamnew() {
         <!-- Set arguments for python --> 
         <div class="row"><!--    ROW 4      -->
             <div class="col">
+            
                 Special arguments:<br>
                 <!-- Default checked -->
                 <div class="custom-control custom-checkbox">
