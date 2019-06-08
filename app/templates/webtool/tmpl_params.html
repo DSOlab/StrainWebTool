@@ -37,10 +37,22 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!--   custom css styles  -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/webtool.css') }}" />
-<!--  LEAFLET APP  -->
+
+  <!--  LEAFLET CSS  -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+
+  <!--  LEAFLET JS  -->
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-<!-- JS to prnt coordinates on map -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+
+<!-- MARKER CLUSTER -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/leaflet.polylineDecorator.js') }}"></script>  
+  
+  <!-- JS to prnt coordinates on map -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='js/Leaflet.Coordinates-0.1.5.css') }}"/>
   <script type="text/javascript" src="{{ url_for('static', filename='js/Leaflet.Coordinates-0.1.5.min.js') }}"></script>  
     
@@ -245,7 +257,7 @@ function setDparamdef() {
 <div class="tab-content" id="pills-tabContent">
 
 <div class="tab-pane fade" id="pills-newmodel" role="tabpanel" aria-labelledby="pills-newmodel-tab">
-<form class="form" method="POST" enctype = "multipart/form-data" action="/StrainWebTool/results">
+<form class="form" method="POST" enctype = "multipart/form-data" action="{{ rooturl_folder }}/results">
         <!--select method sen or veis          -->
         <div class="row"><!--     RAW 1     -->
             <div class="col">
@@ -368,14 +380,14 @@ function setDparamdef() {
         </div><!--    ROW 4      -->
         <div align="center">
           <input type = "submit" class="btn btn-danger" value = "RUN"/>
-<!--             <button type="button" class="btn btn-danger"><a class="run_buttons" href="/StrainWebTool/results" >RUN</a></button> -->
+<!--             <button type="button" class="btn btn-danger"><a class="run_buttons" href="{{ rooturl_folder }}/results" >RUN</a></button> -->
         </div>
 </form>
 </div>
 
   <div class="tab-pane fade show active" id="pills-defpar" role="tabpanel" aria-labelledby="pills-defpar-tab">
   
-<form class="form" method="POST" enctype = "multipart/form-data" action="/StrainWebTool/results">
+<form class="form" method="POST" enctype = "multipart/form-data" action="{{ rooturl_folder }}/results">
         <!--select method sen or veis          -->
         <div class="row"><!--     RAW 1     -->
             <div class="col">
@@ -404,8 +416,8 @@ function setDparamdef() {
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">region</span>
                   </div>
-<!--                   <input type="text" name="region" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="{{ grd.x_min }}/{{ grd.x_max }}/{{ grd.y_min }}/{{ grd.y_max }}" required> -->
-                        <input type="text" name="region" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="18/32/32/43" required>
+                  <input type="text" name="region" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="{{ grd.x_min }}/{{ grd.x_max }}/{{ grd.y_min }}/{{ grd.y_max }}" required>
+<!--                         <input type="text" name="region" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="18/32/32/43" required> -->
                 </div>
                 <!--<div class="input-group">
                   <div class="input-group-prepend">
@@ -497,7 +509,7 @@ function setDparamdef() {
         </div><!--    ROW 4      -->
         <div align="center">
           <input type = "submit" class="btn btn-danger" value = "RUN"/>
-<!--             <button type="button" class="btn btn-danger"><a class="run_buttons" href="/StrainWebTool/results" >RUN</a></button> -->
+<!--             <button type="button" class="btn btn-danger"><a class="run_buttons" href="{{ rooturl_folder }}/results" >RUN</a></button> -->
         </div>
 </form>
 </div>
@@ -739,6 +751,27 @@ function setDparamdef() {
 //           .addTo(map);
 //       }
 
+	for (var i = 0; i < lonlatarray.length; i++) {
+    L.circleMarker([lonlatarray[i][1], lonlatarray[i][2]], {
+                    radius: 5,
+                    fillColor: "#FFFF4D",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.4
+                })
+    .bindPopup('CODE: ' + lonlatarray[i][0] +
+    '<br>  Lat = ' + lonlatarray[i][1] +
+    '<br>  Lon = ' + lonlatarray[i][2] +
+    '<br>  Vn = ' + lonlatarray[i][3] + 
+    '<br>  Ve = ' + lonlatarray[i][4] +
+    '<br>  sn = ' + lonlatarray[i][5] +
+    '<br>  se = ' + lonlatarray[i][6] +
+    '<br>  Time = ' + lonlatarray[i][7]
+    )
+    .addTo(map);
+  }
+  
       for (var i = 0; i < lonlatarray.length; i++) {
         var lat2 = lonlatarray[i][1] + lonlatarray[i][3]/20;
         var lon2 = lonlatarray[i][2] + lonlatarray[i][4]/20;
@@ -753,17 +786,18 @@ function setDparamdef() {
         '<br>  Time = ' + lonlatarray[i][7]
         )
         .addTo(map);
-//         var arrowHead = L.polylineDecorator(arrow, {
-//             patterns: [
-//                 {
-//                     offset: 0,
-//                     repeat: 2000,
-//                     symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true}})
-//                 }
-//             ]
-//         }).addTo(map);
-      }
+        var arrowHead = L.polylineDecorator(arrow, {
+            patterns: [
+                {
+                    offset: '100%',
+                    repeat: 0,
+                    symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true}})
+                }
+            ]
+        }).addTo(map);
+        }
 
+      
 //   Add scale Bar
   L.control.scale().addTo(map);
 
