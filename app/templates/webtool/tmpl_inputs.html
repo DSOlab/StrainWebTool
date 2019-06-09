@@ -98,7 +98,7 @@ function includeHTML() {
         <div class="col">
           <!--<form class="form-inline" method="POST" enctype = "multipart/form-data" action="/StrainWebTool/parameters">
             <div class="col-md-9">
-                <input type = "file" name = "file" />
+                <input type = "file" name = "file" required>
             </div>
             <div class="col-md-2">
                 <input type = "submit" value="upload" />
@@ -108,7 +108,7 @@ function includeHTML() {
           <form class="form-inline" method="POST" enctype = "multipart/form-data" action="{{ rooturl_folder }}/parameters">
           <div class="row">
             <div class="col custom-file">
-                <input type = "file" id="customFile" name = "file" />
+                <input type = "file" id="customFile" name = "file" required />
                 <!--<label class="custom-file-label" for="customFile">Choose file</label>-->
             </div>
           </div>

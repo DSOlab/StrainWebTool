@@ -635,40 +635,25 @@ function includeHTML() {
   }
   
 //  NOT WORKING YET
+  var color_pal=[ "#0066cc", "#0080ff", "#1a8cff", "#66b3ff", "#cce6ff", "#ffebe", "#ff8080", "#ff4d4d", "#ff0000", "#cc0000"];
   function create_scale(min,max,feature) {
-    var step = (max - min)/3;
-    var lim1 = min + step;
-    var lim2 = lim1 + step;
-    
-    if (feature >= min && feature < lim1 ) {
+    var step = (max - min)/9;
+    var lim1 = min-0.1;
+    var lim2 = min+step;
+    for (var i = 0; i <= 9; i++) {
+    if (feature > lim1 && feature <= lim2 ) {
       return {
-                    radius: feature/5,
-                    fillColor: "#A3C990",
+                    radius: feature*10/max,
+                    fillColor: color_pal[i],
                     color: "#000",
-                    weight: 1,
+                    weight: 0,
                     opacity: 1,
-                    fillOpacity: 0.4
-                }
-      }
-    if (feature >= lim1 && feature < lim2 ) {
-      return {
-                    radius: feature/5,
-                    fillColor: "#FF0000",
-                    color: "#000",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.4
+                    fillOpacity: 0.8
                 }
     }
-    if (feature >= lim2 && feature <= max ) {
-      return {
-                    radius: feature/5,
-                    fillColor: "#00FF00",
-                    color: "#000",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.4
-                }
+      var lim1 = lim1 + step;
+      var lim2 = lim1 + step;
+
     }
   }
 
@@ -773,7 +758,7 @@ function includeHTML() {
 	var baseLayers = {
 		"Velocities": vel,
 		"Principal Axes": strain,
-		"Shear": shear,
+		"Shear Strain": shear,
 		"Dilatation": dilatation,
 		"2nd Invariant": secinv
 	};

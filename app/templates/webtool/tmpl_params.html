@@ -722,7 +722,7 @@ function setDparamdef() {
 //       });
 
         var map = L.map('map').setView([{{ clat }} , {{ clon }}], 4);
-        
+
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}).addTo(map);
         
@@ -791,7 +791,7 @@ function setDparamdef() {
                 {
                     offset: '100%',
                     repeat: 0,
-                    symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true}})
+                    symbol: L.Symbol.arrowHead({pixelSize: 10, polygon: false, pathOptions: {stroke: true}})
                 }
             ]
         }).addTo(map);

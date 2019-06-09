@@ -34,8 +34,8 @@ app = Flask(__name__, template_folder="templates", static_folder="static")
 app.debug = True
 
 # set rooturl_folder , if wsgi module used for apache or set '' if you run local server
-ROOTURL_FOLDER=''
-ROOT_FOLDER=a=os.getcwd()
+ROOTURL_FOLDER='/StrainWebTool'
+ROOT_FOLDER=os.getcwd()
 UPLOAD_FOLDER = '/uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'vel'])
 
@@ -114,7 +114,7 @@ def cut_rectangle(xmin, xmax, ymin, ymax, sta_lst, sta_list_to_degrees=False):
             new_sta_lst.append(sta)
     return new_sta_lst
 
-def write_station_info(sta_lst, filename=os.path.join(ROOT_FOLDER + '/station_info.dat')):
+def write_station_info(sta_lst, filename=('/var/www/html/StrainWebTool/app/station_info.dat')):
     with open(filename, 'wb') as fout:
         #print('{:^10s} {:^10s} {:^10s} {:7s} {:7s} {:7s} {:7s}'.format('Station', 'Longtitude', 'Latitude', 'Ve', 'Vn', 'sVe', 'sVn'), file=fout)
         #print('{:^10s} {:^10s} {:^10s} {:7s} {:7s} {:7s} {:7s}'.format('', 'deg.', 'deg', 'mm/yr', 'mm/yr', 'mm/yr', 'mm/yr'), file=fout)
@@ -357,7 +357,8 @@ def webtool_results():
     #vprint = print if args.verbose_mode else lambda *a, **k: None
     
     ## If needed, open a file to write model info and statistics
-    fstats = open(os.path.join(ROOT_FOLDER + '/strain_stats.dat'), 'w') if args.generate_stats else None
+    #stat_path=os.path.join(os.getcwd() + '/strain_stats.dat')
+    fstats = open('/var/www/html/StrainWebTool/app/strain_stats.dat', 'w') if args.generate_stats else None
     if fstats: print_model_info(fstats, sys.argv, dargs)
 
     ##  If a region is passed in, resolve it.
@@ -420,7 +421,7 @@ def webtool_results():
     #vprint('[DEBUG] Station list transformed to UTM.')
     
     ##  Open file to write Strain Tensor estimates; write the header
-    fout = open(os.path.join(ROOT_FOLDER + '/strain_info.dat'), 'w')
+    fout = open('/var/www/html/StrainWebTool/app/strain_info.dat', 'w')
     #vprint('[DEBUG] Strain info written in file: {}'.format('strain_info.dat'))
     fout.write('{:^9s} {:^9s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s}\n'.format('Latitude', 'Longtitude', 'vx+dvx', 'vy+dvy', 'w+dw', 'exx+dexx', 'exy+dexy', 'eyy+deyy', 'emax+demax', 'emin+demin', 'shr+dshr', 'azi+dazi', 'dilat+ddilat', 'sec. invariant'))
     fout.write('{:^9s} {:^9s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s}\n'.format('deg', 'deg', 'mm/yr', 'mm/yr', 'deg/Myr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'deg.', 'nstrain/yr', 'nstrain/yr'))
@@ -490,7 +491,7 @@ def webtool_results():
     elif args.method == 'veis' and not args.one_tensor:
         ## Open file to write delaunay triangles.
         print('[DEBUG] Estimating Strain Tensors at the barycentre of Delaunay triangles')
-        dlnout = open(os.path.join(ROOT_FOLDER + 'delaunay_info.dat'), 'w')
+        dlnout = open('/var/www/html/StrainWebTool/app/delaunay_info.dat', 'w')
         points = numpy.array([ [sta.lon, sta.lat] for sta in sta_list_utm ])
         tri = Delaunay(points)
         print('[DEBUG] Number of Delaunay triangles: {}'.format(len(tri.simplices)))
@@ -530,7 +531,7 @@ def webtool_results():
     y_mean = (grd_tmpl.y_min + grd_tmpl.y_max)/2.
     
     
-    file = open(os.path.join(ROOT_FOLDER + '/strain_info.dat'), 'r')
+    file = open('/var/www/html/StrainWebTool/app/strain_info.dat', 'r')
     strain = []
     for line in file.readlines()[2:]:
         #print(line)
