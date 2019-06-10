@@ -369,8 +369,11 @@ function includeHTML() {
 <!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
 <script type="text/javascript">
   var map = L.map('map').setView([39.82 , 24.41], 2);
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}).addTo(map);
+//  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
+//	attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}).addTo(map);
+
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Esri the GIS User Community'}).addTo(map);
 
 	
 </script>

@@ -5,7 +5,7 @@ body {
   max-width: 95%;
   margin-right: auto;
   margin-left: auto;
-    background-color: #FAFAFA;
+  background-color: #FAFAFA;
 
 }
 
@@ -205,6 +205,18 @@ a.new_calc:hover {
 
 .dl-horizontal dt{float:left;width:120px;overflow:hidden;clear:left;text-align:right;text-overflow:ellipsis;white-space:nowrap}
 .dl-horizontal dd{margin-left:140px}
+
+/* -------------------------------------------------------------------------- */
+/* TABLE STYLE */
+/* -------------------------------------------------------------------------- */
+.my-custom-scrollbar {
+position: relative;
+height: 200px;
+overflow: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
 
 /* -------------------------------------------------------------------------- */
 /* LEAFLET MAP STYLE */

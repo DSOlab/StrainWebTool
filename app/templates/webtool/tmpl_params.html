@@ -8,6 +8,13 @@
   
   <!--  Bootstral loading  -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+<!-- Font Awesome -->
+<!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">-->
+<!-- Bootstrap core CSS -->
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">-->
+<!-- Material Design Bootstrap -->
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet">-->
+
   
   <!-- add after bootstrap.min.css -->
 <!--   <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.css"> -->
@@ -32,10 +39,10 @@
   <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
   <!-- add after bootstrap.min.js -->
-  
   <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<!--   custom css styles  -->
+
+  <!--   custom css styles  -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/webtool.css') }}" />
 
   <!--  LEAFLET CSS  -->
@@ -46,7 +53,7 @@
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 
-<!-- MARKER CLUSTER -->
+  <!-- MARKER CLUSTER -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css" />
   <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
@@ -658,8 +665,6 @@ function setDparamdef() {
 <div class="row">
     <div class="col">
 <!--         Input File -->
-<!--         <hr> -->
-<!--         <pre> {{ content }} </pre> -->
         <table class="table table-striped">
           <thead>
             <tr>
@@ -723,8 +728,11 @@ function setDparamdef() {
 
         var map = L.map('map').setView([{{ clat }} , {{ clon }}], 4);
 
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}).addTo(map);
+//        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
+//          attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}).addTo(map);
+
+       L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+         attribution: 'Tiles &copy; Esri &mdash; Esri the GIS User Community'}).addTo(map);
         
         var southWest = new L.LatLng({{ grd.y_min }}, {{ grd.x_min }}),
         northEast = new L.LatLng({{ grd.y_max }}, {{ grd.x_max }}),
@@ -753,7 +761,7 @@ function setDparamdef() {
 
 	for (var i = 0; i < lonlatarray.length; i++) {
     L.circleMarker([lonlatarray[i][1], lonlatarray[i][2]], {
-                    radius: 5,
+                    radius: 3,
                     fillColor: "#FFFF4D",
                     color: "#000",
                     weight: 1,
@@ -791,7 +799,7 @@ function setDparamdef() {
                 {
                     offset: '100%',
                     repeat: 0,
-                    symbol: L.Symbol.arrowHead({pixelSize: 10, polygon: false, pathOptions: {stroke: true}})
+                    symbol: L.Symbol.arrowHead({pixelSize: 10, polygon: false, pathOptions: {stroke: true, color: 'blue'}})
                 }
             ]
         }).addTo(map);

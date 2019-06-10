@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
   <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>    
+<!--  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>    -->
   <!-- github icon -->
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -537,9 +537,9 @@ function includeHTML() {
   ];
   
   var stations = L.layerGroup();
-	for (var i = 0; i < lonlatarray.length; i++) {
+  for (var i = 0; i < lonlatarray.length; i++) {
     L.circleMarker([lonlatarray[i][1], lonlatarray[i][2]], {
-                    radius: 5,
+                    radius: 3,
                     fillColor: "#FFFF4D",
                     color: "#000",
                     weight: 1,
@@ -559,11 +559,11 @@ function includeHTML() {
   }
   
   
-	var vel = L.layerGroup();
-	for (var i = 0; i < lonlatarray.length; i++) {
+  var vel = L.layerGroup();
+  for (var i = 0; i < lonlatarray.length; i++) {
     var lat2 = lonlatarray[i][1] + lonlatarray[i][3]/20;
     var lon2 = lonlatarray[i][2] + lonlatarray[i][4]/20;
-    L.polyline([[lonlatarray[i][1],lonlatarray[i][2]], [lat2, lon2]], {color: 'blue'})
+    var velline = L.polyline([[lonlatarray[i][1],lonlatarray[i][2]], [lat2, lon2]], {color: 'blue'})
     .bindPopup('CODE: ' + lonlatarray[i][0] +
     '<br>  Lat = ' + lonlatarray[i][1] +
     '<br>  Lon = ' + lonlatarray[i][2] +
@@ -574,15 +574,15 @@ function includeHTML() {
     '<br>  Time = ' + lonlatarray[i][7]
     )
     .addTo(vel);
-//     L.polylineDecorator({
-//       patterns: [
-//       {
-//         offset: '100%',
-//         repeat: 0,
-//         symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true}})
-//       }
-//     ]
-//     }).addTo(vel);
+     var velarrow = L.polylineDecorator(velline, {
+       patterns: [
+       {
+         offset: '100%',
+         repeat: 0,
+         symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true, color: 'blue'}})
+       }
+     ]
+     }).addTo(vel);
   }
 //           var arrowHead = L.polylineDecorator(vel, {
 //             patterns: [
@@ -634,8 +634,8 @@ function includeHTML() {
     .addTo(strain);
   }
   
-//  NOT WORKING YET
-  var color_pal=[ "#0066cc", "#0080ff", "#1a8cff", "#66b3ff", "#cce6ff", "#ffebe", "#ff8080", "#ff4d4d", "#ff0000", "#cc0000"];
+// CREATE color palete
+  var color_pal=[ "#0066cc", "#0080ff", "#1a8cff", "#66b3ff", "#cce6ff", "#e6e6ff", "#ffebee", "#ff8080", "#ff4d4d", "#ff0000", "#cc0000"];
   function create_scale(min,max,feature) {
     var step = (max - min)/9;
     var lim1 = min-0.1;
@@ -648,7 +648,7 @@ function includeHTML() {
                     color: "#000",
                     weight: 0,
                     opacity: 1,
-                    fillOpacity: 0.8
+                    fillOpacity: 1
                 }
     }
       var lim1 = lim1 + step;
@@ -656,6 +656,7 @@ function includeHTML() {
 
     }
   }
+
 
   function getCol(matrix, col){
        var column = [];
@@ -720,34 +721,24 @@ function includeHTML() {
   }
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 	var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
 			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
 			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
 
 	var Esri_WorldPhysical = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}),
-  Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'}),
+          attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}),
+        Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	  attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'}),
 	grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
-		streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
+		streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr}),
+        Esri_WorldTopoMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+         attribution: 'Tiles &copy; Esri &mdash; Esri the GIS User Community'});
 
 	var map = L.map('map', {
 		center: [{{ clat }}, {{ clon }}],
 		zoom: 6,
-		layers: [Esri_WorldPhysical, strain]
+		layers: [Esri_WorldTopoMap, strain]
 	});
 
 	var southWest = new L.LatLng({{ grd.y_min }}, {{ grd.x_min }}),
@@ -756,7 +747,6 @@ function includeHTML() {
         map.fitBounds(bounds, {padding: [5, 5]});
         
 	var baseLayers = {
-		"Velocities": vel,
 		"Principal Axes": strain,
 		"Shear Strain": shear,
 		"Dilatation": dilatation,
