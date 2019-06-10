@@ -32,6 +32,7 @@
 <!-- LEAFLET APP -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<!--  <script type="text/javascript" src="{{ url_for('static', filename='js/leaflet.filelayer.js') }}"></script>-->
 
 <script>
   $(document).ready(function() {
@@ -375,7 +376,6 @@ function includeHTML() {
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Esri the GIS User Community'}).addTo(map);
 
-	
 </script>
 <script>
 includeHTML();
