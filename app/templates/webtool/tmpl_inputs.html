@@ -376,6 +376,8 @@ function includeHTML() {
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Esri the GIS User Community'}).addTo(map);
 
+//   Add scale Bar
+  L.control.scale().addTo(map);
 </script>
 <script>
 includeHTML();
