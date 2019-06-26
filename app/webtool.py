@@ -180,7 +180,7 @@ class get_strain_param:
             self.dilat   = float(l[22])
             self.ddilat  = float(l[23])
             self.secinv  = float(l[24])
-            #self.dsecinv = float(l[25])
+            self.dsecinv = float(l[25])
         except:
             print('[DEBUG] Invalid Station instance constrution.')
             print('[DEBUG] Input line \"{}\"'.format(input_line.strip()))
@@ -212,7 +212,7 @@ class get_strain_param:
         self.dilat   = None
         self.ddilat  = None
         self.secinv  = None
-        #self.dsecinv = None
+        self.dsecinv = None
 
 @app.route('/results', methods=['GET', 'POST'])
 def webtool_results():
@@ -423,7 +423,7 @@ def webtool_results():
     ##  Open file to write Strain Tensor estimates; write the header
     fout = open('/var/www/html/StrainWebTool/app/strain_info.dat', 'w')
     #vprint('[DEBUG] Strain info written in file: {}'.format('strain_info.dat'))
-    fout.write('{:^9s} {:^9s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s}\n'.format('Latitude', 'Longtitude', 'vx+dvx', 'vy+dvy', 'w+dw', 'exx+dexx', 'exy+dexy', 'eyy+deyy', 'emax+demax', 'emin+demin', 'shr+dshr', 'azi+dazi', 'dilat+ddilat', 'sec. invariant'))
+    fout.write('{:^9s} {:^9s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s}\n'.format('Latitude', 'Longtitude', 'vx+dvx', 'vy+dvy', 'w+dw', 'exx+dexx', 'exy+dexy', 'eyy+deyy', 'emax+demax', 'emin+demin', 'shr+dshr', 'azi+dazi', 'dilat+ddilat', 'sec. invvariant+dsec.inv'))
     fout.write('{:^9s} {:^9s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s}\n'.format('deg', 'deg', 'mm/yr', 'mm/yr', 'deg/Myr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'deg.', 'nstrain/yr', 'nstrain/yr'))
     
     ##  Compute only one Strain Tensor, at the region's barycenter; then exit.

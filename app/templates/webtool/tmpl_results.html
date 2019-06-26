@@ -470,7 +470,7 @@ function includeHTML() {
           <td>{{ str.shr }} &plusmn; {{ str.dshr }}</td>
 <!--           <td>{{ str.dshr }}</td> -->
           <td>{{ str.dilat }} &plusmn; {{ str.ddilat }}</td>
-          <td>{{ str.secinv }}</td>
+          <td>{{ str.secinv }} &plusmn; {{ str.dsecinv }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -532,7 +532,7 @@ function includeHTML() {
   
   var strinfo=[
     {% for str in strain_info %}
-      [ {{ str.lat }}, {{ str.lon }}, {{ str.emax }}, {{ str.demax }}, {{ str.emin }}, {{ str.demin }}, {{ str.azi }}, {{ str.dazi }}, {{ str.w }}, {{ str.dw }}, {{ str.shr }}, {{ str.dshr }}, {{ str.dilat }}, {{ str.ddilat }}, {{ str.secinv }} ],
+      [ {{ str.lat }}, {{ str.lon }}, {{ str.emax }}, {{ str.demax }}, {{ str.emin }}, {{ str.demin }}, {{ str.azi }}, {{ str.dazi }}, {{ str.w }}, {{ str.dw }}, {{ str.shr }}, {{ str.dshr }}, {{ str.dilat }}, {{ str.ddilat }}, {{ str.secinv }} , {{ str.dsecinv }}],
     {% endfor %}
   ];
   
@@ -609,7 +609,7 @@ function includeHTML() {
     '</b><br>  W = ' + strinfo[i][8] + '&plusmn;' + strinfo[i][9] +
     '<br>  Shear = ' + strinfo[i][10] + '&plusmn;' + strinfo[i][11] +
     '<br>  Dilat. = ' + strinfo[i][12] + '&plusmn;' + strinfo[i][13] +
-    '<br>  2nd inv. = ' + strinfo[i][14] + '&plusmn;'
+    '<br>  2nd inv. = ' + strinfo[i][14] + '&plusmn;' + strinfo[i][15]
     )
     .addTo(strain);
   }
@@ -629,7 +629,7 @@ function includeHTML() {
     '</b><br>  W = ' + strinfo[i][8] + '&plusmn;' + strinfo[i][9] +
     '<br>  Shear = ' + strinfo[i][10] + '&plusmn;' + strinfo[i][11] +
     '<br>  Dilat. = ' + strinfo[i][12] + '&plusmn;' + strinfo[i][13] +
-    '<br>  2nd inv. = ' + strinfo[i][14]
+    '<br>  2nd inv. = ' + strinfo[i][14] + '&plusmn;' + strinfo[i][15]
     )
     .addTo(strain);
   }
@@ -679,7 +679,7 @@ function includeHTML() {
     '<br>  W = ' + strinfo[i][8] + '&plusmn;' + strinfo[i][9] +
     '<b><br>  Shear = ' + strinfo[i][10] + '&plusmn;' + strinfo[i][11] +
     '</b><br>  Dilat. = ' + strinfo[i][12] + '&plusmn;' + strinfo[i][13] +
-    '<br>  2nd inv. = ' + strinfo[i][14]
+    '<br>  2nd inv. = ' + strinfo[i][14] + '&plusmn;' + strinfo[i][15]
     )
     .addTo(shear);
   }
@@ -697,7 +697,7 @@ function includeHTML() {
     '<br>  W = ' + strinfo[i][8] + '&plusmn;' + strinfo[i][9] +
     '<br>  Shear = ' + strinfo[i][10] + '&plusmn;' + strinfo[i][11] +
     '<b><br>  Dilat. = ' + strinfo[i][12] + '&plusmn;' + strinfo[i][13] +
-    '</b><br>  2nd inv. = ' + strinfo[i][14]
+    '</b><br>  2nd inv. = ' + strinfo[i][14] + '&plusmn;' + strinfo[i][15]
     )
     .addTo(dilatation);
   }
@@ -715,7 +715,7 @@ function includeHTML() {
     '<br>  W = ' + strinfo[i][8] + '&plusmn;' + strinfo[i][9] +
     '<br>  Shear = ' + strinfo[i][10] + '&plusmn;' + strinfo[i][11] +
     '<br>  Dilat. = ' + strinfo[i][12] + '&plusmn;' + strinfo[i][13] +
-    '<b><br>  2nd inv. = ' + strinfo[i][14] + '</b>'
+    '<b><br>  2nd inv. = ' + strinfo[i][14]  + '&plusmn;' + strinfo[i][15] + '</b>'
     )
     .addTo(secinv);
   }
