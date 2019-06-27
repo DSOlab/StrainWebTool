@@ -44,7 +44,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'vel'])
 #y_mean = 0
 #NoSta = 0
 #input_filename = ""
-Version = 'StrainTensor.py Version: 1.0-rc5.0'
+Version = 'StrainTensor.py Version: 1.0beta1'
 
 
 @app.route('/website')
@@ -53,7 +53,7 @@ def website():
 
 @app.route('/')
 def webtool():
-    return render_template('webtool/index.html')
+    return render_template('webtool/tmpl_inputs.html', rooturl_folder=ROOTURL_FOLDER)
 
 @app.route('/inputs')
 def webtool_inputs():
