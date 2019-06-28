@@ -24,13 +24,13 @@ from scipy.spatial import Delaunay
 #from math import sqrt, radians, sin, cos, atan2, pi, asin
 
 ############################################## Flask
-from flask import Flask, flash, request, redirect, url_for, render_template, send_file
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file, session
 from flask_restful import reqparse
 
 #from werkzeug import secure_filename
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
-
+app.secret_key = 'sadjfgn349587g'
 app.debug = True
 
 # set rooturl_folder , if wsgi module used for apache or set '' if you run local server
@@ -39,13 +39,7 @@ ROOT_FOLDER=os.getcwd()
 UPLOAD_FOLDER = '/uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'vel'])
 
-#sta_lst_ell = []
-#x_mean = 0
-#y_mean = 0
-#NoSta = 0
-#input_filename = ""
 Version = 'StrainTensor.py Version: 1.0beta1'
-
 
 @app.route('/website')
 def website():
@@ -61,12 +55,6 @@ def webtool_inputs():
 
 @app.route('/parameters', methods=['GET', 'POST'])
 def webtool_params():
-
-    global NoSta
-    global input_filename
-    #global x_mean
-    #global y_mean
-    global sta_list_ell
     sta_list_ell = []
     x_mean = 0
     y_mean = 0
@@ -80,6 +68,10 @@ def webtool_params():
     for sta in stations:
         sta_list_ell.append(sta)
 
+    with open('/var/www/html/StrainWebTool/app/temp.dat', 'wb') as fout:
+        for idx, sta in enumerate(sta_list_ell):
+            fout.write('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f} {:+7.3f} {:+7.3f} \n'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03, sta.rho*1e03, sta.t ))
+
     sta_list_ell_tmpl = deepcopy(sta_list_ell)
     for idx, sta in enumerate(sta_list_ell_tmpl):
         sta_list_ell_tmpl[idx].lon = round(degrees(sta.lon), 3)
@@ -90,11 +82,9 @@ def webtool_params():
         sta_list_ell_tmpl[idx].se = round(sta.se*1.e3, 1)
         sta_list_ell_tmpl[idx].rho = round(sta.rho*1.e3, 1)
         sta_list_ell_tmpl[idx].t = round(sta.t, 2)
-    input_filename=file.filename
+    session['input_filename'] = file.filename
     NoSta = format(len(stations))
-    #x_mean, y_mean = barycenter(stations)
-    #x_mean = degrees(x_mean)
-    #y_mean = degrees(y_mean)
+    session['NoSta'] = format(len(stations))
     grd = pystrain.grid.generate_grid(sta_list_ell, 0.5 , 0.5, True)
     x_mean = (grd.x_min + grd.x_max)/2.
     y_mean = (grd.y_min + grd.y_max)/2.
@@ -116,13 +106,9 @@ def cut_rectangle(xmin, xmax, ymin, ymax, sta_lst, sta_list_to_degrees=False):
 
 def write_station_info(sta_lst, filename=('/var/www/html/StrainWebTool/app/station_info.dat')):
     with open(filename, 'wb') as fout:
-        #print('{:^10s} {:^10s} {:^10s} {:7s} {:7s} {:7s} {:7s}'.format('Station', 'Longtitude', 'Latitude', 'Ve', 'Vn', 'sVe', 'sVn'), file=fout)
-        #print('{:^10s} {:^10s} {:^10s} {:7s} {:7s} {:7s} {:7s}'.format('', 'deg.', 'deg', 'mm/yr', 'mm/yr', 'mm/yr', 'mm/yr'), file=fout)
         fout.write('{:^10s} {:^10s} {:^10s} {:7s} {:7s} {:7s} {:7s} \n'.format('Station', 'Longtitude', 'Latitude', 'Ve', 'Vn', 'sVe', 'sVn'))
         fout.write('{:^10s} {:^10s} {:^10s} {:7s} {:7s} {:7s} {:7s} \n'.format('', 'deg.', 'deg', 'mm/yr', 'mm/yr', 'mm/yr', 'mm/yr'))
         for idx, sta in enumerate(sta_lst):
-            #print('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f}'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03), file=fout)
-            #print('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f}'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03))
             fout.write('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f} \n'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03))
     return
 
@@ -149,10 +135,7 @@ class get_strain_param:
                 if key in station_member_names:
                     setattr(self, key, val)
     
-    
-    
     def init_from_ascii_line(self, input_line):
-
         l = input_line.split()
         try:
             self.lat     = float(l[0])
@@ -216,12 +199,16 @@ class get_strain_param:
 
 @app.route('/results', methods=['GET', 'POST'])
 def webtool_results():
-    global NoSta
-    global input_filename
-    #global x_mean
-    #global y_mean
-    global sta_list_ell
-    
+    NoSta = session.get('NoSta')
+    input_filename = session.get('input_filename')
+    sta_list_ell = []
+    with open('/var/www/html/StrainWebTool/app/temp.dat', 'r') as file:
+        stations = []
+        for line in file.readlines():
+            stations.append(Station(line))
+        for sta in stations:
+            sta_list_ell.append(sta)
+
     if request.method == 'POST':
         lonmin = 0#request.form['lonmin']
         lonmax = 0#request.form['lonmax']
@@ -229,7 +216,7 @@ def webtool_results():
         latmax = 0#request.form['latmax']
 
         parser = reqparse.RequestParser()
-        
+
         if request.form.get('shen'):
             parser.add_argument('shen',
                 location='form',
