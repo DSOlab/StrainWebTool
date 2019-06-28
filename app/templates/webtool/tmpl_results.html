@@ -788,6 +788,32 @@ function includeHTML() {
 // 		}).addTo(map);
 $('<h6 id="mapTitle"><b>Strain parameters</b></h6>').insertBefore('div.leaflet-control-layers-base');
 
+//  Add Watermark
+
+L.Control.Watermark = L.Control.extend({
+        onAdd: function(map) {
+                var img = L.DomUtil.create('img');
+
+                img.src = '../../StrainWebTool/static/img/SWTlogo.png';
+                img.style.width = '200px';
+
+                return img;
+        },
+
+        onRemove: function(map) {
+// Nothing to do here
+        }
+});
+
+L.control.watermark = function(opts) {
+        return new L.Control.Watermark(opts);
+}
+
+L.control.watermark({ position: 'bottomright' }).addTo(map);
+
+
+
+
 </script>
 
 </div><!--end of container div  -->
