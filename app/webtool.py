@@ -27,13 +27,16 @@ from scipy.spatial import Delaunay
 from flask import Flask, flash, request, redirect, url_for, render_template, send_file, session
 from flask_restful import reqparse
 
-#from werkzeug import secure_filename
-
+##  START applicaion
 app = Flask(__name__, template_folder="templates", static_folder="static")
 app.secret_key = 'sadjfgn349587g'
 app.debug = True
+##  disable cache for data files
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
-# set rooturl_folder , if wsgi module used for apache or set '' if you run local server
+
+
+##  set rooturl_folder , if wsgi module used for apache or set '' if you run local server
 ROOTURL_FOLDER='/StrainWebTool'
 ROOT_FOLDER=os.getcwd()
 UPLOAD_FOLDER = '/uploads'
@@ -51,6 +54,16 @@ def webtool():
 
 @app.route('/inputs')
 def webtool_inputs():
+    if os.path.isfile('/var/www/html/StrainWebTool/app/temp.dat') == True :
+        os.remove('/var/www/html/StrainWebTool/app/temp.dat')
+    if os.path.isfile('/var/www/html/StrainWebTool/app/strain_info.dat') == True :
+        os.remove('/var/www/html/StrainWebTool/app/strain_info.dat')
+    if os.path.isfile('/var/www/html/StrainWebTool/app/strain_stats.dat') == True :
+        os.remove('/var/www/html/StrainWebTool/app/strain_stats.dat')
+    if os.path.isfile('/var/www/html/StrainWebTool/app/station_info.dat') == True :
+        os.remove('/var/www/html/StrainWebTool/app/station_info.dat')
+    if os.path.isfile('/var/www/html/StrainWebTool/app/delaunay_info.dat') == True :
+        os.remove('/var/www/html/StrainWebTool/app/delaunay_info.dat')
     return render_template('webtool/tmpl_inputs.html', rooturl_folder=ROOTURL_FOLDER)
 
 @app.route('/parameters', methods=['GET', 'POST'])

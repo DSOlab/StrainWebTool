@@ -478,7 +478,7 @@ function includeHTML() {
       </tbody>
     </table>
   </div>
-  <div class="tab-pane fade" id="pills-statistics" role="tabpanel" aria-labelledby="pills-statistics-tab">...</div>
+  <div class="tab-pane fade" id="pills-statistics" role="tabpanel" aria-labelledby="pills-statistics-tab">Not available yet!!</div>
   
   <div class="tab-pane fade" id="pills-download" role="tabpanel" aria-labelledby="pills-download-tab">
     <table class="table table-striped">
@@ -503,12 +503,13 @@ function includeHTML() {
           <th> Statistics </th>
           <th><a href="{{ rooturl_folder }}/outputs/strain_stats.dat" target="_blank">strain_stats.dat</a></th>
         </tr>
+        {% if args.method == 'veis' %}
         <tr>
           <th> 4. </th>
-          <th>Delaunay Triagnles</th>
+          <th>Delaunay Triangles</th>
           <th><a href="{{ rooturl_folder }}/outputs/delaunay_info.dat" target="_blank">delaunay_info.dat</a></th>
         <tr>
-        
+        {% endif %}
       </tbody>
     </table>
   </div>
