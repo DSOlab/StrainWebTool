@@ -408,10 +408,11 @@ L.control.watermark({ position: 'bottomright' }).addTo(map);
 
 
 L.easyPrint({
-	title: 'My awesome print button',
+	title: 'Print button',
 	position: 'topleft',
 	elementsToHide: 'p, h2',
-	sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
+	sizeModes: ['A4Landscape', 'A4Portrait'],
+	hideControlContainer: false
 }).addTo(map);
 </script>
 <script>
