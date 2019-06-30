@@ -154,29 +154,65 @@ class get_strain_param:
             self.lat     = float(l[0])
             self.lon     = float(l[1])
             self.vx      = float(l[2])
-            self.dvx     = float(l[3])
+            try:
+                self.dvx     = float(l[3])
+            except ValueError:
+                self.dvx     = str(l[3])
             self.vy      = float(l[4])
-            self.dvy     = float(l[5])
+            try:
+                self.dvy     = float(l[5])
+            except ValueError:
+                self.dvy     = str(l[5])
             self.w       = float(l[6])
-            self.dw      = float(l[7])
+            try:
+                self.dw     = float(l[7])
+            except ValueError:
+                self.dw     = str(l[7])
             self.exx     = float(l[8])
-            self.dexx    = float(l[9])
+            try:
+                self.dexx     = float(l[9])
+            except ValueError:
+                self.dexx     = str(l[9])
             self.exy     = float(l[10])
-            self.dexy    = float(l[11])
+            try:
+                self.dexy     = float(l[11])
+            except ValueError:
+                self.dexy     = str(l[11])
             self.eyy     = float(l[12])
-            self.deyy    = float(l[13])
+            try:
+                self.deyy     = float(l[13])
+            except ValueError:
+                self.deyy     = str(l[13])
             self.emax    = float(l[14])
-            self.demax   = float(l[15])
+            try:
+                self.demax     = float(l[15])
+            except ValueError:
+                self.demax     = str(l[15])
             self.emin    = float(l[16])
-            self.demin   = float(l[17])
+            try:
+                self.demin     = float(l[17])
+            except ValueError:
+                self.demin     = str(l[17])
             self.shr     = float(l[18])
-            self.dshr    = float(l[19])
+            try:
+                self.dshr     = float(l[19])
+            except ValueError:
+                self.dshr     = str(l[19])
             self.azi     = float(l[20])
-            self.dazi    = float(l[21])
+            try:
+                self.dazi     = float(l[21])
+            except ValueError:
+                self.dazi     = str(l[21])
             self.dilat   = float(l[22])
-            self.ddilat  = float(l[23])
+            try:
+                self.ddilat     = float(l[23])
+            except ValueError:
+                self.ddilat     = str(l[23])
             self.secinv  = float(l[24])
-            self.dsecinv = float(l[25])
+            try:
+                self.dsecinv     = float(l[25])
+            except ValueError:
+                self.dsecinv     = str(l[25])
         except:
             print('[DEBUG] Invalid Station instance constrution.')
             print('[DEBUG] Input line \"{}\"'.format(input_line.strip()))

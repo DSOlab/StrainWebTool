@@ -534,9 +534,15 @@ function includeHTML() {
   ];
   
   var strinfo=[
-    {% for str in strain_info %}
-      [ {{ str.lat }}, {{ str.lon }}, {{ str.emax }}, {{ str.demax }}, {{ str.emin }}, {{ str.demin }}, {{ str.azi }}, {{ str.dazi }}, {{ str.w }}, {{ str.dw }}, {{ str.shr }}, {{ str.dshr }}, {{ str.dilat }}, {{ str.ddilat }}, {{ str.secinv }} , {{ str.dsecinv }}],
-    {% endfor %}
+    {% if args.method == 'Shen' %}
+      {% for str in strain_info %}
+        [ {{ str.lat }}, {{ str.lon }}, {{ str.emax }}, {{ str.demax }}, {{ str.emin }}, {{ str.demin }}, {{ str.azi }}, {{ str.dazi }}, {{ str.w }}, {{ str.dw }}, {{ str.shr }}, {{ str.dshr }}, {{ str.dilat }}, {{ str.ddilat }}, {{ str.secinv }} , {{ str.dsecinv }} ],
+      {% endfor %}
+    {% else %}
+      {% for str in strain_info %}
+        [ {{ str.lat }}, {{ str.lon }}, {{ str.emax }}, 0, {{ str.emin }}, 0, {{ str.azi }}, 0, {{ str.w }}, 0, {{ str.shr }}, 0, {{ str.dilat }}, 0, {{ str.secinv }}, 0 ],
+      {% endfor %}
+    {% endif %}
   ];
   
   var stations = L.layerGroup();
