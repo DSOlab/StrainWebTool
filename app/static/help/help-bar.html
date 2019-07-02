@@ -15,7 +15,20 @@
               </button>
             </div>
             <div class="modal-body">
-              ...
+<p align="left">StrainWebTool is a web application developed to estimate strain tensor parameters using StrainTool Software.  The development of the application was based on <a href="http://fl
+ask.pocoo.org/" target="_blank" >Flask</a> microframework for Python. <a href="https://getbootstrap.com/" target="_blank" >Bootstrap</a> open source toolkit was used to enable a responsive web design and <a href="https://leafletjs.com/" target="_blank"> Leaflet</a> open-source JavaScript library for producing interactive maps.</p>
+
+<h4 align="left">Input File</h4>
+<p align="left">
+To perform the computations, StrainWebTool needs an input file, that holds input data. Usually, this implies a list of GPS/GNSS stations with their ellipsoidal coordinates (aka longitude and latitude) and their respective tectonic velocities (usually estimated using position time-series) along with the corresponding standard deviation values. The format of these files, should follow the convention:</p>
+<pre id="block-samp"<samp>
+        station-name  longtitude   latitude   Ve     Vn    SigmaVe  SigmaVn  Sne  time-span 
+         string           deg.        deg.   mm/yr  mm/yr   mm/yr    mm/yr    /   dec. years</samp></pre>
+<p align="left">
+Station coordinates are provided in longitude/latitude pairs in decimal degrees. Velocities and velocity standard deviations are provided in mm per years (mm/yr). Sne is the correlation coefficient between East and North velocity components and time-span is the total time span of the station timeseries in decimal degrees. Note that at his point the last two columns (aka Sne and time-span) are not used, so they could have random values.<br>
+There are no strict formatting rules on how the individual elements should be printed (i.e. how many fields, decimal places, etc.). The only condition is that fields are separated by whitespace(s). 
+Note that the input file format is identical to what is used in StrainTool Software (Anastasiou et al., 2019 ); users can browse its dedicated web page (<a href="https://dsolab.github.io/StrainTool/" target="_blank">https://dsolab.github.io/StrainTool/</a>) for a more detailed description.
+</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -62,7 +75,7 @@
               </button>
             </div>
             <div class="modal-body">
-              ...
+              <p align="left">For the results visualization, the application uses an active map developed using the Leaflet javascript library. In this map, user can choose to plot principal axes, shear strain, dilatation or second invariant results. In addition, user can add as separate layer the stations and their respective velocities used to estimate strain tensors</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

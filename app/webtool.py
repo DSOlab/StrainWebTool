@@ -42,8 +42,10 @@ ROOTURL_FOLDER='/StrainWebTool'
 ##  Set application;s root folder, for local server use function os.getcwd()
 ##+ For WSGI module use absolute path to the folder
 ROOT_FOLDER='/var/www/html/StrainWebTool/app/'  #os.getcwd()
-UPLOAD_FOLDER = '/uploads'
-ALLOWED_EXTENSIONS = set(['txt', 'vel'])
+
+## Upload files, not in use yet
+# UPLOAD_FOLDER = '/uploads'
+# ALLOWED_EXTENSIONS = set(['txt', 'vel'])
 
 ## path to files
 f_temp = os.path.join(ROOT_FOLDER, 'temp.dat')
@@ -52,7 +54,8 @@ f_stats = os.path.join(ROOT_FOLDER,'strain_stats.dat')
 f_deltr = os.path.join(ROOT_FOLDER,'delaunay_info.dat')
 f_station = os.path.join(ROOT_FOLDER,'station_info.dat')
 
-Version = 'StrainTensor.py Version: 1.0beta1'
+## Varsion of StrainTesnor used
+Version = 'StrainTensor.py Version: 1.0'
 
 @app.route('/website')
 def website():
@@ -137,7 +140,7 @@ def write_station_info(sta_lst, filename=(f_station)):
 
 def print_model_info(fout, cmd, clargs):
     fout.write('{:} \n'.format(Version))
-    fout.write('Command used:\n\t{:}\n'.format(' '.join(cmd)))
+    fout.write('Module used:\n\t{:}\n'.format(' '.join(cmd)))
     fout.write('Run at: {:}\n'.format(datetime.now().strftime('%c')))
     fout.write('Command line switches/options parsed:\n')
     for key in clargs:
@@ -405,7 +408,7 @@ def webtool_results():
     ## If needed, open a file to write model info and statistics
     #stat_path=os.path.join(os.getcwd() + '/strain_stats.dat')
     fstats = open(f_stats, 'w') if args.generate_stats else None
-    if fstats: print_model_info(fstats, sys.argv, dargs)
+    if fstats: print_model_info(fstats, sys.argv, args)
 
     ##  If a region is passed in, resolve it.
     ##+ If cutting out-of-limits stations option is set, or method is veis, then 
