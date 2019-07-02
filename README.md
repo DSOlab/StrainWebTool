@@ -1,5 +1,5 @@
 # StrainWebTool
-Online Portal for StrainTool software 
+Online Portal for [StrainTool](https://github.com/DSOlab/StrainTool) software 
 
 - estimate strain tensor parameters using different methods.
 
@@ -26,14 +26,14 @@ StrainWebTool is a web application developed to estimate strain tensor parameter
 ## Structure and background
 
 The application consists of three basic parts:
-1. webtool.py: the main python source code file, that includes all necessary functions utilizing StrainTool software and enables the  building of HTML templates.
+1. `webtool.py`: the main python source code file, that includes all necessary functions utilizing StrainTool software and enables the  building of HTML templates.
 2. static files: a folder including static files such as headers, footers, images, javascript source code files.
 3. templates: a folder including the main templates for the application.
 
 Three different HTML templates have been formulated to implement the application:
-- tmpl_inputs.html is the template where the user uploads their input files.
-- tmpl_params.html is the template where the user chooses the parameters that StrainTool will later on use to estimate strain tensor parameters
-- tmpl_results.html is the template where the results are presented. The user can download result files and see the results visualized on an interactive map.
+- `tmpl_inputs.html` is the template where the user uploads their input files.
+- `tmpl_params.html` is the template where the user chooses the parameters that StrainTool will later on use to estimate strain tensor parameters
+- `tmpl_results.html` is the template where the results are presented. The user can download result files and see the results visualized on an interactive map.
 Each template consists of three basic columns. The first column contains all input forms for the parameters needed to estimate strain tensors. The second column contains the plot tools and options to generate GMT maps;  these however are not active in the current beta version. The third column is where the interactive map is placed and the results are visualized
 
 ## Installation
@@ -85,7 +85,7 @@ app (main application)
 
 ### Input Files
 
-To perform the computations, StrainWebTool needs an input file, that holds input data (Figure 2). Usually, this implies a list of GPS/GNSS stations with their ellipsoidal coordinates (aka longitude and latitude) and their respective tectonic velocities (usually estimated using position time-series) along with the corresponding standard deviation values. The format of these files, should follow the convention:
+To perform the computations, StrainWebTool needs an input file, that holds input data. Usually, this implies a list of GPS/GNSS stations with their ellipsoidal coordinates (aka longitude and latitude) and their respective tectonic velocities (usually estimated using position time-series) along with the corresponding standard deviation values. The format of these files, should follow the convention:
 
 
 <pre id="block-samp" <samp="">        station-name  longtitude   latitude   Ve     Vn    SigmaVe  SigmaVn  Sne  time-span 
@@ -104,7 +104,7 @@ The first part is  the selection of the method for strain estimation. If 'shen' 
 In the second part, user specifies the region as a rectangle and x-axis/y-axis grid steps. Any station falling outside this region will be omitted.
 In the third part, the user selects the interpolation model parameters for ‘shen’ method. The options are:
 
-- Wt: Let W=Σ_i*G_i, the total reweighting coefficients of the data, and let Wt be the threshold of W. For a given Wt, the smoothing constant D is determined by Wd=Wt . It should be noted that W is a function of the interpolation coordinate, therefore for the same Wt assigned, D varies spatially based on the in situ data strength; that is, the denser the local data array is, the smaller is D, and vice versa. Default is Wt=24.
+- Wt: Let W=Σi*Gi, the total reweighting coefficients of the data, and let Wt be the threshold of W. For a given Wt, the smoothing constant D is determined by Wd=Wt . It should be noted that W is a function of the interpolation coordinate, therefore for the same Wt assigned, D varies spatially based on the in situ data strength; that is, the denser the local data array is, the smaller is D, and vice versa. Default is Wt=24.
 - D min: This is the lower limit for searching for an optimal d-param value. Unit is km. Default is dmin=1km.
 - D max: This is the upper limit for searching for an optimal d-param value. Unit is km. Default is dmax=500km.
 - D step: This is the step size for searching for an optimal d-param value. Unit is km. Default is dstep=2km.
@@ -139,10 +139,11 @@ Parameters and arguments used for estimation of strain tensors.
 --statistics--
 Longtitude  Latitude  # stations D (optimal)  CutOff dis.     Sigma
  deg.       deg.        #           Km           #            / 
-              </pre>
+ </pre>
 
 ## Active Map visualize strain tensor results
 
+For the results visualization, the application uses an active map developed using the Leaflet javascript library. In this map, user can choose to plot principal axes, shear strain, dilatation or second invariant results. In addition, user can add as separate layer the stations and their respective velocities used to estimate strain tensors.
 
 ## Contributing
 
