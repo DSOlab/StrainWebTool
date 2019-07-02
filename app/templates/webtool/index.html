@@ -1,0 +1,593 @@
+<!doctype html>
+<meta charset="UTF-8"> 
+<html>
+
+<head>
+  <title>StrainWebTool</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <!-- add after bootstrap.min.css -->
+  <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.css">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
+  <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+  <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>    
+  <!-- github icon -->
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  <!-- add after bootstrap.min.js -->
+  <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
+<!--     <link rel="stylesheet" type="text/css" href="../static/style/webtool.css" /> -->
+
+<style>
+.container {
+  margin: 15px auto;
+  display: flex;
+  }
+#chart_div {
+  width: 80%;
+  }
+#dparam_div {
+  width: 20%;
+  vertical-align: middle;
+  }
+#chart_div2 {
+  width: 80%;
+  }
+#inline-code {
+  background-color: #eee;
+  display: inline;
+  padding: 10px;
+  }
+#block-code {
+  background-color: #eee;
+  //border: 1px solid #999;
+  //display: block;
+  //padding: 20px;
+  //white-space: pre-wrap;
+  //word-wrap: break-word;
+  }
+#block-samp {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  }
+.page-header-p {
+  font-family: verdana, "Lucida Console", Monospace;
+  font-size:3vw;
+  max-height: 100%;
+  }
+button{
+  margin: 13px;
+	box-shadow: 1px 2px 5px #000000; 
+	}
+a.buttons {
+	-webkit-font-smoothing: antialiased;
+	background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/arrow-down.png) no-repeat;
+	font-weight: normal;
+	color: #fff;
+/* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
+	padding: 2px 2px 2px 22px;
+	height: 30px;
+	}
+
+a.github {
+  background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/octocat-small.png) no-repeat 1px;
+  }
+
+a.buttons:hover {
+  color: #fff;
+  text-decoration: none;
+  }
+
+a.run_buttons {
+  -webkit-font-smoothing: antialiased;
+	background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/arrow-down.png) no-repeat;
+	font-weight: normal;
+	color: #fff;
+/* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
+	padding: 2px 2px 2px 22px;
+	height: 30px;
+	}
+a.run_buttons:hover {
+	color: #fff;
+	text-decoration: none;
+}
+	
+	
+	
+.selected {
+  opacity: 1
+}
+.unselected {
+  opacity: 0.5
+}
+.map {
+  height: 100%;
+  width: 100%;
+  }
+</style>
+<script>
+  $(document).ready(function() {
+  $('.sev_check').each(function() {
+//     $(this).addClass('unselected');
+  });
+  $('.sev_check').on('click', function() {
+//     $(this).toggleClass('unselected');
+//     $(this).toggleClass('selected');
+  $('.sev_check').not(this).prop('checked', false);
+//     $('.sev_check').not(this).removeClass('selected');
+//     $('.sev_check').not(this).addClass('unselected');
+    });
+  });
+</script>
+
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid" style="maxheight: 15%; background-color: #99ccff;"> <!--#e6f2ff-->
+  <div class="row row-eq-height" align="center">
+    <div class="col-md-3" >
+      <div align="left">
+        <div class="col-md-1"><a href="https://github.com/DSOlab/StrainTool/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="License MIT" /></a></div>
+        <div class="col-md-2"><a href="https://travis-ci.org/DSOlab/StrainTool"><img src="https://travis-ci.org/DSOlab/StrainTool.svg?branch=travis_patch" alt="Build Status" /></a></div>
+        <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/releases/latest"><img src="https://img.shields.io/github/release/DSOlab/StrainTool.svg" alt="" /></a></div>
+<!--		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/tags"><img src="https://img.shields.io/github/tag/DSOlab/StrainTool.svg" alt="" /></a></div>
+		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/stargazers"><img src="https://img.shields.io/github/stars/DSOlab/StrainTool.svg" alt="" /></a></div>
+		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/network"><img src="https://img.shields.io/github/forks/DSOlab/StrainTool.svg" alt="" /></a></div>
+		  <div class="col-md-2"><a href="https://github.com/DSOlab/StrainTool/issues"><img src="https://img.shields.io/github/issues/DSOlab/StrainTool.svg" alt="" /></a></div>-->
+<!-- 		  <div class="col-md-2"><a href="https://doi.org/10.5281/zenodo.1297565"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1297565.svg" alt="DOI"></a></div> -->
+      </div>
+    </div>
+    <div class="col-md-6" >
+      <div class="page-header"><h1>StrainWebTool</h1></div>
+        <p> Web Tool estimate strain tensors using StrainTool Software v1.0</p>
+                <!--<small class="text-muted">Github Link</small>
+                <a class="btn btn-lg btn-social-icon btn-git" href="https://github.com/DSOlab/StrainTool" title="StrainTool on github">
+                <span class="fa fa-github"></span></a>-->
+<!--                <div align="center">
+		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/zipball/master">Download ZIP</a></button>
+		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/tarball/master">Download TAR</a></button>
+		    <button type="button" class="btn btn-success"><a class="buttons github" href="https://github.com/DSOlab/StrainTool">View on GitHub</a></button>
+                </div>-->
+    </div>
+    <div class="col-md-3">
+	    <div class="row row-eq-height align-items-center">
+        <div class="col-md-3">
+          <a href="https://www.epos-ip.org" target="blank"><img src="https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/EPOS_logo_small_591_0.png" class="img-fluid" style="max-width: 100%; height: auto; align: center;"></a>
+        </div>
+      <div class="col-md-3">
+        <a href="https://www.epos-ip.org/tcs/gnss-data-and-products" target="_blank"><img src="https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/EPOS_IP_TCS_10_b_transp.png" class="img-fluid" style="max-width: 60%; height: auto; align: center;"></a>
+      </div>
+<!--	      </div>
+                
+	      <div class="row row-eq-height">-->
+      <div class="col-md-3">
+        <a href="http://www.noa.gr/index.php?lang=en" target="_blank"><img src="https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/eaa.jpg" class="img-fluid" style="max-width: 100%; height: auto; align: center;"></a>
+      </div>
+      <div class="col-md-3">
+        <a href="http://portal.survey.ntua.gr/main/labs/hgeod/DSO/DSOmain-en.htm" target="_blank"><img src="https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" class="img-fluid" style="max-width: 100%; height: auto; align: center;"></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Header of applications-->
+<div class="row" style="background-color: #e69900">
+  <!-- columns for header row StrainTensor -->
+  <div class="col-md-2" align="center">
+    <button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModalLong">StrainTensor v1.0</button>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">StrainTensor v1.0 - HELP</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- columns for header row Plot Tools-->
+  <div class="col-md-2" align="center">
+    <button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModalLong">Plot Tools</button>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Plot Tools - HELP</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  <div class="col-md-8" align="center">
+    Active Map 
+  </div>
+</div>
+
+<!-- Main application -->
+<div class="row" style="height: 710px;">
+
+    <!-- Strain Tool arguments column -->
+    <div class="col-md-2" style="padding: 20px; background-color:  #b3d9ff;">
+        <div class="row">
+<!--             <div class="col col-md-2"></div> -->
+            <div class="col">
+                <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Upload</span>
+                </div>
+                <div class="custom-file">
+                    <input type="file" name="file" class="custom-file-input" id="file">
+                    <label class="custom-file-label" for="file">Input file</label>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!--select method sen or veis          -->
+        <div class="row">
+            <div class="col">
+                Select method:<br>
+                <!-- Shen Method-->
+                <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline1" checked>
+                <label class="custom-control-label" for="defaultInline1">Shen</label>
+                </div>
+                <!-- Veis, Delaunay triangles-->
+                <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline2">
+                <label class="custom-control-label" for="defaultInline2">Veis</label>
+                </div>
+            </div>
+        </div>
+        <!-- Set Boundary zone  -->
+        <div class="row">
+            <div class="col">
+                Set boundary zone:<br>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Lon.(λ)</span>
+                </div>
+                <input type="text" class="form-control" placeholder="minimum">
+                <input type="text" class="form-control" placeholder="maximum">
+                </div>
+                
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Lat.(φ)</span>
+                </div>
+                <input type="text" class="form-control" placeholder="minimum">
+                <input type="text" class="form-control" placeholder="maximum">
+                </div>
+                <br>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Grid-Step</span>
+                </div>
+                <input type="text" class="form-control" placeholder="X-step">
+                <input type="text" class="form-control" placeholder="Y-step">
+                </div>
+            </div>
+        </div>
+        <!-- Set Model parameters  -->
+        <div class="row">
+            <div class="col">
+                Imterpolation model parameters:<br>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="24">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="500">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="1">
+                </div>
+                OR set:<br>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="200">
+                </div>
+            </div>
+        </div>
+        <!-- Set arguments for python --> 
+        <div class="row">
+            <div class="col">
+                Special arguments:<br>
+                <!-- Default checked -->
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="cut_stations" >
+                <label class="custom-control-label" for="cut_stations">cut excess stations</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="g_statistic">
+                <label class="custom-control-label" for="g_statistic">generate statistics</label>
+                </div> 
+            </div>
+        </div>
+        <div align="center">
+            <button type="button" class="btn btn-danger"><a class="run_buttons" href="#" target="_blank">RUN</a></button>
+        </div>
+    </div>
+    <!-- Strain Tool Argments finished      -->
+    
+    <!-- Plot cases -->
+    <div class="col-md-2" style="padding: 20px; background-color:  #fff2e6;">
+        <div class="row">
+            <div class="col">
+            Strain parameters: <br>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_vel" checked>
+                <label class="custom-control-label" for="plot_vel">Velocities</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_strain" >
+                <label class="custom-control-label" for="plot_strain">Principal Axis</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_rotation" >
+                <label class="custom-control-label" for="plot_rotation">Rotational Rates</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtot" >
+                <label class="custom-control-label" for="plot_gtot">Shear Strain</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtotaxes" >
+                <label class="custom-control-label" for="plot_gtotaxes">Shear Strain Axes</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_secinv" >
+                <label class="custom-control-label" for="plot_secinv">Second Invariant</label>
+                </div>
+            Statistics:
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_stations">
+                <label class="custom-control-label" for="stat_stations">Stations per cell</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_doptimal" >
+                <label class="custom-control-label" for="stat_doptimal">D optimal</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_sigma" >
+                <label class="custom-control-label" for="stat_sigma">sigma value</label>
+                </div>
+            </div>
+ 
+        </div>
+        <div class="row">
+            <div class="col" align="center">
+                <button type="button" class="btn btn-danger"><a class="run_buttons" href="#" target="_blank">ADD to Map</a></button>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                Create GMT Maps: <br>
+                Options:<br>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_stations" >
+                <label class="custom-control-label" for="gmt_stations">plot stations</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_labels">
+                <label class="custom-control-label" for="gmt_labels">add labels</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_deltr">
+                <label class="custom-control-label" for="gmt_deltr">add delaunay triangles</label>
+                </div>
+            Scales:
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">velocities</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN">
+                </div>
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Strains</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN">
+                </div>
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Rotational</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN">
+                </div>
+            Outputs:
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Pre/Suf-fix</span>
+                </div>
+                <input type="text" class="form-control" placeholder="NaN">
+                <input type="text" class="form-control" placeholder="NaN">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" align="center">
+                <button type="button" class="btn btn-danger"><a class="run_buttons" href="#" target="_blank">GMT Map</a></button>
+            </div>
+        </div>
+    
+    </div>
+    <div class="col-md-8">
+<!--     maps -->
+    <div id="map" class="map" style="width:100%;height:100%;margin:0px;margin:0px;border:1px solid black;"></div>
+<!--     <div id="map-canvas" style="width:100%;height:100%;margin:0px;margin:0px;border:1px solid black;"></div> -->
+
+<!-- <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=11.502685546875002%2C33.61461929233378%2C29.849853515625%2C41.623655390686395&amp;layer=mapnik" style="border: 1px solid black"></iframe> -->
+     <!--Google map-->
+        <!--<div id="map-container-google-1" class="z-depth-1-half map-container" >
+        <iframe src="https://maps.google.com/maps?ll=39.1811459,23.0690025,7.13z=15&ie=UTF8&iwloc=&output=embed" frameborder="0"
+            style="border:0" allowfullscreen></iframe>
+        </div>-->
+
+<!--Google Maps-->
+
+    </div>
+    
+    
+    
+    
+   
+    </div>
+</div>
+
+
+<!-- Results -->
+<div class="row">
+    <div class="col">
+        Results
+    </div>
+</div>
+
+ 
+
+</body>
+
+
+
+<!-- Footer -->
+<footer class="page-footer font-small teal pt-4" style="background-color: #99ccff;">
+
+    <!-- Footer Text -->
+    <div class="container-fluid text-center text-md-left">
+
+      <!-- Grid row -->
+      <div class="row">
+
+        <!-- Grid column -->
+        <div class="col-md-6 mt-md-0 mt-3">
+
+          <!-- Content -->
+          <h5 class="text-uppercase font-weight-bold"></h5>
+          <p>This project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement N° 676564<br>
+
+Disclaimer: the content of this website reflects only the author’s view and the Commission is not responsible for any use that may be made of the information it contains.</p>
+
+        </div>
+        <!-- Grid column -->
+
+        <hr class="clearfix w-100 d-md-none pb-3">
+
+        <!-- Grid column -->
+        <div class="col-md-6 mb-md-0 mb-3">
+
+          <!-- Content -->
+          <h5 class="text-uppercase font-weight-bold">StrainTool software</h5>
+          <p>StrainTool allows the estimation of Strain Tensor parameters, on the earth's crust, given a list of data point, aka points on the earth along with their tectonic velocities.</p>
+          <div align="center">
+		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/zipball/master" target="_blank">Download ZIP</a></button>
+		    <button type="button" class="btn btn-danger"><a class="buttons" href="https://github.com/DSOlab/StrainTool/tarball/master" target="_blank">Download TAR</a></button>
+		    <button type="button" class="btn btn-success"><a class="buttons github" href="https://github.com/DSOlab/StrainTool" target="_blank">View on GitHub</a></button>
+          </div>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row -->
+
+    </div>
+    <!-- Footer Text -->
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3" style="background-color:  #0099ff;">© 2018 Copyright:
+      <a href="http://portal.survey.ntua.gr/main/labs/hgeod/DSO/DSOmain-en.htm"> Dionysos Satellite Observatory</a>
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <!-- Footer -->
+
+<!-- Map script for plotting   -->
+<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script  type="">
+function initialize() {
+  var myLatlng = new google.maps.LatLng(39.9808315428,23.9126069098);
+  var mapOptions = {
+    zoom: 6,
+    center: myLatlng,
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  }
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+//   var myMarkerImage = new google.maps.MarkerImage('/beta2/images/gps-icon.png');
+//   var marker = new google.maps.Marker({
+//       icon: myMarkerImage,
+//       position: myLatlng,
+//       map: map,
+//       title: 'akyr'
+//   });
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script> 
+ -->
+<!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
+    <script type="text/javascript">
+      var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([24.41, 39.82]),
+          zoom: 6
+        })
+      });
+    </script>

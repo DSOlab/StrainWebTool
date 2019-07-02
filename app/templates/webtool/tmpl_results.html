@@ -1,0 +1,844 @@
+<!doctype html>
+<meta charset="UTF-8"> 
+
+<head>
+  <title>StrainWebTool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
+
+  <!--  Bootstral loading  -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <!-- add after bootstrap.min.css -->
+  <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.css">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
+  <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+  <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+<!--  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>    -->
+  <!-- github icon -->
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<!--   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  <!-- add after bootstrap.min.js -->
+  <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"></script>
+
+  <link rel="icon" https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/DSOtrans.png" type="image/x-icon">
+<!--   custom css styles  -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/webtool.css') }}" />
+
+  <!--  LEAFLET CSS  -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+
+  <!--  LEAFLET JS  -->
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/leaflet.easyPrint.js') }}"></script>
+
+
+<!-- MARKER CLUSTER -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/leaflet.polylineDecorator.js') }}"></script>  
+  
+<!-- JS to prnt coordinates on map -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='js/Leaflet.Coordinates-0.1.5.css') }}"/>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/Leaflet.Coordinates-0.1.5.min.js') }}"></script>  
+<script>
+  $(document).ready(function() {
+  $('.sev_check').each(function() {
+//     $(this).addClass('unselected');
+  });
+  $('.sev_check').on('click', function() {
+//     $(this).toggleClass('unselected');
+//     $(this).toggleClass('selected');
+  $('.sev_check').not(this).prop('checked', false);
+//     $('.sev_check').not(this).removeClass('selected');
+//     $('.sev_check').not(this).addClass('unselected');
+    });
+  });
+</script>
+<script>
+function includeHTML() {
+  var z, i, elmnt, file, xhttp;
+  /* Loop through a collection of all HTML elements: */
+  z = document.getElementsByTagName("*");
+  for (i = 0; i < z.length; i++) {
+    elmnt = z[i];
+    /*search for elements with a certain atrribute:*/
+    file = elmnt.getAttribute("w3-include-html");
+    if (file) {
+      /* Make an HTTP request using the attribute value as the file name: */
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+          /* Remove the attribute, and call this function once more: */
+          elmnt.removeAttribute("w3-include-html");
+          includeHTML();
+        }
+      } 
+      xhttp.open("GET", file, true);
+      xhttp.send();
+      /* Exit the function: */
+      return;
+    }
+  }
+}
+</script>
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<!-- ADD header -->
+<div w3-include-html="{{ url_for('static', filename='html/header.html') }}"></div>
+
+<!-- ADD help bar -->
+<div w3-include-html="{{ url_for('static', filename='help/help-bar.html') }}"></div>
+
+<div class="container-fluid">
+
+<!-- Main application -->
+<div class="row" style="height: 750px;">
+
+    <!-- Strain Tool arguments column -->
+    <div class="col-md-2" style="padding: 20px; background-color:  #b3d9ff;">
+        <div class="row">
+<!--             <div class="col col-md-2"></div> -->
+            <div class="col">
+              <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Velocity file</b></span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ input_file }}" disabled>
+              </div>
+              <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Stations Used</b></span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ NoSta }}" disabled>
+              </div>
+            </div>
+        </div>
+        
+        <!--select method sen or veis          -->
+        <div class="row">
+            <div class="col">
+            <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Selected method</b></span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.method }}" disabled>
+              </div>
+              <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Estimated Tensors</b></span>
+                    </div>
+                  <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ NoTensors }}" disabled>
+              </div>
+<!--                 Select method:<br> -->
+<!--                 {{ method }} -->
+                <!-- Shen Method-->
+                <!--<div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline1" checked disabled>
+                <label class="custom-control-label" for="defaultInline1">Shen</label>
+                </div>-->
+                <!-- Veis, Delaunay triangles-->
+                <!--<div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input sev_check" id="defaultInline2" disabled>
+                <label class="custom-control-label" for="defaultInline2">Veis</label>
+                </div>-->
+            </div>
+        </div>
+        <!-- Set Boundary zone  -->
+        <div class="row">
+            <div class="col">
+                Boundary zone:<br>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Lon.(λ)</span>
+                </div>
+                <input type="text" class="form-control" placeholder="{{ lonmin }}" disabled>
+                <input type="text" class="form-control" placeholder="{{ lonmax }}" disabled>
+                </div>
+                
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Lat.(φ)</span>
+                </div>
+                <input type="text" class="form-control" placeholder="{{ latmin }}" disabled>
+                <input type="text" class="form-control" placeholder="{{ latmax }}" disabled>
+                </div>
+                <br>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Grid-Step</span>
+                </div>
+                <input type="text" class="form-control" placeholder="{{ x_step }}" disabled>
+                <input type="text" class="form-control" placeholder="{{ y_step }}" disabled>
+                </div>
+            </div>
+        </div>
+        <!-- Set Model parameters  -->
+        <div class="row">
+            <div class="col">
+                Imterpolation model parameters:<br>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.Wt }}" disabled>
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmin }}" disabled>
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmax }}" disabled>
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dstep }}" disabled>
+                </div>
+                OR set:<br>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.d_coef }}" disabled>
+                </div>
+            </div>
+        </div>
+        <!-- Set arguments for python --> 
+        <div class="row">
+            <div class="col">
+                Special arguments:<br>
+                <!-- Default checked -->
+                <div class="custom-control custom-checkbox">
+                {% if args.cut_outoflim_sta == False %}
+                  <input type="checkbox" class="custom-control-input" id="cut_stations"  disabled>
+                {% else %}
+                  <input type="checkbox" class="custom-control-input" id="cut_stations"  disabled checked>
+                {% endif %}
+                  <label class="custom-control-label" for="cut_stations">cut excess stations</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                {% if args.generate_stats == False %}
+                  <input type="checkbox" class="custom-control-input" id="g_statistic" disabled>
+                {% else %}
+                  <input type="checkbox" class="custom-control-input" id="g_statistic" disabled checked>
+                {% endif %}
+                <label class="custom-control-label" for="g_statistic">generate statistics</label>
+                </div> 
+            </div>
+        </div>
+        <div align="center">
+            <button type="button" class="btn btn-danger"><a class="new_calc" href="{{ rooturl_folder }}/inputs">New Calculation</a></button>
+        </div>
+    </div>
+    <!-- Strain Tool Argments finished      -->
+    
+    <!-- Plot cases -->
+    <div class="col-md-2" style="padding: 20px; background-color:  #fff2e6;">
+        <div class="row">
+            <div class="col">
+            Strain parameters: <br>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_vel" name="verify" value="N" disabled >
+                <label class="custom-control-label" for="plot_vel">Velocities</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_strain" name="verify" value="Y" disabled >
+                <label class="custom-control-label" for="plot_strain">Principal Axis</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_rotation" disabled >
+                <label class="custom-control-label" for="plot_rotation">Rotational Rates</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtot" disabled >
+                <label class="custom-control-label" for="plot_gtot">Shear Strain</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtotaxes" disabled >
+                <label class="custom-control-label" for="plot_gtotaxes">Shear Strain Axes</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_secinv" disabled >
+                <label class="custom-control-label" for="plot_secinv">Second Invariant</label>
+                </div>
+            Statistics:
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_stations" disabled >
+                <label class="custom-control-label" for="stat_stations">Stations per cell</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_doptimal" disabled >
+                <label class="custom-control-label" for="stat_doptimal">D optimal</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_sigma" disabled >
+                <label class="custom-control-label" for="stat_sigma">sigma value</label>
+                </div>
+            </div>
+ 
+        </div>
+        <div class="row">
+            <div class="col" align="center">
+                <button type="button" class="btn btn-danger" disabled>ADD to Map</button>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                Create GMT Maps: <br>
+                Options:<br>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_stations" disabled >
+                <label class="custom-control-label" for="gmt_stations">plot stations</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_labels" disabled >
+                <label class="custom-control-label" for="gmt_labels">add labels</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_deltr" disabled >
+                <label class="custom-control-label" for="gmt_deltr">add delaunay triangles</label>
+                </div>
+            Scales:
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">velocities</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN" disabled >
+                </div>
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Strains</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN" disabled >
+                </div>
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Rotational</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="NaN" disabled >
+                </div>
+            Outputs:
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Pre/Suf-fix</span>
+                </div>
+                <input type="text" class="form-control" placeholder="NaN" disabled >
+                <input type="text" class="form-control" placeholder="NaN" disabled >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" align="center">
+                <button type="button" class="btn btn-danger" disabled >GMT Map</button>
+            </div>
+        </div>
+    
+    </div>
+    <div class="col-md-8">
+<!--     maps -->
+    <div id="map" style="width:100%;height:100%;margin:0px;margin:0px;border:1px solid black;"></div>
+<!--     <div id="map-canvas" style="width:100%;height:100%;margin:0px;margin:0px;border:1px solid black;"></div> -->
+
+<!-- <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=11.502685546875002%2C33.61461929233378%2C29.849853515625%2C41.623655390686395&amp;layer=mapnik" style="border: 1px solid black"></iframe> -->
+     <!--Google map-->
+        <!--<div id="map-container-google-1" class="z-depth-1-half map-container" >
+        <iframe src="https://maps.google.com/maps?ll=39.1811459,23.0690025,7.13z=15&ie=UTF8&iwloc=&output=embed" frameborder="0"
+            style="border:0" allowfullscreen></iframe>
+        </div>-->
+
+<!--Google Maps-->
+
+    </div>
+    
+    
+    
+    
+   
+    </div>
+</div>
+
+<div class="row" style="height: 25px; background-color: #e69900"></div>
+<div class="row" style="height: 25px;">
+<div class="col-md-1"></div>
+<div class="col-md-11"><h4>Results</h4></div>
+<!-- <div class="col-md-8"></div> -->
+</div>
+<!-- Results -->
+<div class="row">
+    <div class="col">
+<!--     <h3>Results</h3> -->
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="pills-input-tab" data-toggle="pill" href="#pills-input" role="tab" aria-controls="pills-input" aria-selected="true">Input Velocities</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="pills-straininfo-tab" data-toggle="pill" href="#pills-straininfo" role="tab" aria-controls="pills-straininfo" aria-selected="false">Strain Info</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="pills-statistics-tab" data-toggle="pill" href="#pills-statistics" role="tab" aria-controls="pills-statistics" aria-selected="false">Statistics</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="pills-download-tab" data-toggle="pill" href="#pills-download" role="tab" aria-controls="pills-download" aria-selected="false">Download Files</a>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-input" role="tabpanel" aria-labelledby="pills-input-tab">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Station</th>
+              <th scope="col">Latitude (<sup>o</sup>)</th>
+              <th scope="col">Longtitude (<sup>o</sup>)</th>
+              <th scope="col">Vn (mm/yr)</th>
+              <th scope="col">Ve (mm/yr)</th>
+              <th scope="col">σVn (mm/yr)</th>
+              <th scope="col">σVe (mm/yr)</th>
+              <th scope="col">rho (/)</th>
+              <th scope="col">T (yrs)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for station in content %}
+              <tr>
+              <th scope="row">{{ station.name }}</th>
+                <td>{{ station.lat }}</td>
+                <td>{{ station.lon }}</td>
+                <td>{{ station.ve }}</td>
+                <td>{{ station.vn }}</td>
+                <td>&plusmn; {{ station.se }}</td>
+                <td>&plusmn; {{ station.sn }}</td>
+                <td> {{ station.rho }}</td>
+                <td>{{ station.t }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      <hr>
+  </div>
+  <div class="tab-pane fade" id="pills-straininfo" role="tabpanel" aria-labelledby="pills-straininfo-tab">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Lat. (<sup>o</sup>)</th>
+          <th scope="col">Lon. (<sup>o</sup>)</th>
+          <th scope="col">emax </th>
+<!--           <th scope="col">demax</th> -->
+          <th scope="col">emin</th>
+<!--           <th scope="col">demin</th> -->
+          <th scope="col">Az<sub>emax</sub> (<sup>o</sup>)</th>
+<!--           <th scope="col">dAz<sub>emax</sub> (<sup>o</sup>)</th> -->
+          <th scope="col">Rotational</th>
+<!--           <th scope="col">dw</th> -->
+          <th scope="col">Shear</th>
+<!--           <th scope="col">dShear</th> -->
+          <th scope="col">Dilatation</th>
+          <th scope="col">2nd Invariant</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for str in strain_info %}
+        <tr>
+          <td>{{ str.lat }}</td>
+          <td>{{ str.lon }}</td>
+          <td>{{ str.emax }} &plusmn; {{ str.demax }}</td>
+<!--           <td>{{ str.demax }}</td> -->
+          <td>{{ str.emin }} &plusmn; {{ str.demin }}</td>
+<!--           <td>{{ str.demin }}</td> -->
+          <td>{{ str.azi }} &plusmn; {{ str.dazi }}</td>
+<!--           <td>{{ str.dazi }}</td> -->
+          <td>{{ str.w }} &plusmn; {{ str.dw }}</td>
+<!--           <td>{{ str.dw }}</td> -->
+          <td>{{ str.shr }} &plusmn; {{ str.dshr }}</td>
+<!--           <td>{{ str.dshr }}</td> -->
+          <td>{{ str.dilat }} &plusmn; {{ str.ddilat }}</td>
+          <td>{{ str.secinv }} &plusmn; {{ str.dsecinv }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-pane fade" id="pills-statistics" role="tabpanel" aria-labelledby="pills-statistics-tab">Not available yet!!</div>
+  
+  <div class="tab-pane fade" id="pills-download" role="tabpanel" aria-labelledby="pills-download-tab">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th> No. </th> <th>Description</th> <th> file </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th> 1. </th>
+          <th> Stations used </th>
+          <th><a href="{{ rooturl_folder }}/outputs/station_info.dat" target="_blank">station_info.dat</a></th>
+        </tr>
+        <tr>
+          <th> 2. </th>
+          <th> Strain paramemeters </th>
+          <th><a href="{{ rooturl_folder }}/outputs/strain_info.dat" target="_blank">strain_info.dat</a></th>
+        </tr>
+        <tr>
+          <th> 3. </th>
+          <th> Statistics </th>
+          <th><a href="{{ rooturl_folder }}/outputs/strain_stats.dat" target="_blank">strain_stats.dat</a></th>
+        </tr>
+        {% if args.method == 'veis' %}
+        <tr>
+          <th> 4. </th>
+          <th>Delaunay Triangles</th>
+          <th><a href="{{ rooturl_folder }}/outputs/delaunay_info.dat" target="_blank">delaunay_info.dat</a></th>
+        <tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+        
+        
+        
+    </div>
+</div>
+
+ 
+<!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
+<script type="text/javascript">
+
+
+  var lonlatarray=[
+  {% for station in content %}
+    [ "{{ station.name }}", {{ station.lat }}, {{ station.lon }}, {{ station.vn }}, {{ station.ve }}, {{ station.sn }}, {{ station.se }}, {{ station.t }} ],
+  {% endfor %}
+//         [ name, 0, 0 ]
+  ];
+  
+  var strinfo=[
+    {% if args.method == 'Shen' %}
+      {% for str in strain_info %}
+        [ {{ str.lat }}, {{ str.lon }}, {{ str.emax }}, {{ str.demax }}, {{ str.emin }}, {{ str.demin }}, {{ str.azi }}, {{ str.dazi }}, {{ str.w }}, {{ str.dw }}, {{ str.shr }}, {{ str.dshr }}, {{ str.dilat }}, {{ str.ddilat }}, {{ str.secinv }} , {{ str.dsecinv }} ],
+      {% endfor %}
+    {% else %}
+      {% for str in strain_info %}
+        [ {{ str.lat }}, {{ str.lon }}, {{ str.emax }}, 0, {{ str.emin }}, 0, {{ str.azi }}, 0, {{ str.w }}, 0, {{ str.shr }}, 0, {{ str.dilat }}, 0, {{ str.secinv }}, 0 ],
+      {% endfor %}
+    {% endif %}
+  ];
+  
+  var stations = L.layerGroup();
+  for (var i = 0; i < lonlatarray.length; i++) {
+    L.circleMarker([lonlatarray[i][1], lonlatarray[i][2]], {
+                    radius: 3,
+                    fillColor: "#FFFF4D",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.4
+                })
+    .bindPopup('CODE: ' + lonlatarray[i][0] +
+    '<br>  Lat = ' + lonlatarray[i][1] +
+    '<br>  Lon = ' + lonlatarray[i][2] +
+    '<br>  Vn = ' + lonlatarray[i][3] + 
+    '<br>  Ve = ' + lonlatarray[i][4] +
+    '<br>  sn = ' + lonlatarray[i][5] +
+    '<br>  se = ' + lonlatarray[i][6] +
+    '<br>  Time = ' + lonlatarray[i][7]
+    )
+    .addTo(stations);
+  }
+  
+  
+  var vel = L.layerGroup();
+  for (var i = 0; i < lonlatarray.length; i++) {
+    var lat2 = lonlatarray[i][1] + lonlatarray[i][3]/20;
+    var lon2 = lonlatarray[i][2] + lonlatarray[i][4]/20;
+    var velline = L.polyline([[lonlatarray[i][1],lonlatarray[i][2]], [lat2, lon2]], {color: 'blue'})
+    .bindPopup('CODE: ' + lonlatarray[i][0] +
+    '<br>  Lat = ' + lonlatarray[i][1] +
+    '<br>  Lon = ' + lonlatarray[i][2] +
+    '<br>  Vn = ' + lonlatarray[i][3] + 
+    '<br>  Ve = ' + lonlatarray[i][4] +
+    '<br>  sn = ' + lonlatarray[i][5] +
+    '<br>  se = ' + lonlatarray[i][6] +
+    '<br>  Time = ' + lonlatarray[i][7]
+    )
+    .addTo(vel);
+     var velarrow = L.polylineDecorator(velline, {
+       patterns: [
+       {
+         offset: '100%',
+         repeat: 0,
+         symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true, color: 'blue'}})
+       }
+     ]
+     }).addTo(vel);
+  }
+//           var arrowHead = L.polylineDecorator(vel, {
+//             patterns: [
+//                 {
+//                     offset: '100%',
+//                     repeat: 0,
+//                     symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true}})
+//                 }
+//             ]
+//         }).addTo(map);
+  
+  var strain = L.layerGroup();
+	for (var i = 0; i < strinfo.length; i++) {
+	  var emax_lat1 = strinfo[i][0] + strinfo[i][2]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
+	  var emax_lon1 = strinfo[i][1] + strinfo[i][2]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
+    var emax_lat2 = strinfo[i][0] - strinfo[i][2]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
+    var emax_lon2 = strinfo[i][1] - strinfo[i][2]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
+    L.polyline([[emax_lat1, emax_lon1], [emax_lat2, emax_lon2]], {color: 'red'})
+    .bindPopup('Lat = ' + strinfo[i][0] +
+    '<br>  Lon = ' + strinfo[i][1] + 
+    '<br>  <b>emax = ' + strinfo[i][2] + '&plusmn;' + strinfo[i][3] +
+    '<br>  emin = ' + strinfo[i][4] + '&plusmn;' + strinfo[i][5] +
+    '<br>  Az = ' + strinfo[i][6] + '&plusmn;' + strinfo[i][7] +
+    '</b><br>  W = ' + strinfo[i][8] + '&plusmn;' + strinfo[i][9] +
+    '<br>  Shear = ' + strinfo[i][10] + '&plusmn;' + strinfo[i][11] +
+    '<br>  Dilat. = ' + strinfo[i][12] + '&plusmn;' + strinfo[i][13] +
+    '<br>  2nd inv. = ' + strinfo[i][14] + '&plusmn;' + strinfo[i][15]
+    )
+    .addTo(strain);
+  }
+
+  
+  for (var i = 0; i < strinfo.length; i++) {
+	  var emin_lat1 = strinfo[i][0] + strinfo[i][4]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
+	  var emin_lon1 = strinfo[i][1] - strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
+    var emin_lat2 = strinfo[i][0] - strinfo[i][4]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
+    var emin_lon2 = strinfo[i][1] + strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
+    L.polyline([[emin_lat1, emin_lon1], [emin_lat2, emin_lon2]], {color: 'blue'})
+    .bindPopup('Lat = ' + strinfo[i][0] +
+    '<br>  Lon = ' + strinfo[i][1] + 
+    '<br><b>  emax = ' + strinfo[i][2] + '&plusmn;' + strinfo[i][3] +
+    '<br>  emin = ' + strinfo[i][4] + '&plusmn;' + strinfo[i][5] +
+    '<br>  Az = ' + strinfo[i][6] + '&plusmn;' + strinfo[i][7] +
+    '</b><br>  W = ' + strinfo[i][8] + '&plusmn;' + strinfo[i][9] +
+    '<br>  Shear = ' + strinfo[i][10] + '&plusmn;' + strinfo[i][11] +
+    '<br>  Dilat. = ' + strinfo[i][12] + '&plusmn;' + strinfo[i][13] +
+    '<br>  2nd inv. = ' + strinfo[i][14] + '&plusmn;' + strinfo[i][15]
+    )
+    .addTo(strain);
+  }
+  
+// CREATE color palete
+  var color_pal=[ "#0066cc", "#0080ff", "#1a8cff", "#66b3ff", "#cce6ff", "#e6e6ff", "#ffebee", "#ff8080", "#ff4d4d", "#ff0000", "#cc0000"];
+  function create_scale(min,max,feature) {
+    var step = (max - min)/9;
+    var lim1 = min-0.1;
+    var lim2 = min+step;
+    for (var i = 0; i <= 9; i++) {
+    if (feature > lim1 && feature <= lim2 ) {
+      return {
+                    radius: feature*10/max,
+                    fillColor: color_pal[i],
+                    color: "#000",
+                    weight: 0,
+                    opacity: 1,
+                    fillOpacity: 1
+                }
+    }
+      var lim1 = lim1 + step;
+      var lim2 = lim1 + step;
+
+    }
+  }
+
+
+  function getCol(matrix, col){
+       var column = [];
+       for(var i=0; i<matrix.length; i++){
+          column.push(matrix[i][col]);
+       }
+       return column;
+    }
+    
+  var shear = L.layerGroup();
+  var min = Math.min.apply(Math, getCol(strinfo,10));
+  var max = Math.max.apply(Math, getCol(strinfo,10));
+  for (var i = 0; i < strinfo.length; i++) {
+    L.circleMarker([strinfo[i][0], strinfo[i][1]], create_scale(min,max,strinfo[i][10]))
+    .bindPopup('Lat = ' + strinfo[i][0] +
+    '<br>  Lon = ' + strinfo[i][1] + 
+    '<br>  emax = ' + strinfo[i][2] + '&plusmn;' + strinfo[i][3] +
+    '<br>  emin = ' + strinfo[i][4] + '&plusmn;' + strinfo[i][5] +
+    '<br>  Az = ' + strinfo[i][6] + '&plusmn;' + strinfo[i][7] +
+    '<br>  W = ' + strinfo[i][8] + '&plusmn;' + strinfo[i][9] +
+    '<b><br>  Shear = ' + strinfo[i][10] + '&plusmn;' + strinfo[i][11] +
+    '</b><br>  Dilat. = ' + strinfo[i][12] + '&plusmn;' + strinfo[i][13] +
+    '<br>  2nd inv. = ' + strinfo[i][14] + '&plusmn;' + strinfo[i][15]
+    )
+    .addTo(shear);
+  }
+  
+  var dilatation = L.layerGroup();
+  var min = Math.min.apply(Math, getCol(strinfo,12));
+  var max = Math.max.apply(Math, getCol(strinfo,12));
+  for (var i = 0; i < strinfo.length; i++) {
+    L.circleMarker([strinfo[i][0], strinfo[i][1]], create_scale(min,max,strinfo[i][12]))
+    .bindPopup('Lat = ' + strinfo[i][0] +
+    '<br>  Lon = ' + strinfo[i][1] + 
+    '<br>  emax = ' + strinfo[i][2] + '&plusmn;' + strinfo[i][3] +
+    '<br>  emin = ' + strinfo[i][4] + '&plusmn;' + strinfo[i][5] +
+    '<br>  Az = ' + strinfo[i][6] + '&plusmn;' + strinfo[i][7] +
+    '<br>  W = ' + strinfo[i][8] + '&plusmn;' + strinfo[i][9] +
+    '<br>  Shear = ' + strinfo[i][10] + '&plusmn;' + strinfo[i][11] +
+    '<b><br>  Dilat. = ' + strinfo[i][12] + '&plusmn;' + strinfo[i][13] +
+    '</b><br>  2nd inv. = ' + strinfo[i][14] + '&plusmn;' + strinfo[i][15]
+    )
+    .addTo(dilatation);
+  }
+  
+  var secinv = L.layerGroup();
+  var min = Math.min.apply(Math, getCol(strinfo,14));
+  var max = Math.max.apply(Math, getCol(strinfo,14));
+  for (var i = 0; i < strinfo.length; i++) {
+    L.circleMarker([strinfo[i][0], strinfo[i][1]], create_scale(min,max,strinfo[i][14]))
+    .bindPopup('Lat = ' + strinfo[i][0] +
+    '<br>  Lon = ' + strinfo[i][1] + 
+    '<br>  emax = ' + strinfo[i][2] + '&plusmn;' + strinfo[i][3] +
+    '<br>  emin = ' + strinfo[i][4] + '&plusmn;' + strinfo[i][5] +
+    '<br>  Az = ' + strinfo[i][6] + '&plusmn;' + strinfo[i][7] +
+    '<br>  W = ' + strinfo[i][8] + '&plusmn;' + strinfo[i][9] +
+    '<br>  Shear = ' + strinfo[i][10] + '&plusmn;' + strinfo[i][11] +
+    '<br>  Dilat. = ' + strinfo[i][12] + '&plusmn;' + strinfo[i][13] +
+    '<b><br>  2nd inv. = ' + strinfo[i][14]  + '&plusmn;' + strinfo[i][15] + '</b>'
+    )
+    .addTo(secinv);
+  }
+  
+  
+	var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+	var Esri_WorldPhysical = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
+          attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}),
+        Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	  attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'}),
+	grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+		streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr}),
+        Esri_WorldTopoMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+         attribution: 'Tiles &copy; Esri &mdash; Esri the GIS User Community'});
+
+	var map = L.map('map', {
+		center: [{{ clat }}, {{ clon }}],
+		zoom: 6,
+		layers: [Esri_WorldTopoMap, strain]
+	});
+
+	var southWest = new L.LatLng({{ grd.y_min }}, {{ grd.x_min }}),
+        northEast = new L.LatLng({{ grd.y_max }}, {{ grd.x_max }}),
+        bounds = new L.LatLngBounds(southWest, northEast);
+        map.fitBounds(bounds, {padding: [5, 5]});
+        
+	var baseLayers = {
+		"Principal Axes": strain,
+		"Shear Strain": shear,
+		"Dilatation": dilatation,
+		"2nd Invariant": secinv
+	};
+
+	var overlays = {
+		"Stations": stations,
+		"Velocities": vel
+		};
+
+	L.control.layers(baseLayers, overlays, {collapsed:false}).addTo(map);
+
+//   Add scale Bar
+  L.control.scale().addTo(map);
+
+//   L.control.coordinates().addTo(map);
+// 		//add configured controls
+// 		L.control.coordinates({
+// 			position:"bottomleft",
+// 			decimals:2,
+// 			decimalSeperator:",",
+// 			labelTemplateLat:"Latitude: {y}",
+// 			labelTemplateLng:"Longitude: {x}"
+// 		}).addTo(map);
+		L.control.coordinates({
+			position:"bottomleft",
+// 			useDMS:true,
+			labelTemplateLat:"N {y}",
+			labelTemplateLng:"E {x}",
+			useLatLngOrder:true
+		}).addTo(map);
+//     L.control.coordinates({
+// 			position:"bottomleft",
+// 			useDMS:true,
+// 			labelTemplateLat:"N {y}",
+// 			labelTemplateLng:"E {x}",
+// 			useLatLngOrder:true
+// 		}).addTo(map);
+$('<h6 id="mapTitle"><b>Strain parameters</b></h6>').insertBefore('div.leaflet-control-layers-base');
+
+//  Add Watermark
+
+L.Control.Watermark = L.Control.extend({
+        onAdd: function(map) {
+                var img = L.DomUtil.create('img');
+
+                img.src = 'static/img/SWTlogo.png';
+                img.style.width = '200px';
+
+                return img;
+        },
+
+        onRemove: function(map) {
+// Nothing to do here
+        }
+});
+
+L.control.watermark = function(opts) {
+        return new L.Control.Watermark(opts);
+}
+
+L.control.watermark({ position: 'bottomright' }).addTo(map);
+
+L.easyPrint({
+	title: 'Print button',
+	position: 'topleft',
+	elementsToHide: 'p, h2',
+	sizeModes: ['A4Landscape', 'A4Portrait'],
+	hideControlContainer: false
+}).addTo(map);
+
+</script>
+
+</div><!--end of container div  -->
+</body>
+
+
+<!-- ADD FOOTER stable html -->
+<div w3-include-html="{{ url_for('static', filename='html/footer.html') }}"></div>
+
+  
+<script>
+includeHTML();
+</script> 
+</html>

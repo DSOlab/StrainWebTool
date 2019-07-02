@@ -1,0 +1,249 @@
+/* -------------------------------------------------------------------------- */
+/* HEADER STYLE */
+/* -------------------------------------------------------------------------- */
+body {
+  max-width: 95%;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: #FAFAFA;
+
+}
+
+.container-fluid {
+  background-color:#408000;
+}
+.container {
+/*   margin: 15px auto; */
+/*   padding: 20px; */
+  display: flex;
+  }
+/*#chart_div {
+  width: 80%;
+  }*/
+/*#dparam_div {
+  width: 20%;
+  vertical-align: middle;
+  }*/
+/*#chart_div2 {
+  width: 80%;
+  }*/
+/*#inline-code {
+  background-color: #eee;
+  display: inline;
+  padding: 10px;
+  }*/
+/*#block-code {
+  background-color: #eee;
+  //border: 1px solid #999;
+  //display: block;
+  //padding: 20px;
+  //white-space: pre-wrap;
+  //word-wrap: break-word;
+  }*/
+/*#block-samp {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  }*/
+   
+.page-header-p {
+  font-family: verdana, "Lucida Console", Monospace;
+  font-size:3vw;
+  max-height: 100%;
+  }
+
+
+  
+a {
+  color: #0066cc;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: justify;
+  text-indent: 0px;
+  text-decoration: none
+}
+a:hover {
+  color: #900;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: justify;
+  text-indent: 0px;
+  text-decoration: none
+}
+
+a.awhite {
+  color: #fff;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: justify;
+  text-indent: 0px;
+  text-decoration: none
+}
+a.awhite:hover {
+  color: #900;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: justify;
+  text-indent: 0px;
+  text-decoration: none
+}
+  
+
+/* -------------------------------------------------------------------------- */
+/* BUTTONS LINK STYLES */
+/* -------------------------------------------------------------------------- */  
+button{
+  margin: 13px;
+	box-shadow: 1px 2px 5px #000000; 
+	}
+a.buttons {
+	-webkit-font-smoothing: antialiased;
+	background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/arrow-down.png) no-repeat;
+	font-weight: normal;
+	color: #fff;
+/* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
+	padding: 2px 2px 2px 22px;
+	height: 30px;
+	}
+
+a.github {
+  background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/octocat-small.png) no-repeat 1px;
+  }
+
+a.buttons:hover {
+  color: #fff;
+  text-decoration: none;
+  }
+
+a.run_buttons {
+  -webkit-font-smoothing: antialiased;
+	background: url(https://raw.githubusercontent.com/DSOlab/StrainTool/gh-pages/img/arrow-down.png) no-repeat;
+	font-weight: normal;
+	color: #fff;
+/* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
+	padding: 2px 2px 2px 22px;
+	height: 30px;
+	}
+a.run_buttons:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+a.new_calc {
+  -webkit-font-smoothing: antialiased;
+	background: url(../../static/img/reload.png) no-repeat;
+	font-weight: normal;
+	color: #fff;
+/* 	text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; */
+	padding: 2px 2px 2px 22px;
+	height: 30px;
+	}
+a.new_calc:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+	
+.selected {
+  opacity: 1
+}
+.unselected {
+  opacity: 0.5
+}
+/*
+.map {
+  height: 100%;
+  width: 100%;
+  }*/
+  
+.navbar { min-height:18px;   }
+
+
+.block-input {
+  display: block;
+  width: 100%;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  padding: 5px 30%;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+/* -------------------------------------------------------------------------- */
+/* Modal css */
+/* -------------------------------------------------------------------------- */
+.modal-dialog {
+  max-width: 70%;
+/*           width: 1k60px; */
+/*   height:600px !important; */
+}
+ 
+.modal-content {  
+  /* 80% of window height */
+  height: 60%;
+/*   background-color:#BBD6EC; */
+}       
+ 
+.modal-header {
+/*   background-color: #337AB7; */
+  padding:16px 16px;
+/*   color:#FFF; */
+/*   border-bottom:2px dashed #337AB7; */
+}
+
+.dl-horizontal dt{float:left;width:120px;overflow:hidden;clear:left;text-align:right;text-overflow:ellipsis;white-space:nowrap}
+.dl-horizontal dd{margin-left:140px}
+
+/* -------------------------------------------------------------------------- */
+/* TABLE STYLE */
+/* -------------------------------------------------------------------------- */
+.my-custom-scrollbar {
+position: relative;
+height: 200px;
+overflow: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+
+/* -------------------------------------------------------------------------- */
+/* LEAFLET MAP STYLE */
+/* -------------------------------------------------------------------------- */
+/* .leaflet-control-coordinates{background-color:#D8D8D8;background-color:rgba(255,255,255,.8);cursor:pointer}.leaflet-control-coordinates,.leaflet-control-coordinates .uiElement input{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px}.leaflet-control-coordinates .uiElement{margin:4px}.leaflet-control-coordinates .uiElement .labelFirst{margin-right:4px}.leaflet-control-coordinates .uiHidden{display:none}.leaflet-control-coordinates .uiElement.label{color:inherit;font-weight:inherit;font-size:inherit;padding:0;display:inherit} */
+
+
+
+/* -------------------------------------------------------------------------- */
+/* FOOTER STYLE */
+/* -------------------------------------------------------------------------- */
+.page-footer {
+  background-color:  #408000;
+}
+.footer-copyright {
+  background-color:   #0d1a00;
+}
+
+p.footer {
+  color: ffffff;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  text-indent: 0px;
+  text-decoration: none
+}
+
+

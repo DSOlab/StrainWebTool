@@ -1,0 +1,28 @@
+  <!-- columns for header row StrainTensor -->
+<!--   <div class="col-md-2" align="center"> -->
+    Special arguments: <a data-toggle="modal" href="#SpecialArgsHelp"><img src="static/img/info-icon.png" class="img-fluid" style="max-width: 15px; height: auto; align: center;"></a>
+      <!-- Modal -->
+      <div class="modal fade modal-lg" id="SpecialArgsHelp" tabindex="-1" role="dialog" aria-labelledby="SpecialArgsHelpTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="SpecialArgsHelpTitle">Special Arguments</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <dl class="dl-horizontal">
+                <dt> Excess Stations</dt>
+                <dd> This option is only considered if the region option is set. If this this option is enabled, then any station (from the input file) outside the region limit (passed in via the '-r' option) is not considered in the strain estimation. </dd>
+                <dt> Statistics </dt>
+                <dd> Only relevant when '--mehod=shen' and '--barycenter' is not set. This option will create an output file, named 'strain_stats.dat', where estimation info and statistics will be written. </dd>
+              </dl>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+      </div>
+    </div>
+<!--   </div> -->

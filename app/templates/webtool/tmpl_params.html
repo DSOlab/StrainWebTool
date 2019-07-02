@@ -1,0 +1,865 @@
+<!doctype html>
+<meta charset="UTF-8"> 
+
+<head>
+  <title>StrainWebTool</title>
+  <title>StrainWebTool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
+  
+  <!--  Bootstral loading  -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+<!-- Font Awesome -->
+<!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">-->
+<!-- Bootstrap core CSS -->
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">-->
+<!-- Material Design Bootstrap -->
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet">-->
+
+  
+  <!-- add after bootstrap.min.css -->
+<!--   <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.css"> -->
+<!--   <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css"> -->
+<!--   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script> -->
+  
+  <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+<!--   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>     -->
+  
+  <!-- github icon -->
+<!--   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+<!--   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> -->
+<!--   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+ 
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script> -->
+<!--   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script> -->
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+  <!-- add after bootstrap.min.js -->
+  <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!--   custom css styles  -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/webtool.css') }}" />
+
+  <!--  LEAFLET CSS  -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+
+  <!--  LEAFLET JS  -->
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/leaflet.easyPrint.js') }}"></script>
+
+
+  <!-- MARKER CLUSTER -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/leaflet.polylineDecorator.js') }}"></script>  
+  
+  <!-- JS to prnt coordinates on map -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='js/Leaflet.Coordinates-0.1.5.css') }}"/>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/Leaflet.Coordinates-0.1.5.min.js') }}"></script>  
+    
+<script>
+  $(document).ready(function() {
+  $('.sev_check').each(function() {
+//     $(this).addClass('unselected');
+  });
+  $('.sev_check').on('click', function() {
+//     $(this).toggleClass('unselected');
+//     $(this).toggleClass('selected');
+  $('.sev_check').not(this).prop('checked', false);
+//     $('.sev_check').not(this).removeClass('selected');
+//     $('.sev_check').not(this).addClass('unselected');
+    });
+  });
+  
+  $(document).ready(function() {
+  $('.sev_model').each(function() {
+//     $(this).addClass('unselected');
+  });
+  $('.sev_model').on('click', function() {
+//     $(this).toggleClass('unselected');
+//     $(this).toggleClass('selected');
+  $('.sev_model').not(this).prop('checked', false);
+//     $('.sev_check').not(this).removeClass('selected');
+//     $('.sev_check').not(this).addClass('unselected');
+    });
+  });
+</script>
+<script>
+function includeHTML() {
+  var z, i, elmnt, file, xhttp;
+  /* Loop through a collection of all HTML elements: */
+  z = document.getElementsByTagName("*");
+  for (i = 0; i < z.length; i++) {
+    elmnt = z[i];
+    /*search for elements with a certain atrribute:*/
+    file = elmnt.getAttribute("w3-include-html");
+    if (file) {
+      /* Make an HTTP request using the attribute value as the file name: */
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+          /* Remove the attribute, and call this function once more: */
+          elmnt.removeAttribute("w3-include-html");
+          includeHTML();
+        }
+      } 
+      xhttp.open("GET", file, true);
+      xhttp.send();
+      /* Exit the function: */
+      return;
+    }
+  }
+}
+</script>
+<script>
+function methodVeisdef() {
+  document.getElementById("Wt_def").disabled = true;
+  document.getElementById("dmin_def").disabled = true;
+  document.getElementById("dmax_def").disabled = true;
+  document.getElementById("dstep_def").disabled = true;
+  document.getElementById("dparam_def").disabled = true;
+  document.getElementById("set_model_def").disabled = true;
+  document.getElementById("set_model_def").checked = false;
+  document.getElementById("set_dparam_def").disabled = true;
+  document.getElementById("set_dparam_def").checked = false;
+  document.getElementById("x-grid-step_def").disabled = true;
+  document.getElementById("y-grid-step_def").disabled = true;
+  document.getElementById("cut_stations_def").disabled = true;
+  document.getElementById("g_statistic_def").disabled = true;
+}
+function methodShendef() {
+  document.getElementById("Wt_def").disabled = false;
+  document.getElementById("dmin_def").disabled = false;
+  document.getElementById("dmax_def").disabled = false;
+  document.getElementById("dstep_def").disabled = false;
+  document.getElementById("dparam_def").disabled = true;
+  document.getElementById("set_model_def").disabled = false;
+  document.getElementById("set_model_def").checked = true;
+  document.getElementById("set_dparam_def").disabled = false;
+  document.getElementById("set_dparam_def").checked = false;
+  document.getElementById("x-grid-step_def").disabled = false;
+  document.getElementById("y-grid-step_def").disabled = false;
+  document.getElementById("cut_stations_def").disabled = false;
+  document.getElementById("g_statistic_def").disabled = false;
+}
+function methodVeisnew() {
+  document.getElementById("Wt_new").disabled = true;
+  document.getElementById("dmin_new").disabled = true;
+  document.getElementById("dmax_new").disabled = true;
+  document.getElementById("dstep_new").disabled = true;
+  document.getElementById("set_model_new").disabled = true;
+  document.getElementById("set_model_new").checked = false;
+  document.getElementById("set_dparam_new").disabled = true;
+  document.getElementById("set_dparam_new").checked = false;
+  document.getElementById("dparam_new").disabled = true;
+  document.getElementById("x-grid-step_new").disabled = true;
+  document.getElementById("y-grid-step_new").disabled = true;
+  document.getElementById("cut_stations_new").disabled = true;
+  document.getElementById("cut_stations_new").checked = false;
+  document.getElementById("g_statistic_new").disabled = true;
+  document.getElementById("g_statistic_new").checked = false;
+}
+function methodShennew() {
+  document.getElementById("Wt_new").disabled = false;
+  document.getElementById("dmin_new").disabled = false;
+  document.getElementById("dmax_new").disabled = false;
+  document.getElementById("dstep_new").disabled = false;
+  document.getElementById("set_model_new").disabled = false;
+  document.getElementById("set_model_new").checked = true;
+  document.getElementById("set_dparam_new").disabled = false;
+  document.getElementById("dparam_new").disabled = true;
+  document.getElementById("x-grid-step_new").disabled = false;
+  document.getElementById("y-grid-step_new").disabled = false;
+  document.getElementById("cut_stations_new").disabled = false;
+  document.getElementById("g_statistic_new").disabled = false;
+}
+function setModelnew() {
+  document.getElementById("Wt_new").disabled = false;
+  document.getElementById("dmin_new").disabled = false;
+  document.getElementById("dmax_new").disabled = false;
+  document.getElementById("dstep_new").disabled = false;
+  document.getElementById("dparam_new").disabled = true;
+  document.getElementById("x-grid-step_new").disabled = false;
+  document.getElementById("y-grid-step_new").disabled = false;
+  document.getElementById("cut_stations_new").disabled = false;
+  document.getElementById("g_statistic_new").disabled = false;
+}
+function setDparamnew() {
+  document.getElementById("Wt_new").disabled = true;
+  document.getElementById("dmin_new").disabled = true;
+  document.getElementById("dmax_new").disabled = true;
+  document.getElementById("dstep_new").disabled = true;
+  document.getElementById("dparam_new").disabled = false;
+  document.getElementById("x-grid-step_new").disabled = false;
+  document.getElementById("y-grid-step_new").disabled = false;
+  document.getElementById("cut_stations_new").disabled = false;
+  document.getElementById("g_statistic_new").disabled = false;
+}
+function setModeldef() {
+  document.getElementById("Wt_def").disabled = false;
+  document.getElementById("dmin_def").disabled = false;
+  document.getElementById("dmax_def").disabled = false;
+  document.getElementById("dstep_def").disabled = false;
+  document.getElementById("dparam_def").disabled = true;
+  document.getElementById("x-grid-step_def").disabled = false;
+  document.getElementById("y-grid-step_def").disabled = false;
+  document.getElementById("cut_stations_def").disabled = false;
+  document.getElementById("g_statistic_def").disabled = false;
+}
+function setDparamdef() {
+  document.getElementById("Wt_def").disabled = true;
+  document.getElementById("dmin_def").disabled = true;
+  document.getElementById("dmax_def").disabled = true;
+  document.getElementById("dstep_def").disabled = true;
+  document.getElementById("dparam_def").disabled = false;
+  document.getElementById("x-grid-step_def").disabled = false;
+  document.getElementById("y-grid-step_def").disabled = false;
+  document.getElementById("cut_stations_def").disabled = false;
+  document.getElementById("g_statistic_def").disabled = false;
+}
+</script>
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<!-- ADD header -->
+<div w3-include-html="{{ url_for('static', filename='html/header.html') }}"></div>
+
+<!-- ADD help bar -->
+<div w3-include-html="{{ url_for('static', filename='help/help-bar.html') }}"></div>
+
+<div class="container-fluid">
+
+<!-- Main application -->
+<div class="row" style="height: 750px;">
+
+    <!-- Strain Tool arguments column -->
+    <div class="col-md-2" style="padding: 20px; background-color:  #b3d9ff;">
+        <div class="row">
+<!--             <div class="col col-md-2"></div> -->
+            <div class="col">
+              <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Velocity file</b></span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ input_file }}" disabled>
+              </div>
+              <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Number of Stations</b></span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ NoSta }}" disabled>
+              </div>
+            </div>
+        </div>
+
+<ul class="nav nav-pills sm-3" id="pills-tab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link" id="pills-newmodel-tab" data-toggle="pill" href="#pills-newmodel" role="tab" aria-controls="pills-newmodel" aria-selected="false">New Model</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" id="pills-defpar-tab" data-toggle="pill" href="#pills-defpar" role="tab" aria-controls="pills-defpar" aria-selected="true">Default</a>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+
+<div class="tab-pane fade" id="pills-newmodel" role="tabpanel" aria-labelledby="pills-newmodel-tab">
+<form class="form" method="POST" enctype = "multipart/form-data" action="{{ rooturl_folder }}/results">
+        <!--select method sen or veis          -->
+        <div class="row"><!--     RAW 1     -->
+            <div class="col">
+            Select method:<br>
+                <!-- Shen Method-->
+                <div class="custom-control custom-checkbox custom-control-inline">
+                  <input type="checkbox" name="shen" class="custom-control-input sev_check" id="sel_shen_new" value="shen" onclick="methodShennew()" checked>
+                  <label class="custom-control-label" for="sel_shen_new">Shen</label>
+                </div>
+                <!-- Veis, Delaunay triangles-->
+                <div class="custom-control custom-checkbox custom-control-inline">
+                  <input type="checkbox" name="veis" class="custom-control-input sev_check" id="sel_veis_new" value="veis" onclick="methodVeisnew()">
+                  <label class="custom-control-label" for="sel_veis_new">Veis</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" name="barycenter" class="custom-control-input" id="one_tensor_new">
+                  <label class="custom-control-label" for="one_tensor_new">One Tensor</label>
+                </div>
+            </div>
+        </div><!--     RAW 1     -->
+        <!-- Set Boundary zone  -->
+        <div class="row"><!--    ROW 2      -->
+            <div class="col">
+                Set boundary zone:<br>
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">region</span>
+                  </div>
+                  <input type="text" name="region" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="west/east/south/north" required>
+                </div>
+                <!--<div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="">Lon.(λ)</span>
+                  </div>
+                  <input type="text" name="lonmin" class="form-control" placeholder="minimum">
+                  <input type="text" name="lonmax" class="form-control" placeholder="maximum">
+                </div>
+                
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="">Lat.(φ)</span>
+                  </div>
+                  <input type="text" name="latmin" class="form-control" placeholder="minimum">
+                  <input type="text" name="latmax" class="form-control" placeholder="maximum">
+                </div>-->
+<!--                 <br> -->
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="">Grid-Step</span>
+                  </div>
+                  <input type="text" name="x-grid-step" class="form-control" placeholder="X-step" id="x-grid-step_new" required>
+                  <input type="text" name="y-grid-step" class="form-control" placeholder="Y-step" id="y-grid-step_new" required>
+                </div>
+            </div>
+        </div><!--    ROW 2      -->
+        <!-- Set Model parameters  -->
+        <div class="row"><!--    ROW 3      -->
+            <div class="col">
+              <div class="custom-control custom-checkbox">
+                
+                  <input type="checkbox" name="set_model_new" class="custom-control-input sev_model" id="set_model_new" onclick="setModelnew()" checked>
+                  <label class="custom-control-label" for="set_model_new">Model Parameters</label>
+              </div>
+<!--               Imterpolation model parameters:<br> -->
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
+                    </div>
+                <input type="text" name="Wt" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="Wt_new" placeholder="def: 24" required>
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
+                    </div>
+                <input type="text" name="dmin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmin_new" placeholder="def: 1" required>
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
+                    </div>
+                <input type="text" name="dmax" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmax_new" placeholder="def: 500" required>
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
+                    </div>
+                <input type="text" name="dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dstep_new" placeholder="def: 1" required>
+                </div>
+<!--                 OR set: -->
+                <div class="custom-control custom-checkbox">
+                
+                  <input type="checkbox" name="set_dparam_new" class="custom-control-input sev_model" id="set_dparam_new" onclick="setDparamnew()"  >
+                  <label class="custom-control-label" for="set_dparam_new">Set D parameter</label>
+                </div>
+<!--                 <br> -->
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
+                    </div>
+                <input type="text" name="d-param" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dparam_new" placeholder="" disabled>
+                </div>
+            </div>
+        </div><!--    ROW 3      -->
+        <!-- Set arguments for python --> 
+        <div class="row"><!--    ROW 4      -->
+            <div class="col">
+                Special arguments:<br>
+                <!-- Default checked -->
+                <div class="custom-control custom-checkbox">
+<!--                   <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-width="100" data-height="5" id="cut_stations_new" > -->
+                  <input type="checkbox" name="cut-excess-stations" class="custom-control-input" id="cut_stations_new" >
+                  <label class="custom-control-label" for="cut_stations_new">cut excess stations</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+<!--                   <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="small" id="g_statistic_new" > -->
+                  <input type="checkbox" name="generate-statistics" class="custom-control-input" id="g_statistic_new">
+                  <label class="custom-control-label" for="g_statistic_new">generate statistics</label>
+                </div> 
+            </div>
+        </div><!--    ROW 4      -->
+        <div align="center">
+          <input type = "submit" class="btn btn-danger" value = "RUN"/>
+<!--             <button type="button" class="btn btn-danger"><a class="run_buttons" href="{{ rooturl_folder }}/results" >RUN</a></button> -->
+        </div>
+</form>
+</div>
+
+  <div class="tab-pane fade show active" id="pills-defpar" role="tabpanel" aria-labelledby="pills-defpar-tab">
+  
+<form class="form" method="POST" enctype = "multipart/form-data" action="{{ rooturl_folder }}/results">
+        <!--select method sen or veis          -->
+        <div class="row"><!--     RAW 1     -->
+            <div class="col">
+                Select method:<br>
+                <!-- Shen Method-->
+                <div class="custom-control custom-checkbox custom-control-inline">
+                  <input type="checkbox" name="shen" class="custom-control-input sev_check" id="selectShen_def" value="shen" onclick="methodShendef()" checked>
+                  <label class="custom-control-label" for="selectShen_def">Shen</label>
+                </div>
+                <!-- Veis, Delaunay triangles-->
+                <div class="custom-control custom-checkbox custom-control-inline">
+                  <input type="checkbox" name="veis" class="custom-control-input sev_check" id="selectVeis_def" value="veis"  onclick="methodVeisdef()">
+                  <label class="custom-control-label" for="selectVeis_def">Veis</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" name="barycenter" class="custom-control-input" id="one_tensor_def">
+                  <label class="custom-control-label" for="one_tensor_def">One Tensor</label>
+                </div>
+            </div>
+        </div><!--     RAW 1     -->
+        <!-- Set Boundary zone  -->
+        <div class="row"><!--    ROW 2      -->
+            <div class="col">
+                Set boundary zone:<br>
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">region</span>
+                  </div>
+                  <input type="text" name="region" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="{{ grd.x_min }}/{{ grd.x_max }}/{{ grd.y_min }}/{{ grd.y_max }}" required>
+<!--                         <input type="text" name="region" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="18/32/32/43" required> -->
+                </div>
+                <!--<div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="">Lon.(λ)</span>
+                  </div>
+                  <input type="text" name="lonmin" class="form-control" placeholder="minimum">
+                  <input type="text" name="lonmax" class="form-control" placeholder="maximum">
+                </div>
+                
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="">Lat.(φ)</span>
+                  </div>
+                  <input type="text" name="latmin" class="form-control" placeholder="minimum">
+                  <input type="text" name="latmax" class="form-control" placeholder="maximum">
+                </div>-->
+<!--                 <br> -->
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="">Grid-Step</span>
+                  </div>
+                  <input type="text" name="x-grid-step" class="form-control" value="1" id="x-grid-step_def" required>
+                  <input type="text" name="y-grid-step" class="form-control" value="1" id="y-grid-step_def" required>
+                </div>
+            </div>
+        </div><!--    ROW 2      -->
+        <!-- Set Model parameters  -->
+        <div class="row"><!--    ROW 3      -->
+            <div class="col">
+            <div class="custom-control custom-checkbox">
+                
+                  <input type="checkbox" name="set_model_def" class="custom-control-input sev_model" id="set_model_def" onclick="setModeldef()" checked>
+                  <label class="custom-control-label" for="set_model_def">Model Parameters</label>
+              </div>
+<!--                 Imterpolation model parameters:<br> -->
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
+                    </div>
+                <input type="text" name="Wt" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="Wt_def" value="24" required>
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
+                    </div>
+                <input type="text" name="dmin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmin_def" value="1" required>
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
+                    </div>
+                <input type="text" name="dmax" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dmax_def" value="500" required>
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
+                    </div>
+                <input type="text" name="dstep" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dstep_def" value="1" required>
+                </div>
+<!--                 OR set:<br> -->
+                <div class="custom-control custom-checkbox">
+                
+                  <input type="checkbox" name="set_dparam_def" class="custom-control-input sev_model" id="set_dparam_def" onclick="setDparamdef()"  >
+                  <label class="custom-control-label" for="set_dparam_def">Set D parameter</label>
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
+                    </div>
+                <input type="text" name="d-param" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="dparam_def" placeholder="" disabled>
+                </div>
+            </div>
+        </div><!--    ROW 3      -->
+        <!-- Set arguments for python --> 
+        <div class="row"><!--    ROW 4      -->
+            <div class="col">
+            
+                Special arguments:<br>
+                <!-- Default checked -->
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" name="cut-excess-stations" class="custom-control-input" id="cut_stations_def" checked>
+                  <label class="custom-control-label" for="cut_stations_def">cut excess stations</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" name="generate-statistics" class="custom-control-input" id="g_statistic_def" checked>
+                  <label class="custom-control-label" for="g_statistic_def">generate statistics</label>
+                </div> 
+            </div>
+        </div><!--    ROW 4      -->
+        <div align="center">
+          <input type = "submit" class="btn btn-danger" value = "RUN"/>
+<!--             <button type="button" class="btn btn-danger"><a class="run_buttons" href="{{ rooturl_folder }}/results" >RUN</a></button> -->
+        </div>
+</form>
+</div>
+
+
+  </div>
+</div>
+<!-- </div> -->
+    <!-- Strain Tool Argments finished      -->
+
+
+    <!-- Plot cases -->
+    <div class="col-md-2" style="padding: 20px; background-color:  #fff2e6;">
+        <div class="row">
+            <div class="col">
+            Strain parameters: <br>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_vel" disabled>
+                <label class="custom-control-label" for="plot_vel">Velocities</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_strain" disabled>
+                <label class="custom-control-label" for="plot_strain">Principal Axis</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_rotation" disabled>
+                <label class="custom-control-label" for="plot_rotation">Rotational Rates</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtot" disabled>
+                <label class="custom-control-label" for="plot_gtot">Shear Strain</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_gtotaxes" disabled>
+                <label class="custom-control-label" for="plot_gtotaxes">Shear Strain Axes</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="plot_secinv" disabled>
+                <label class="custom-control-label" for="plot_secinv">Second Invariant</label>
+                </div>
+            Statistics:
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_stations" disabled>
+                <label class="custom-control-label" for="stat_stations">Stations per cell</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_doptimal" disabled>
+                <label class="custom-control-label" for="stat_doptimal">D optimal</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input sev_check" id="stat_sigma" disabled>
+                <label class="custom-control-label" for="stat_sigma">sigma value</label>
+                </div>
+            </div>
+ 
+        </div>
+        <div class="row">
+            <div class="col" align="center">
+                <button type="button" class="btn btn-danger" disabled>ADD to Map</button>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                Create GMT Maps: <br>
+                Options:<br>
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_stations" disabled>
+                <label class="custom-control-label" for="gmt_stations">plot stations</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_labels" disabled>
+                <label class="custom-control-label" for="gmt_labels">add labels</label>
+                </div> 
+                <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="gmt_deltr" disabled>
+                <label class="custom-control-label" for="gmt_deltr">add delaunay triangles</label>
+                </div>
+            Scales:
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">velocities</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
+                </div>
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Strains</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
+                </div>
+                <div class="input-group input-group-sm mb-">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Rotational</span>
+                    </div>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
+                </div>
+            Outputs:
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Pre/Suf-fix</span>
+                </div>
+                <input type="text" class="form-control" disabled>
+                <input type="text" class="form-control" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" align="center">
+                <button type="button" class="btn btn-danger" disabled>GMT Map</button>
+<!--                 <a href="#" class="btn btn-danger btn-md " role="button" aria-disabled="true">GMT Map</a> -->
+            </div>
+        </div>
+    
+    </div>
+    <div class="col-md-8">
+<!--     maps -->
+    <div id="map" class="map" style="width:100%;height:100%;margin:0px;margin:0px;border:1px solid black;"></div>
+<!--     <div id="map-canvas" style="width:100%;height:100%;margin:0px;margin:0px;border:1px solid black;"></div> -->
+
+<!-- <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=11.502685546875002%2C33.61461929233378%2C29.849853515625%2C41.623655390686395&amp;layer=mapnik" style="border: 1px solid black"></iframe> -->
+     <!--Google map-->
+        <!--<div id="map-container-google-1" class="z-depth-1-half map-container" >
+        <iframe src="https://maps.google.com/maps?ll=39.1811459,23.0690025,7.13z=15&ie=UTF8&iwloc=&output=embed" frameborder="0"
+            style="border:0" allowfullscreen></iframe>
+        </div>-->
+
+<!--Google Maps-->
+
+    </div>
+    
+    
+    
+    
+   
+    </div>
+</div>
+
+
+<!-- Results -->
+<div class="row" style="height: 25px; background-color: #e69900">
+<div class="col-md-1"></div>
+<div class="col-md-11"><b>Input File</b></div>
+<!-- <div class="col-md-8"></div> -->
+</div>
+<div class="row">
+    <div class="col">
+<!--         Input File -->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Station</th>
+              <th scope="col">Latitude (<sup>o</sup>)</th>
+              <th scope="col">Longtitude (<sup>o</sup>)</th>
+              <th scope="col">Vn (mm/yr)</th>
+              <th scope="col">Ve (mm/yr)</th>
+              <th scope="col">σVn (mm/yr)</th>
+              <th scope="col">σVe (mm/yr)</th>
+              <th scope="col">rho (/)</th>
+              <th scope="col">T (yrs)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for station in content %}
+              <tr>
+              <th scope="row">{{ station.name }}</th>
+                <td>{{ station.lat }}</td>
+                <td>{{ station.lon }}</td>
+                <td>{{ station.ve }}</td>
+                <td>{{ station.vn }}</td>
+                <td>&plusmn; {{ station.se }}</td>
+                <td>&plusmn; {{ station.sn }}</td>
+                <td> {{ station.rho }}</td>
+                <td>{{ station.t }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+</div>
+
+</div><!-- end of container div -->
+
+</body>
+
+
+
+<!-- ADD FOOTER stable html -->
+<div w3-include-html="{{ url_for('static', filename='html/footer.html') }}"></div>
+
+
+<!-- Map script for plotting   -->
+
+
+<!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
+    <script type="text/javascript">
+//       var map = new ol.Map({
+//         target: 'map',
+//         layers: [
+//           new ol.layer.Tile({
+//             source: new ol.source.OSM()
+//           })
+//         ],
+//         view: new ol.View({
+//           center: ol.proj.fromLonLat([24.41, 39.82]),
+//           zoom: 6
+//         })
+//       });
+
+        var map = L.map('map').setView([{{ clat }} , {{ clon }}], 4);
+
+//        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
+//          attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service'}).addTo(map);
+
+       L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+         attribution: 'Tiles &copy; Esri &mdash; Esri the GIS User Community'}).addTo(map);
+        
+        var southWest = new L.LatLng({{ grd.y_min }}, {{ grd.x_min }}),
+        northEast = new L.LatLng({{ grd.y_max }}, {{ grd.x_max }}),
+        bounds = new L.LatLngBounds(southWest, northEast);
+        map.fitBounds(bounds, {padding: [5, 5]});
+//         mapLink = 
+//             '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+//         L.tileLayer(
+//             'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//             attribution: '&copy; ' + mapLink + ' Contributors',
+//             maxZoom: 18,
+//             }).addTo(map);
+
+      var lonlatarray=[
+        {% for station in content %}
+          [ "{{ station.name }}", {{ station.lat }}, {{ station.lon }}, {{ station.vn }}, {{ station.ve }}, {{ station.sn }}, {{ station.se }}, {{ station.t }} ],
+        {% endfor %}
+//         [ name, 0, 0 ]
+        ];
+     
+//       for (var i = 0; i < lonlatarray.length; i++) {
+//         marker = new L.marker([lonlatarray[i][1],lonlatarray[i][2]])
+//           .bindPopup(lonlatarray[i][0])
+//           .addTo(map);
+//       }
+
+	for (var i = 0; i < lonlatarray.length; i++) {
+    L.circleMarker([lonlatarray[i][1], lonlatarray[i][2]], {
+                    radius: 3,
+                    fillColor: "#FFFF4D",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.4
+                })
+    .bindPopup('CODE: ' + lonlatarray[i][0] +
+    '<br>  Lat = ' + lonlatarray[i][1] +
+    '<br>  Lon = ' + lonlatarray[i][2] +
+    '<br>  Vn = ' + lonlatarray[i][3] + 
+    '<br>  Ve = ' + lonlatarray[i][4] +
+    '<br>  sn = ' + lonlatarray[i][5] +
+    '<br>  se = ' + lonlatarray[i][6] +
+    '<br>  Time = ' + lonlatarray[i][7]
+    )
+    .addTo(map);
+  }
+  
+      for (var i = 0; i < lonlatarray.length; i++) {
+        var lat2 = lonlatarray[i][1] + lonlatarray[i][3]/20;
+        var lon2 = lonlatarray[i][2] + lonlatarray[i][4]/20;
+        var arrow = L.polyline([[lonlatarray[i][1],lonlatarray[i][2]], [lat2, lon2]], {color: 'blue'})
+        .bindPopup('CODE: <b>' + lonlatarray[i][0] + '</b>' +
+        '<br>  Lat = ' + lonlatarray[i][1] +
+        '<br>  Lon = ' + lonlatarray[i][2] +
+        '<br>  Vn = ' + lonlatarray[i][3] +
+        '<br>  Ve = ' + lonlatarray[i][4] +
+        '<br>  sn = ' + lonlatarray[i][5] +
+        '<br>  se = ' + lonlatarray[i][6] +
+        '<br>  Time = ' + lonlatarray[i][7]
+        )
+        .addTo(map);
+        var arrowHead = L.polylineDecorator(arrow, {
+            patterns: [
+                {
+                    offset: '100%',
+                    repeat: 0,
+                    symbol: L.Symbol.arrowHead({pixelSize: 10, polygon: false, pathOptions: {stroke: true, color: 'blue'}})
+                }
+            ]
+        }).addTo(map);
+        }
+
+      
+//   Add scale Bar
+  L.control.scale().addTo(map);
+
+  L.control.coordinates({
+    position:"bottomleft",
+// 		useDMS:true,
+    labelTemplateLat:"N {y}",
+    labelTemplateLng:"E {x}",
+    useLatLngOrder:true
+  }).addTo(map);
+
+//  Add Watermark
+
+L.Control.Watermark = L.Control.extend({
+        onAdd: function(map) {
+                var img = L.DomUtil.create('img');
+
+                img.src = 'static/img/SWTlogo.png';
+                img.style.width = '200px';
+
+                return img;
+        },
+
+        onRemove: function(map) {
+// Nothing to do here
+        }
+});
+
+L.control.watermark = function(opts) {
+        return new L.Control.Watermark(opts);
+}
+
+L.control.watermark({ position: 'bottomright' }).addTo(map);
+
+L.easyPrint({
+	title: 'Print button',
+	position: 'topleft',
+	elementsToHide: 'p, h2',
+	sizeModes: ['A4Landscape', 'A4Portrait'],
+	hideControlContainer: false
+}).addTo(map);
+
+</script>
+<script>
+includeHTML();
+</script>
+</html>
