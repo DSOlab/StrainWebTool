@@ -215,7 +215,7 @@ function includeHTML() {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="not available" disabled>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="" disabled>
                 </div>
             </div>
         </div>
@@ -389,7 +389,7 @@ L.Control.Watermark = L.Control.extend({
 	onAdd: function(map) {
 		var img = L.DomUtil.create('img');
 	
-		img.src = '../../StrainWebTool/static/img/SWTlogo.png';
+		img.src = 'static/img/SWTlogo.png';
 		img.style.width = '200px';
 		
 		return img;

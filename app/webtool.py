@@ -38,9 +38,16 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 ##  set rooturl_folder , if wsgi module used for apache or set '' if you run local server
 ROOTURL_FOLDER='/StrainWebTool'
-ROOT_FOLDER=os.getcwd()
+ROOT_FOLDER='/var/www/html/StrainWebTool/app/'  #os.getcwd()
 UPLOAD_FOLDER = '/uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'vel'])
+
+## path to files
+f_temp = os.path.join(ROOT_FOLDER, 'temp.dat')
+f_strain = os.path.join(ROOT_FOLDER,'strain_info.dat')
+f_stats = os.path.join(ROOT_FOLDER,'strain_stats.dat')
+f_deltr = os.path.join(ROOT_FOLDER,'delaunay_info.dat')
+f_station = os.path.join(ROOT_FOLDER,'station_info.dat')
 
 Version = 'StrainTensor.py Version: 1.0beta1'
 
@@ -54,16 +61,16 @@ def webtool():
 
 @app.route('/inputs')
 def webtool_inputs():
-    if os.path.isfile('/var/www/html/StrainWebTool/app/temp.dat') == True :
-        os.remove('/var/www/html/StrainWebTool/app/temp.dat')
-    if os.path.isfile('/var/www/html/StrainWebTool/app/strain_info.dat') == True :
-        os.remove('/var/www/html/StrainWebTool/app/strain_info.dat')
-    if os.path.isfile('/var/www/html/StrainWebTool/app/strain_stats.dat') == True :
-        os.remove('/var/www/html/StrainWebTool/app/strain_stats.dat')
-    if os.path.isfile('/var/www/html/StrainWebTool/app/station_info.dat') == True :
-        os.remove('/var/www/html/StrainWebTool/app/station_info.dat')
-    if os.path.isfile('/var/www/html/StrainWebTool/app/delaunay_info.dat') == True :
-        os.remove('/var/www/html/StrainWebTool/app/delaunay_info.dat')
+    if os.path.isfile(f_temp) == True :
+        os.remove(f_temp)
+    if os.path.isfile(f_strain) == True :
+        os.remove(f_strain)
+    if os.path.isfile(f_stats) == True :
+        os.remove(f_stats)
+    if os.path.isfile(f_station) == True :
+        os.remove(f_station)
+    if os.path.isfile(f_deltr) == True :
+        os.remove(f_deltr)
     return render_template('webtool/tmpl_inputs.html', rooturl_folder=ROOTURL_FOLDER)
 
 @app.route('/parameters', methods=['GET', 'POST'])
@@ -81,7 +88,7 @@ def webtool_params():
     for sta in stations:
         sta_list_ell.append(sta)
 
-    with open('/var/www/html/StrainWebTool/app/temp.dat', 'wb') as fout:
+    with open(f_temp, 'wb') as fout:
         for idx, sta in enumerate(sta_list_ell):
             fout.write('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f} {:+7.3f} {:+7.3f} \n'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03, sta.rho*1e03, sta.t ))
 
@@ -117,7 +124,7 @@ def cut_rectangle(xmin, xmax, ymin, ymax, sta_lst, sta_list_to_degrees=False):
             new_sta_lst.append(sta)
     return new_sta_lst
 
-def write_station_info(sta_lst, filename=('/var/www/html/StrainWebTool/app/station_info.dat')):
+def write_station_info(sta_lst, filename=(f_station)):
     with open(filename, 'wb') as fout:
         fout.write('{:^10s} {:^10s} {:^10s} {:7s} {:7s} {:7s} {:7s} \n'.format('Station', 'Longtitude', 'Latitude', 'Ve', 'Vn', 'sVe', 'sVn'))
         fout.write('{:^10s} {:^10s} {:^10s} {:7s} {:7s} {:7s} {:7s} \n'.format('', 'deg.', 'deg', 'mm/yr', 'mm/yr', 'mm/yr', 'mm/yr'))
@@ -251,7 +258,7 @@ def webtool_results():
     NoSta = session.get('NoSta')
     input_filename = session.get('input_filename')
     sta_list_ell = []
-    with open('/var/www/html/StrainWebTool/app/temp.dat', 'r') as file:
+    with open(f_temp, 'r') as file:
         stations = []
         for line in file.readlines():
             stations.append(Station(line))
@@ -394,7 +401,7 @@ def webtool_results():
     
     ## If needed, open a file to write model info and statistics
     #stat_path=os.path.join(os.getcwd() + '/strain_stats.dat')
-    fstats = open('/var/www/html/StrainWebTool/app/strain_stats.dat', 'w') if args.generate_stats else None
+    fstats = open(f_stats, 'w') if args.generate_stats else None
     if fstats: print_model_info(fstats, sys.argv, dargs)
 
     ##  If a region is passed in, resolve it.
@@ -457,9 +464,9 @@ def webtool_results():
     #vprint('[DEBUG] Station list transformed to UTM.')
     
     ##  Open file to write Strain Tensor estimates; write the header
-    fout = open('/var/www/html/StrainWebTool/app/strain_info.dat', 'w')
+    fout = open(f_strain, 'w')
     #vprint('[DEBUG] Strain info written in file: {}'.format('strain_info.dat'))
-    fout.write('{:^9s} {:^9s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s}\n'.format('Latitude', 'Longtitude', 'vx+dvx', 'vy+dvy', 'w+dw', 'exx+dexx', 'exy+dexy', 'eyy+deyy', 'emax+demax', 'emin+demin', 'shr+dshr', 'azi+dazi', 'dilat+ddilat', 'sec. invvariant+dsec.inv'))
+    fout.write('{:^9s} {:^9s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s}\n'.format('Latitude', 'Longtitude', 'vx+dvx', 'vy+dvy', 'w+dw', 'exx+dexx', 'exy+dexy', 'eyy+deyy', 'emax+demax', 'emin+demin', 'shr+dshr', 'azi+dazi', 'dilat+ddilat', 'sec. invariant+dsec.inv'))
     fout.write('{:^9s} {:^9s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s} {:^15s}\n'.format('deg', 'deg', 'mm/yr', 'mm/yr', 'deg/Myr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'nstrain/yr', 'deg.', 'nstrain/yr', 'nstrain/yr'))
     
     ##  Compute only one Strain Tensor, at the region's barycenter; then exit.
@@ -527,7 +534,7 @@ def webtool_results():
     elif args.method == 'veis' and not args.one_tensor:
         ## Open file to write delaunay triangles.
         print('[DEBUG] Estimating Strain Tensors at the barycentre of Delaunay triangles')
-        dlnout = open('/var/www/html/StrainWebTool/app/delaunay_info.dat', 'w')
+        dlnout = open(f_deltr, 'w')
         points = numpy.array([ [sta.lon, sta.lat] for sta in sta_list_utm ])
         tri = Delaunay(points)
         print('[DEBUG] Number of Delaunay triangles: {}'.format(len(tri.simplices)))
@@ -567,7 +574,7 @@ def webtool_results():
     y_mean = (grd_tmpl.y_min + grd_tmpl.y_max)/2.
     
     
-    file = open('/var/www/html/StrainWebTool/app/strain_info.dat', 'r')
+    file = open(f_strain, 'r')
     strain = []
     for line in file.readlines()[2:]:
         #print(line)

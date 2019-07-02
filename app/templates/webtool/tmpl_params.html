@@ -128,6 +128,10 @@ function methodVeisdef() {
   document.getElementById("dmax_def").disabled = true;
   document.getElementById("dstep_def").disabled = true;
   document.getElementById("dparam_def").disabled = true;
+  document.getElementById("set_model_def").disabled = true;
+  document.getElementById("set_model_def").checked = false;
+  document.getElementById("set_dparam_def").disabled = true;
+  document.getElementById("set_dparam_def").checked = false;
   document.getElementById("x-grid-step_def").disabled = true;
   document.getElementById("y-grid-step_def").disabled = true;
   document.getElementById("cut_stations_def").disabled = true;
@@ -139,6 +143,10 @@ function methodShendef() {
   document.getElementById("dmax_def").disabled = false;
   document.getElementById("dstep_def").disabled = false;
   document.getElementById("dparam_def").disabled = true;
+  document.getElementById("set_model_def").disabled = false;
+  document.getElementById("set_model_def").checked = true;
+  document.getElementById("set_dparam_def").disabled = false;
+  document.getElementById("set_dparam_def").checked = false;
   document.getElementById("x-grid-step_def").disabled = false;
   document.getElementById("y-grid-step_def").disabled = false;
   document.getElementById("cut_stations_def").disabled = false;
@@ -825,7 +833,7 @@ L.Control.Watermark = L.Control.extend({
         onAdd: function(map) {
                 var img = L.DomUtil.create('img');
 
-                img.src = '../../StrainWebTool/static/img/SWTlogo.png';
+                img.src = 'static/img/SWTlogo.png';
                 img.style.width = '200px';
 
                 return img;
