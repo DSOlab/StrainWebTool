@@ -1,6 +1,14 @@
 # StrainWebTool
 Online Portal for StrainTool software 
 
+- estimate strain tensor parameters using different methods.
+
+- Visualize results on interactive map
+
+- Download output files for further processing
+
+ Check out the [demo](http://83.212.103.160/StrainWebTool/inputs) !!
+
 [![License MIT](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/DSOlab/StrainWebTool/blob/master/LICENSE)
 [![](https://img.shields.io/github/release/DSOlab/StrainWebTool.svg)](https://github.com/DSOlab/StrainWebTool/releases/latest)
 [![](https://img.shields.io/github/tag/DSOlab/StrainWebTool.svg)](https://github.com/DSOlab/StrainWebTool/tags) 
@@ -12,6 +20,8 @@ Online Portal for StrainTool software
 ## General
 
 StrainWebTool is a web application developed to estimate strain tensor parameters using StrainTool Software.  The development of the application was based on [Flask](http://flask.pocoo.org/)  microframework for Python. [Bootstrap](https://getbootstrap.com/) open source toolkit was used to enable a responsive web design and [Leaflet](https://leafletjs.com/) open-source JavaScript library for producing interactive maps.
+
+
 
 ## Structure and background
 
@@ -73,7 +83,63 @@ app (main application)
 
 ## User Guidlines
 
+### Input Files
 
+To perform the computations, StrainWebTool needs an input file, that holds input data (Figure 2). Usually, this implies a list of GPS/GNSS stations with their ellipsoidal coordinates (aka longitude and latitude) and their respective tectonic velocities (usually estimated using position time-series) along with the corresponding standard deviation values. The format of these files, should follow the convention:
+
+
+<pre id="block-samp" <samp="">        station-name  longtitude   latitude   Ve     Vn    SigmaVe  SigmaVn  Sne  time-span 
+         string           deg.        deg.   mm/yr  mm/yr   mm/yr    mm/yr    /   dec. years</pre>
+
+Station coordinates are provided in longitude/latitude pairs in decimal degrees. Velocities and velocity standard deviations are provided in mm per years (mm/yr). Sne is the correlation coefficient between East and North velocity components and time-span is the total time span of the station timeseries in decimal degrees. Note that at his point the last two columns (aka Sne and time-span) are not used, so they could have random values.
+There are no strict formatting rules on how the individual elements should be printed (i.e. how many fields, decimal places, etc.). The only condition is that fields are separated by whitespace(s). 
+Note that the input file format is identical to what is used in StrainTool Software (Anastasiou et al., 2019 ); users can browse its dedicated web page (https://dsolab.github.io/StrainTool/) for a more detailed description.
+
+
+### Option and parameters
+
+After the uploading of the input-file, all the options for the estimation of strain tensor are unlocked.
+
+The first part is  the selection of the method for strain estimation. If 'shen' is passed in, the estimation will follow the algorithm described in Shen et al, 2015, using a weighted least squares approach. If 'veis' is passed in, then the region is going to be split into delaneuy triangles and a strain estimated in each barycenter. Default is 'shen'. If  ‘One Tensor’ checked, then only one strain tensor will be estimated, at the region’s barycentre.
+In the second part, user specifies the region as a rectangle and x-axis/y-axis grid steps. Any station falling outside this region will be omitted.
+In the third part, the user selects the interpolation model parameters for ‘shen’ method. The options are:
+
+- Wt: Let W=Σ_i*G_i, the total reweighting coefficients of the data, and let Wt be the threshold of W. For a given Wt, the smoothing constant D is determined by Wd=Wt . It should be noted that W is a function of the interpolation coordinate, therefore for the same Wt assigned, D varies spatially based on the in situ data strength; that is, the denser the local data array is, the smaller is D, and vice versa. Default is Wt=24.
+- D min: This is the lower limit for searching for an optimal d-param value. Unit is km. Default is dmin=1km.
+- D max: This is the upper limit for searching for an optimal d-param value. Unit is km. Default is dmax=500km.
+- D step: This is the step size for searching for an optimal d-param value. Unit is km. Default is dstep=2km.
+- D parameter: This is the 'D' parameter for computing the spatial weights. If this option is used, then the parameters: dmin, dmax, dstep and Wt are not used.
+Final there are two special argument as:
+- cut excess stations: If this option is enabled, then any station (from the input file) outside the region limit (passed in via the 'region' option) is not considered in the strain estimation.
+- generate statistics: This option will create an output file, named 'strain_stats.dat', where estimation info and statistics will be written.
+
+Note thast users can browse StrainTool’s dedicated web page (https://dsolab.github.io/StrainTool/) for a more detailed description.
+
+### Output files
+
+Results of `StrainWebTool` are recorded in the following three files:
+
+*   **strain_info.dat :** This file includes strain tensor parameters, principal axis, rotational rates, dilatation etc.  
+    The columns of the file are structured as below:
+
+<pre id="block-samp" <samp="">Latitude  Longtitude     vx+dvx          vy+dvy           w+dw          exx+dexx        exy+dexy        eyy+deyy       emax+demax      emin+demin       shr+dshr        azi+dazi      dilat+ddilat   sec.inv.+dsec.inv.
+   deg       deg         mm/yr           mm/yr          deg/Myr       nstrain/yr      nstrain/yr      nstrain/yr      nstrain/yr      nstrain/yr      nstrain/yr         deg.         nstrain/yr      nstrain/yr   
+	        </pre>
+
+*   **station_info.dat :** Stations' data used for the calculation of strain tensor are written at htis file. Format is:
+
+<pre id="block-samp" <samp="">
+Code    Longtitude Latitude  Ve   Vn   dVe  dVn 
+string      deg       deg          mm/yr
+	      </pre>
+
+*   **strain_stats.dat :** Output file for statistics:
+<pre id="block-samp" <samp=""> --HEADER-- 
+Parameters and arguments used for estimation of strain tensors.
+--statistics--
+Longtitude  Latitude  # stations D (optimal)  CutOff dis.     Sigma
+ deg.       deg.        #           Km           #            / 
+              </pre>
 
 ## Active Map visualize strain tensor results
 
@@ -127,6 +193,12 @@ Disclaimer: the content of this website reflects only the author’s view and th
 * Python Software Foundation. Python Language Reference, version 2.7. Available at http://www.python.org
 
 * [The Generic Mapping Tools - GMT](http://gmt.soest.hawaii.edu/)
+
+*  [Flask](http://flask.pocoo.org/)  microframework for Python (v1.0.2). 
+
+* [Bootstrap](https://getbootstrap.com/) open source toolkit (v4.2).
+
+* [Leaflet](https://leafletjs.com/) open-source JavaScript library (v1.4.0).
 
 
 
