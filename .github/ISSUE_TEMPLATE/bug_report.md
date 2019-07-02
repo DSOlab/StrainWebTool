@@ -22,6 +22,7 @@ If applicable, add screenshots to help explain your problem.
  - OS: [e.g. Linux]
  - Python: [e.g. 2.7]
  - Flask [e.g. 1.0.2]
+ - WSGI [e.g. 4.6.7]
  - GMT: [e.g. 5.2.1]
  - StrainTool: [e.g. v1.0-beta4.0]
 

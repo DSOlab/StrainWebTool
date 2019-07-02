@@ -38,6 +38,9 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 ##  set rooturl_folder , if wsgi module used for apache or set '' if you run local server
 ROOTURL_FOLDER='/StrainWebTool'
+
+##  Set application;s root folder, for local server use function os.getcwd()
+##+ For WSGI module use absolute path to the folder
 ROOT_FOLDER='/var/www/html/StrainWebTool/app/'  #os.getcwd()
 UPLOAD_FOLDER = '/uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'vel'])
