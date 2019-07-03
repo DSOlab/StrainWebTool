@@ -790,9 +790,22 @@ function setDparamdef() {
     .addTo(map);
   }
   
+    function getCol(matrix, col){
+       var column = [];
+       for(var i=0; i<matrix.length; i++){
+          column.push(matrix[i][col]);
+       }
+       return column;
+    }
+    
+  var maxvn = Math.max.apply(Math, getCol(lonlatarray,3));
+  var minvn = Math.min.apply(Math, getCol(lonlatarray,3));
+  var maxve = Math.max.apply(Math, getCol(lonlatarray,4));
+  var minve = Math.min.apply(Math, getCol(lonlatarray,4));
+
       for (var i = 0; i < lonlatarray.length; i++) {
-        var lat2 = lonlatarray[i][1] + lonlatarray[i][3]/20;
-        var lon2 = lonlatarray[i][2] + lonlatarray[i][4]/20;
+        var lat2 = lonlatarray[i][1] + lonlatarray[i][3]/((maxvn - minvn)/2);
+        var lon2 = lonlatarray[i][2] + lonlatarray[i][4]/((maxve - minve)/2);
         var arrow = L.polyline([[lonlatarray[i][1],lonlatarray[i][2]], [lat2, lon2]], {color: 'blue'})
         .bindPopup('CODE: <b>' + lonlatarray[i][0] + '</b>' +
         '<br>  Lat = ' + lonlatarray[i][1] +

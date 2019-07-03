@@ -534,7 +534,7 @@ function includeHTML() {
   ];
   
   var strinfo=[
-    {% if args.method == 'Shen' %}
+    {% if args.method == 'shen' %}
       {% for str in strain_info %}
         [ {{ str.lat }}, {{ str.lon }}, {{ str.emax }}, {{ str.demax }}, {{ str.emin }}, {{ str.demin }}, {{ str.azi }}, {{ str.dazi }}, {{ str.w }}, {{ str.dw }}, {{ str.shr }}, {{ str.dshr }}, {{ str.dilat }}, {{ str.ddilat }}, {{ str.secinv }} , {{ str.dsecinv }} ],
       {% endfor %}
@@ -567,11 +567,23 @@ function includeHTML() {
     .addTo(stations);
   }
   
+    function getCol(matrix, col){
+       var column = [];
+       for(var i=0; i<matrix.length; i++){
+          column.push(matrix[i][col]);
+       }
+       return column;
+    }
+    
   
   var vel = L.layerGroup();
+  var maxvn = Math.max.apply(Math, getCol(lonlatarray,3));
+  var minvn = Math.min.apply(Math, getCol(lonlatarray,3));
+  var maxve = Math.max.apply(Math, getCol(lonlatarray,4));
+  var minve = Math.min.apply(Math, getCol(lonlatarray,4)); 
   for (var i = 0; i < lonlatarray.length; i++) {
-    var lat2 = lonlatarray[i][1] + lonlatarray[i][3]/20;
-    var lon2 = lonlatarray[i][2] + lonlatarray[i][4]/20;
+    var lat2 = lonlatarray[i][1] + lonlatarray[i][3]/((maxvn - minvn)/2);
+    var lon2 = lonlatarray[i][2] + lonlatarray[i][4]/((maxve - minve)/2);
     var velline = L.polyline([[lonlatarray[i][1],lonlatarray[i][2]], [lat2, lon2]], {color: 'blue'})
     .bindPopup('CODE: ' + lonlatarray[i][0] +
     '<br>  Lat = ' + lonlatarray[i][1] +
@@ -604,11 +616,21 @@ function includeHTML() {
 //         }).addTo(map);
   
   var strain = L.layerGroup();
+  var max_emax = Math.max.apply(Math, getCol(strinfo,2));
+  var min_emax = Math.min.apply(Math, getCol(strinfo,2));
+  var max_emin = Math.max.apply(Math, getCol(strinfo,4));
+  var min_emin = Math.min.apply(Math, getCol(strinfo,4));
+  if (max_emax > Math.abs(max_emin)) {
+    var str_scale = 2*(Math.abs(max_emax) - Math.abs(min_emax));
+  } else {
+    var str_scale = 2*(Math.abs(max_emin) - Math.abs(min_emin));
+  }
+  var str_scale = ((max_emax+max_emin) - (min_emax + min_emin))
 	for (var i = 0; i < strinfo.length; i++) {
-	  var emax_lat1 = strinfo[i][0] + strinfo[i][2]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
-	  var emax_lon1 = strinfo[i][1] + strinfo[i][2]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
-    var emax_lat2 = strinfo[i][0] - strinfo[i][2]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
-    var emax_lon2 = strinfo[i][1] - strinfo[i][2]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
+	  var emax_lat1 = strinfo[i][0] + strinfo[i][2]*Math.cos(strinfo[i][6]*Math.PI/180)/str_scale;
+	  var emax_lon1 = strinfo[i][1] + strinfo[i][2]*Math.sin(strinfo[i][6]*Math.PI/180)/str_scale;
+    var emax_lat2 = strinfo[i][0] - strinfo[i][2]*Math.cos(strinfo[i][6]*Math.PI/180)/str_scale;
+    var emax_lon2 = strinfo[i][1] - strinfo[i][2]*Math.sin(strinfo[i][6]*Math.PI/180)/str_scale;
     L.polyline([[emax_lat1, emax_lon1], [emax_lat2, emax_lon2]], {color: 'red'})
     .bindPopup('Lat = ' + strinfo[i][0] +
     '<br>  Lon = ' + strinfo[i][1] + 
@@ -625,10 +647,10 @@ function includeHTML() {
 
   
   for (var i = 0; i < strinfo.length; i++) {
-	  var emin_lat1 = strinfo[i][0] + strinfo[i][4]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
-	  var emin_lon1 = strinfo[i][1] - strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
-    var emin_lat2 = strinfo[i][0] - strinfo[i][4]*Math.sin(strinfo[i][6]*Math.PI/180)/300;
-    var emin_lon2 = strinfo[i][1] + strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/300;
+	  var emin_lat1 = strinfo[i][0] + strinfo[i][4]*Math.sin(strinfo[i][6]*Math.PI/180)/str_scale;
+	  var emin_lon1 = strinfo[i][1] - strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/str_scale;
+    var emin_lat2 = strinfo[i][0] - strinfo[i][4]*Math.sin(strinfo[i][6]*Math.PI/180)/str_scale;
+    var emin_lon2 = strinfo[i][1] + strinfo[i][4]*Math.cos(strinfo[i][6]*Math.PI/180)/str_scale;
     L.polyline([[emin_lat1, emin_lon1], [emin_lat2, emin_lon2]], {color: 'blue'})
     .bindPopup('Lat = ' + strinfo[i][0] +
     '<br>  Lon = ' + strinfo[i][1] + 
@@ -644,15 +666,16 @@ function includeHTML() {
   }
   
 // CREATE color palete
-  var color_pal=[ "#0066cc", "#0080ff", "#1a8cff", "#66b3ff", "#cce6ff", "#e6e6ff", "#ffebee", "#ff8080", "#ff4d4d", "#ff0000", "#cc0000"];
+//   var color_pal=[ "#0066cc", "#0080ff", "#1a8cff", "#66b3ff", "#cce6ff", "#e6e6ff", "#ffebee", "#ff8080", "#ff4d4d", "#ff0000", "#cc0000"];
+  var color_pal=["#0174DF", "#0080FF", "#2E9AFE", "#58ACFA", "#81BEF7", "#A9D0F5", "#CEE3F6", "#E0ECF8", "#F8E0E0", "#F6CECE", "#F5A9A9", "#F78181", "#FA5858", "#FE2E2E", "#FF0000", "#DF0101" ];
   function create_scale(min,max,feature) {
-    var step = (max - min)/9;
+    var step = (max - min)/15;
     var lim1 = min-0.1;
     var lim2 = min+step;
-    for (var i = 0; i <= 9; i++) {
+    for (var i = 0; i <= 15; i++) {
     if (feature > lim1 && feature <= lim2 ) {
       return {
-                    radius: feature*10/max,
+                    radius: 7,
                     fillColor: color_pal[i],
                     color: "#000",
                     weight: 0,
@@ -667,13 +690,7 @@ function includeHTML() {
   }
 
 
-  function getCol(matrix, col){
-       var column = [];
-       for(var i=0; i<matrix.length; i++){
-          column.push(matrix[i][col]);
-       }
-       return column;
-    }
+
     
   var shear = L.layerGroup();
   var min = Math.min.apply(Math, getCol(strinfo,10));
