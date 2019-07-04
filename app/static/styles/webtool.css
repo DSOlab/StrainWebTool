@@ -278,6 +278,11 @@ display: block;
   background-color: rgba(255, 255, 255, 1);
 }
 
+.my-label {
+    position: absolute;
+    width:100px;
+    font-size:16px;
+}
 
 
 /* -------------------------------------------------------------------------- */

@@ -606,6 +606,26 @@ function includeHTML() {
      ]
      }).addTo(vel);
   }
+  
+     var lat2sc = {{ grd.y_min }} + 1 + 0/((maxvn - minvn)/2);
+     var lon2sc = {{ grd.x_min }} - 4*{{ grd.x_step }} + (maxvn > maxve ? maxvn : maxve)/((maxve - minve)/2);
+     var arrowsc = L.polyline([[{{ grd.y_min }} + 1,{{ grd.x_min }} - 4*{{ grd.x_step }}], [lat2sc, lon2sc]], {color: 'black'})
+     .bindTooltip("<b>" + (maxvn > maxve ? maxvn : maxve) +" mm/y</b>", {
+      permanent: true,
+      offset: L.point({x: -40, y: 30})	
+    })     
+     .addTo(vel);
+     
+     
+    var arrowscHead = L.polylineDecorator(arrowsc, {
+            patterns: [
+                {
+                    offset: '100%',
+                    repeat: 0,
+                    symbol: L.Symbol.arrowHead({pixelSize: 10, polygon: false, pathOptions: {stroke: true, color: 'black'}})
+                }
+            ]
+        }).addTo(vel);
 
   
   
@@ -658,6 +678,30 @@ function includeHTML() {
     )
     .addTo(strain);
   }
+  
+     var lat2str = {{ grd.y_min }}  + 0/((maxvn - minvn)/2);
+     var lon2str = {{ grd.x_min }} - 4*{{ grd.x_step }} + (max_emax > max_emin ? 2*max_emax : 2*max_emin)/(str_scale);
+     var arrowstr = L.polyline([[{{ grd.y_min }},{{ grd.x_min }} - 4*{{ grd.x_step }}], [lat2str, lon2str]], {color: 'black'})
+     .bindTooltip("<b>" + (max_emax > max_emin ? max_emax : max_emin) +" nstrain/y</b>", {
+      permanent: true,
+      offset: L.point({x: -40, y: 30})	
+    })     
+     .addTo(strain);
+     /*
+     
+    var arrowscHead = L.polylineDecorator(arrowsc, {
+            patterns: [
+                {
+                    offset: '100%',
+                    repeat: 0,
+                    symbol: L.Symbol.arrowHead({pixelSize: 10, polygon: false, pathOptions: {stroke: true, color: 'black'}})
+                }
+            ]
+        }).addTo(vel);*/
+
+  
+  
+  
   
   var STRlegend = L.control({position: 'topright'});
   STRlegend.onAdd = function (map) {
