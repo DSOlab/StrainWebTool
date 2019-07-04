@@ -93,6 +93,7 @@ function includeHTML() {
   }
 }
 </script>
+
 </head>
 
 <body data-spy="scroll" data-target="#toc">
@@ -605,15 +606,8 @@ function includeHTML() {
      ]
      }).addTo(vel);
   }
-//           var arrowHead = L.polylineDecorator(vel, {
-//             patterns: [
-//                 {
-//                     offset: '100%',
-//                     repeat: 0,
-//                     symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true}})
-//                 }
-//             ]
-//         }).addTo(map);
+
+  
   
   var strain = L.layerGroup();
   var max_emax = Math.max.apply(Math, getCol(strinfo,2));
@@ -665,12 +659,23 @@ function includeHTML() {
     .addTo(strain);
   }
   
+  var STRlegend = L.control({position: 'topright'});
+  STRlegend.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'legend');
+      div.innerHTML += "<h4>Principal Axes</h4>";
+      div.innerHTML += '<i style="background:#FF0000 "></i><span>Extension</span><br>';
+  div.innerHTML += '<i style="background:#0000FF "></i><span>Compression</span><br>';
+            
+//             div.innerHTML = labels.join('<br>');
+            return div;
+        };
+  
 // CREATE color palete
 //   var color_pal=[ "#0066cc", "#0080ff", "#1a8cff", "#66b3ff", "#cce6ff", "#e6e6ff", "#ffebee", "#ff8080", "#ff4d4d", "#ff0000", "#cc0000"];
   var color_pal=["#0174DF", "#0080FF", "#2E9AFE", "#58ACFA", "#81BEF7", "#A9D0F5", "#CEE3F6", "#E0ECF8", "#F8E0E0", "#F6CECE", "#F5A9A9", "#F78181", "#FA5858", "#FE2E2E", "#FF0000", "#DF0101" ];
   function create_scale(min,max,feature) {
     var step = (max - min)/15;
-    var lim1 = min-0.1;
+    var lim1 = min-0.0001;
     var lim2 = min+step;
     for (var i = 0; i <= 15; i++) {
     if (feature > lim1 && feature <= lim2 ) {
@@ -688,15 +693,12 @@ function includeHTML() {
 
     }
   }
-
-
-
-    
+  
   var shear = L.layerGroup();
-  var min = Math.min.apply(Math, getCol(strinfo,10));
-  var max = Math.max.apply(Math, getCol(strinfo,10));
+  var shrmin = Math.min.apply(Math, getCol(strinfo,10));
+  var shrmax = Math.max.apply(Math, getCol(strinfo,10));
   for (var i = 0; i < strinfo.length; i++) {
-    L.circleMarker([strinfo[i][0], strinfo[i][1]], create_scale(min,max,strinfo[i][10]))
+    L.circleMarker([strinfo[i][0], strinfo[i][1]], create_scale(shrmin,shrmax,strinfo[i][10]))
     .bindPopup('Lat = ' + strinfo[i][0] +
     '<br>  Lon = ' + strinfo[i][1] + 
     '<br>  emax = ' + strinfo[i][2] + '&plusmn;' + strinfo[i][3] +
@@ -710,11 +712,42 @@ function includeHTML() {
     .addTo(shear);
   }
   
+      
+  var SHRlegend = L.control({position: 'topright'});
+  SHRlegend.onAdd = function (map) {
+     var div = L.DomUtil.create('div', 'legend'),
+                grades = [],
+                labels = [],
+                from, to;
+    var step = (shrmax - shrmin)/16;
+    var lim1 = shrmin;
+    
+    for (var i = 0; i <= 16; i++) {
+      grades.push(lim1);
+      var lim1 = lim1 + step;
+    }
+    
+    div.innerHTML = labels.push('<p4 style="text-align:center">Shear Strain</p4>');
+    div.innerHTML = labels.push('<p5 style="text-align:center">(nstrain/y)</p5>');
+    for (var i = 0; i < grades.length - 1 ; i++) {
+      from = grades[i];
+      to = grades[i + 1];
+
+      labels.push(
+        '<i style="background:' + color_pal[i] + '"></i> ' +
+            from.toFixed(1) + ' &ndash; ' + to.toFixed(1) );
+    }
+    
+    div.innerHTML = labels.join('<br>');
+    return div;
+  };
+  
+  
   var dilatation = L.layerGroup();
-  var min = Math.min.apply(Math, getCol(strinfo,12));
-  var max = Math.max.apply(Math, getCol(strinfo,12));
+  var dilmin = Math.min.apply(Math, getCol(strinfo,12));
+  var dilmax = Math.max.apply(Math, getCol(strinfo,12));
   for (var i = 0; i < strinfo.length; i++) {
-    L.circleMarker([strinfo[i][0], strinfo[i][1]], create_scale(min,max,strinfo[i][12]))
+    L.circleMarker([strinfo[i][0], strinfo[i][1]], create_scale(dilmin,dilmax,strinfo[i][12]))
     .bindPopup('Lat = ' + strinfo[i][0] +
     '<br>  Lon = ' + strinfo[i][1] + 
     '<br>  emax = ' + strinfo[i][2] + '&plusmn;' + strinfo[i][3] +
@@ -728,11 +761,40 @@ function includeHTML() {
     .addTo(dilatation);
   }
   
+  var DILlegend = L.control({position: 'topright'});
+  DILlegend.onAdd = function (map) {
+     var div = L.DomUtil.create('div', 'legend'),
+                grades = [],
+                labels = [],
+                from, to;
+    var step = (dilmax - dilmin)/16;
+    var lim1 = dilmin;
+    
+    for (var i = 0; i <= 16; i++) {
+      grades.push(lim1);
+      var lim1 = lim1 + step;
+    }
+    
+    div.innerHTML = labels.push('<p4 style="text-align:center">Dilatation</p4>');
+    div.innerHTML = labels.push('<p5 style="text-align:center">(nstrain/y)</p5>');
+    for (var i = 0; i < grades.length - 1 ; i++) {
+      from = grades[i];
+      to = grades[i + 1];
+
+      labels.push(
+        '<i style="background:' + color_pal[i] + '"></i> ' +
+            from.toFixed(1) + ' &ndash; ' + to.toFixed(1) );
+    }
+    
+    div.innerHTML = labels.join('<br>');
+    return div;
+  };
+  
   var secinv = L.layerGroup();
-  var min = Math.min.apply(Math, getCol(strinfo,14));
-  var max = Math.max.apply(Math, getCol(strinfo,14));
+  var sinvmin = Math.min.apply(Math, getCol(strinfo,14));
+  var sinvmax = Math.max.apply(Math, getCol(strinfo,14));
   for (var i = 0; i < strinfo.length; i++) {
-    L.circleMarker([strinfo[i][0], strinfo[i][1]], create_scale(min,max,strinfo[i][14]))
+    L.circleMarker([strinfo[i][0], strinfo[i][1]], create_scale(sinvmin,sinvmax,strinfo[i][14]))
     .bindPopup('Lat = ' + strinfo[i][0] +
     '<br>  Lon = ' + strinfo[i][1] + 
     '<br>  emax = ' + strinfo[i][2] + '&plusmn;' + strinfo[i][3] +
@@ -746,6 +808,34 @@ function includeHTML() {
     .addTo(secinv);
   }
   
+  var SINVlegend = L.control({position: 'topright'});
+  SINVlegend.onAdd = function (map) {
+     var div = L.DomUtil.create('div', 'legend'),
+                grades = [],
+                labels = [],
+                from, to;
+    var step = (sinvmax - sinvmin)/16;
+    var lim1 = sinvmin;
+    
+    for (var i = 0; i <= 16; i++) {
+      grades.push(lim1);
+      var lim1 = lim1 + step;
+    }
+    
+    div.innerHTML = labels.push('<p4 style="text-align:center">2nd Invariant</p4>');
+    div.innerHTML = labels.push('<p5 style="text-align:center">(nstrain/y)</p5>');
+    for (var i = 0; i < grades.length - 1 ; i++) {
+      from = grades[i];
+      to = grades[i + 1];
+
+      labels.push(
+        '<i style="background:' + color_pal[i] + '"></i> ' +
+            from.toFixed(1) + ' &ndash; ' + to.toFixed(1) );
+    }
+    
+    div.innerHTML = labels.join('<br>');
+    return div;
+  };
   
 	var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
 			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -785,6 +875,8 @@ function includeHTML() {
 		};
 
 	L.control.layers(baseLayers, overlays, {collapsed:false}).addTo(map);
+	
+	
 
 //   Add scale Bar
   L.control.scale().addTo(map);
@@ -836,6 +928,32 @@ L.control.watermark = function(opts) {
 }
 
 L.control.watermark({ position: 'bottomright' }).addTo(map);
+
+STRlegend.addTo(map);
+currentLegend = STRlegend;
+
+map.on('baselayerchange', function (eventLayer) {
+    if (eventLayer.name === 'Principal Axes') {
+        map.removeControl(currentLegend );
+        currentLegend = STRlegend;
+        STRlegend.addTo(map);
+    }
+    else if  (eventLayer.name === 'Shear Strain') {
+        map.removeControl(currentLegend );
+        currentLegend = SHRlegend;
+        SHRlegend.addTo(map);
+    }
+    else if  (eventLayer.name === 'Dilatation') {
+       map.removeControl(currentLegend );
+        currentLegend = DILlegend;
+        DILlegend.addTo(map);
+    }
+    else if  (eventLayer.name === '2nd Invariant') {
+       map.removeControl(currentLegend );
+        currentLegend = SINVlegend;
+       SINVlegend.addTo(map);
+    }
+  })
 
 L.easyPrint({
 	title: 'Print button',
