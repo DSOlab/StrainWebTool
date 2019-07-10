@@ -902,14 +902,15 @@ function includeHTML() {
 
 	var map = L.map('map', {
 		center: [{{ clat }}, {{ clon }}],
-		zoom: 6,
 		layers: [Esri_WorldTopoMap, strain]
 	});
 
+	
+	
 	var southWest = new L.LatLng({{ grd.y_min }}, {{ grd.x_min }}),
-        northEast = new L.LatLng({{ grd.y_max }}, {{ grd.x_max }}),
-        bounds = new L.LatLngBounds(southWest, northEast);
-        map.fitBounds(bounds, {padding: [5, 5]});
+      northEast = new L.LatLng({{ grd.y_max }}, {{ grd.x_max }}),
+      bounds = new L.LatLngBounds(southWest, northEast);
+  map.fitBounds(bounds, {padding: [10,10]});
         
 	var baseLayers = {
 		"Principal Axes": strain,
