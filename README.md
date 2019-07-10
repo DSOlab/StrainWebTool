@@ -16,6 +16,7 @@ Online Portal for [StrainTool](https://github.com/DSOlab/StrainTool) software
 [![](https://img.shields.io/github/forks/DSOlab/StrainWebTool.svg)](https://github.com/DSOlab/StrainWebTool/network)
 [![](https://img.shields.io/github/issues/DSOlab/StrainWebTool.svg)](https://github.com/DSOlab/StrainWebTool/issues)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3308499.svg)](https://doi.org/10.5281/zenodo.3308499)
 
 ## General
 
