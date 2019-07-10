@@ -590,7 +590,7 @@ def webtool_results():
         strain_info.append(sta)
     #print(strain_info)
         
-    return render_template('webtool/tmpl_results.html', rooturl_folder=ROOTURL_FOLDER, input_file = input_filename, NoSta = Npst,clon = x_mean, clat = y_mean, args = args, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = args.x_grid_step, y_step = args.y_grid_step, NoTensors = NoTensors, content = sta_list_ell_tmpl, strinfo = sstr, grd = grd_tmpl, strain_info = strain_info )
+    return render_template('webtool/tmpl_results.html', rooturl_folder=ROOTURL_FOLDER, input_file = input_filename, NoSta = Npst,clon = x_mean, clat = y_mean, args = args, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = args.x_grid_step, y_step = args.y_grid_step, NoTensors = NoTensors, content = sta_list_ell_tmpl, strinfo = sstr, grd = grd, strain_info = strain_info )
 
 @app.route('/outputs/<filename>', methods=['GET', 'POST'])
 def dowloadfile(filename):

@@ -601,7 +601,7 @@ function includeHTML() {
        {
          offset: '100%',
          repeat: 0,
-         symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true, color: 'blue'}})
+         symbol: L.Symbol.arrowHead({pixelSize: 10, polygon: false, pathOptions: {stroke: true, color: 'blue'}})
        }
      ]
      }).addTo(vel);
@@ -715,8 +715,13 @@ function includeHTML() {
         };
   
 // CREATE color palete
-//   var color_pal=[ "#0066cc", "#0080ff", "#1a8cff", "#66b3ff", "#cce6ff", "#e6e6ff", "#ffebee", "#ff8080", "#ff4d4d", "#ff0000", "#cc0000"];
-  var color_pal=["#0174DF", "#0080FF", "#2E9AFE", "#58ACFA", "#81BEF7", "#A9D0F5", "#CEE3F6", "#E0ECF8", "#F8E0E0", "#F6CECE", "#F5A9A9", "#F78181", "#FA5858", "#FE2E2E", "#FF0000", "#DF0101" ];
+//   var color_pal = [ "#0066cc", "#0080ff", "#1a8cff", "#66b3ff", "#cce6ff", "#e6e6ff", "#ffebee", "#ff8080", "#ff4d4d", "#ff0000", "#cc0000"];
+//   var color_pal = ["#0174DF", "#0080FF", "#2E9AFE", "#58ACFA", "#81BEF7", "#A9D0F5", "#CEE3F6", "#E0ECF8", "#F8E0E0", "#F6CECE", "#F5A9A9", "#F78181", "#FA5858", "#FE2E2E", "#FF0000", "#DF0101" ];
+//   var color_pal = ["#0000ff",	"#0080ff",	"#00bfff",	"#00ffff",	"#00ffbf",	"#00ff80",	"#bfff00",	"#ffbf00",	"#ffbf00",	"#ff9900",	"#ff8000",	"#ff6600",	"#ff4c00",	"#ff3300",	"#ff1a00",	"#ff0000"]'
+
+  var color_pal = [ "#1500ff", "#05f", "#007fff", "#00bfff", "#0ff", "#00ffbf", "#00ff80", "#0f0", "#80ff00", "#bfff00", "#ff0", "#ffbf00", "#ff8000", "#f60", "#ff2b00", "#f00" ];
+
+
   function create_scale(min,max,feature) {
     var step = (max - min)/15;
     var lim1 = min-0.0001;
@@ -897,14 +902,15 @@ function includeHTML() {
 
 	var map = L.map('map', {
 		center: [{{ clat }}, {{ clon }}],
-		zoom: 6,
 		layers: [Esri_WorldTopoMap, strain]
 	});
 
+	
+	
 	var southWest = new L.LatLng({{ grd.y_min }}, {{ grd.x_min }}),
-        northEast = new L.LatLng({{ grd.y_max }}, {{ grd.x_max }}),
-        bounds = new L.LatLngBounds(southWest, northEast);
-        map.fitBounds(bounds, {padding: [5, 5]});
+      northEast = new L.LatLng({{ grd.y_max }}, {{ grd.x_max }}),
+      bounds = new L.LatLngBounds(southWest, northEast);
+  map.fitBounds(bounds, {padding: [10,10]});
         
 	var baseLayers = {
 		"Principal Axes": strain,
