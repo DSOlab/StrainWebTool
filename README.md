@@ -62,7 +62,11 @@ virtualenv flask
 **activate venv**
 . flask/bin/activate
 
-export FLASK_APP=run.py
+**go to app directory**
+cd app
+
+**set flask application and run local server**
+export FLASK_APP=webtool.py
 flask run
 * Running on http://127.0.0.1:5000/inputs
 
