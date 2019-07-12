@@ -546,6 +546,12 @@ function includeHTML() {
     {% endif %}
   ];
   
+  var dlntrinfo = [
+    {% for tr in dlntr_info %}
+      [ {{ tr.lat1 }}, {{ tr.lon1 }}, {{ tr.lat2 }}, {{ tr.lon2 }},  {{ tr.lat3 }}, {{ tr.lon3 }}],
+    {% endfor %}
+  ]
+  
   var stations = L.layerGroup();
   for (var i = 0; i < lonlatarray.length; i++) {
     L.circleMarker([lonlatarray[i][1], lonlatarray[i][2]], {
@@ -575,21 +581,32 @@ function includeHTML() {
        }
        return column;
     }
+  
   {% if args.one_tensor == False and args.method == 'shen' %}  
-  var grid = L.layerGroup();
-  var x_cell = ({{ grd.x_max}} - {{ grd.x_min }})/{{ grd.x_step }};
-  var y_cell = ({{ grd.y_max}} - {{ grd.y_min }})/{{ grd.y_step }};
-  for (var i = 0; i <= x_cell; i++) {
-    var lon1 = {{ grd.x_min }} + i*{{ grd.x_step }};
-    var lon2 = {{ grd.x_min }} + i*{{ grd.x_step }};
-    L.polyline([[{{ grd.y_min }}, lon1], [{{ grd.y_max }}, lon2]], {color: 'gray', weight: 1, opacity: 0.7}).addTo(grid);
-  }
-  for (var i = 0; i <= y_cell; i++) {
-    var lat1 = {{ grd.y_min }} + i*{{ grd.y_step }};
-    var lat2 = {{ grd.y_min }} + i*{{ grd.y_step }};
-    L.polyline([[lat1, {{ grd.x_min }} ], [lat2, {{ grd.x_max}}]], {color: 'gray', weight: 1, opacity: 0.7}).addTo(grid);
-  }
+    var grid = L.layerGroup();
+    var x_cell = ({{ grd.x_max}} - {{ grd.x_min }})/{{ grd.x_step }};
+    var y_cell = ({{ grd.y_max}} - {{ grd.y_min }})/{{ grd.y_step }};
+    for (var i = 0; i <= x_cell; i++) {
+      var lon1 = {{ grd.x_min }} + i*{{ grd.x_step }};
+      var lon2 = {{ grd.x_min }} + i*{{ grd.x_step }};
+      L.polyline([[{{ grd.y_min }}, lon1], [{{ grd.y_max }}, lon2]], {color: 'gray', weight: 1, opacity: 0.7}).addTo(grid);
+    }
+    for (var i = 0; i <= y_cell; i++) {
+      var lat1 = {{ grd.y_min }} + i*{{ grd.y_step }};
+      var lat2 = {{ grd.y_min }} + i*{{ grd.y_step }};
+      L.polyline([[lat1, {{ grd.x_min }} ], [lat2, {{ grd.x_max}}]], {color: 'gray', weight: 1, opacity: 0.7}).addTo(grid);
+    }
   {% endif %}
+  
+  
+  {% if args.one_tensor == False and args.method == 'veis' %}  
+    var dlntr = L.layerGroup();
+    for (var i = 0; i < dlntrinfo.length; i++) {
+      L.polyline([[dlntrinfo[i][0], dlntrinfo[i][1]], [dlntrinfo[i][2], dlntrinfo[i][3]], [dlntrinfo[i][4], dlntrinfo[i][5]]], {color: 'gray', weight: 1, opacity: 0.7}).addTo(dlntr);
+    }
+  {% endif %}
+
+  
   
   var vel = L.layerGroup();
   var maxvn = Math.max.apply(Math, getCol(lonlatarray,3));
@@ -952,6 +969,10 @@ function includeHTML() {
   {% if args.one_tensor == False and args.method == 'shen' %}  
 ,
 		"Grid": grid
+  {% endif %}
+  {% if args.one_tensor == False and args.method == 'veis' %}  
+,
+		"Delaunay Tr": dlntr
   {% endif %}
 		};
 

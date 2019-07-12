@@ -259,11 +259,49 @@ class get_strain_param:
         self.secinv  = None
         self.dsecinv = None
 
+class delaunay_tr:
+    dlntr_attr = ['lon1', 'lat1', 'lon2', 'lat2', 'lon3', 'lat3' ]
+
+    def __init__(self, *args, **kargs):
+        self.set_none()
+
+        if len(args) is not 0:
+            self.move_to_dlntr(*args)
+
+        if len(kargs) is not 0:
+            for key, val in kargs.items():
+                if key in dlntr_attr:
+                    setattr(self, key, val)
+    
+    def move_to_dlntr(self, lon1, lat1, lon2, lat2, lon3, lat3):
+        try:
+            self.lon1    = degrees(lon1)
+            self.lat1    = degrees(lat1)
+            self.lon2    = degrees(lon2)
+            self.lat2    = degrees(lat2)
+            self.lon3    = degrees(lon3)
+            self.lat3    = degrees(lat3)
+        except:
+            print('[DEBUG] Invalid Station instance constrution.')
+            #print('[DEBUG] Input line \"{}\"'.format(input_line.strip()))
+            #raise RuntimeError
+
+    def set_none(self):
+        self.lon1    = None
+        self.lat1    = None
+        self.lon2    = None
+        self.lat2    = None
+        self.lon3    = None
+        self.lat3    = None
+
+
+
 @app.route('/results', methods=['GET', 'POST'])
 def webtool_results():
     NoSta = session.get('NoSta')
     input_filename = session.get('input_filename')
     sta_list_ell = []
+    dlntr_info = []
     with open(f_temp, 'r') as file:
         stations = []
         for line in file.readlines():
@@ -545,6 +583,7 @@ def webtool_results():
         tri = Delaunay(points)
         print('[DEBUG] Number of Delaunay triangles: {}'.format(len(tri.simplices)))
         NoTensors = len(tri.simplices)
+        dlntr = []
         for idx, trng in enumerate(tri.simplices):
             #print('[DEBUG] {:5d}/{:7d}'.format(idx+1, len(tri.simplices)), end="\r")
             ## triangle barycentre
@@ -558,7 +597,10 @@ def webtool_results():
             ## Print the triangle in the corresponding file (ellipsoidal crd, degrees)
             dlnout.write('> {:}, {:}, {:}\n'.format(sta_list_utm[trng[0]].name, sta_list_utm[trng[1]].name, sta_list_utm[trng[2]].name))
             dlnout.write('{:+8.5f} {:8.5f}\n{:+8.5f} {:8.5f}\n{:+8.5f} {:8.5f}\n{:+8.5f} {:8.5f}\n'.format(*[ degrees(x) for x in [sta_list_ell[trng[0]].lon, sta_list_ell[trng[0]].lat, sta_list_ell[trng[1]].lon, sta_list_ell[trng[1]].lat, sta_list_ell[trng[2]].lon, sta_list_ell[trng[2]].lat, sta_list_ell[trng[0]].lon, sta_list_ell[trng[0]].lat]]))
-            # strain_list.append(sstr)
+            dlntr.append(delaunay_tr(sta_list_ell[trng[0]].lon, sta_list_ell[trng[0]].lat, sta_list_ell[trng[1]].lon, sta_list_ell[trng[1]].lat, sta_list_ell[trng[2]].lon, sta_list_ell[trng[2]].lat))
+             # strain_list.append(sstr)
+        for tr in dlntr:
+            dlntr_info.append(tr)
         dlnout.close()
 
     fout.close()
@@ -593,7 +635,7 @@ def webtool_results():
         strain_info.append(sta)
     #print(strain_info)
         
-    return render_template('webtool/tmpl_results.html', rooturl_folder=ROOTURL_FOLDER, input_file = input_filename, NoSta = Npst,clon = x_mean, clat = y_mean, args = args, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = args.x_grid_step, y_step = args.y_grid_step, NoTensors = NoTensors, content = sta_list_ell_tmpl, strinfo = sstr, grd = grd, strain_info = strain_info )
+    return render_template('webtool/tmpl_results.html', rooturl_folder=ROOTURL_FOLDER, input_file = input_filename, NoSta = Npst,clon = x_mean, clat = y_mean, args = args, lonmin = lonmin, lonmax = lonmax, latmin = latmin, latmax = latmax, x_step = args.x_grid_step, y_step = args.y_grid_step, NoTensors = NoTensors, content = sta_list_ell_tmpl, strinfo = sstr, grd = grd, strain_info = strain_info, dlntr_info = dlntr_info )
 
 @app.route('/outputs/<filename>', methods=['GET', 'POST'])
 def dowloadfile(filename):
