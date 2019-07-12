@@ -579,6 +579,9 @@ def webtool_results():
     x_mean = (grd_tmpl.x_min + grd_tmpl.x_max)/2.
     y_mean = (grd_tmpl.y_min + grd_tmpl.y_max)/2.
     
+    if args.one_tensor or args.method == 'veis':
+        grd = deepcopy(grd_tmpl)
+      
     
     file = open(f_strain, 'r')
     strain = []
