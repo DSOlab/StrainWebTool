@@ -182,8 +182,14 @@ function includeHTML() {
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Grid-Step</span>
                 </div>
-                <input type="text" class="form-control" placeholder="{{ x_step }}" disabled>
-                <input type="text" class="form-control" placeholder="{{ y_step }}" disabled>
+                {% if args.method == 'veis' %}
+                  <input type="text" class="form-control" placeholder="" disabled>
+                  <input type="text" class="form-control" placeholder="" disabled>
+                {% else %}
+                  <input type="text" class="form-control" placeholder="{{ x_step }}" disabled>
+                  <input type="text" class="form-control" placeholder="{{ y_step }}" disabled>
+                {% endif %}
+                
                 </div>
             </div>
         </div>
@@ -195,32 +201,53 @@ function includeHTML() {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.Wt }}" disabled>
+                    {% if args.method == 'veis' %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="" disabled>
+                    {% else %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.Wt }}" disabled>
+                    {% endif %}
+
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmin }}" disabled>
+                    {% if args.method == 'veis' %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="" disabled>
+                    {% else %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmin }}" disabled>
+                    {% endif %}               
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmax }}" disabled>
+                    {% if args.method == 'veis' %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="" disabled>
+                    {% else %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmax }}" disabled>
+                    {% endif %}    
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dstep }}" disabled>
+                    {% if args.method == 'veis' %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="" disabled>
+                    {% else %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dstep }}" disabled>
+                    {% endif %}
                 </div>
                 OR set:<br>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.d_coef }}" disabled>
+                     {% if args.method == 'veis' %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="" disabled>
+                    {% else %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.d_coef }}" disabled>
+                    {% endif %}
                 </div>
             </div>
         </div>
