@@ -1,7 +1,7 @@
-#! /usr/bin/env python
+#! /usr/bin/python
 #-*- coding: utf-8 -*-
 
-#from __future__ import print_function
+from __future__ import print_function
 ############################################## standard libs
 import sys
 import os
@@ -25,6 +25,8 @@ from scipy.spatial import Delaunay
 
 ############################################## Flask
 from flask import Flask, flash, request, redirect, url_for, render_template, send_file, session
+import flask.scaffold
+flask.helpers._endpoint_from_view_func = flask.scaffold._endpoint_from_view_func
 from flask_restful import reqparse
 
 ##  START applicaion
@@ -55,7 +57,7 @@ f_deltr = os.path.join(ROOT_FOLDER,'delaunay_info.dat')
 f_station = os.path.join(ROOT_FOLDER,'station_info.dat')
 
 ## Varsion of StrainTesnor used
-Version = 'StrainTensor.py Version: 1.0'
+Version = 'StrainTensor.py Version: 1.0-r1'
 
 @app.route('/website')
 def website():
@@ -86,17 +88,30 @@ def webtool_params():
     y_mean = 0
     NoSta = 0
     input_filename = ""
+    zero_std_is_error=False
     if request.method == 'POST':
         file = request.files['file']
         stations = []
         for line in file.readlines():
-            stations.append(Station(line))
+##            stations.append(Station(line))
+            nSta=Station(line)
+            if zero_std_is_error and (nSta.sn==0e0 or nSta.se==0e0):
+                raise ValueError('[ERROR] Zero std. deviation not allowed! station is: {:}'.format(nSta.name))
+            for sta in stations:
+                if sta.name == nSta.name:
+                    raise ValueError('[ERROR] Duplicate record found in input file for station {:}'.format(sta.name))
+                if sta.lat==nSta.lat and sta.lon==nSta.lon:
+                    raise ValueError('[ERROR] Exact coordinate match for stations {:} and {:}. Possible duplicate!'.format(sta.name, nSta.name))
+            stations.append(nSta)
     for sta in stations:
         sta_list_ell.append(sta)
 
-    with open(f_temp, 'wb') as fout:
+    with open(f_temp,'w') as fout:
         for idx, sta in enumerate(sta_list_ell):
-            fout.write('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f} {:+7.3f} {:+7.3f} \n'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03, sta.rho*1e03, sta.t ))
+##            fout.write('{:5s}'.format(sta.name)
+##            fout.write('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f} {:+7.3f} {:+7.3f} \n'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03, sta.rho*1e03, sta.t ))
+            print('{} {} {} {} {} {} {} {} {}'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03, sta.rho*1e03, sta.t ), file=fout)
+##            print('{:^10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f} {:+7.3f} {:+7.3f} \n'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03, sta.rho*1e03, sta.t ), file=fout)
 
     sta_list_ell_tmpl = deepcopy(sta_list_ell)
     for idx, sta in enumerate(sta_list_ell_tmpl):
@@ -153,10 +168,10 @@ class get_strain_param:
     def __init__(self, *args, **kargs):
         self.set_none()
 
-        if len(args) is not 0:
+        if len(args) != 0:
             self.init_from_ascii_line(args[0])
 
-        if len(kargs) is not 0:
+        if len(kargs) != 0:
             for key, val in kargs.items():
                 if key in station_member_names:
                     setattr(self, key, val)
@@ -264,12 +279,22 @@ def webtool_results():
     NoSta = session.get('NoSta')
     input_filename = session.get('input_filename')
     sta_list_ell = []
+    zero_std_is_error=False
     with open(f_temp, 'r') as file:
         stations = []
         for line in file.readlines():
-            stations.append(Station(line))
+##            stations.append(Station(line))
+            nSta=Station(line)
+            if zero_std_is_error and (nSta.sn==0e0 or nSta.se==0e0):
+                raise ValueError('[ERROR] Zero std. deviation not allowed! station is: {:}'.format(nSta.name))
+            for sta in stations:
+                if sta.name == nSta.name:
+                    raise ValueError('[ERROR] Duplicate record found in input file for station {:}'.format(sta.name))
+                if sta.lat==nSta.lat and sta.lon==nSta.lon:
+                    raise ValueError('[ERROR] Exact coordinate match for stations {:} and {:}. Possible duplicate!'.format(sta.name, nSta.name))
+            stations.append(nSta)
         for sta in stations:
-            sta_list_ell.append(sta)
+            sta_list_ell.append(stations)
 
     if request.method == 'POST':
         lonmin = 0#request.form['lonmin']
@@ -410,6 +435,8 @@ def webtool_results():
     fstats = open(f_stats, 'w') if args.generate_stats else None
     if fstats: print_model_info(fstats, sys.argv, args)
 
+    sta_list_ell = parse_ascii_input(f_temp, args.method=='shen')
+
     ##  If a region is passed in, resolve it.
     ##+ If cutting out-of-limits stations option is set, or method is veis, then 
     ##+ only keep the stations that fall within it.
@@ -425,6 +452,9 @@ def webtool_results():
                 Npst = len(sta_list_ell)
                 #vprint('[DEBUG] Stations filtered to fit input region: {:7.3f}/{:7.3f}/{:7.3f}/{:7.3f}'.format(lonmin, lonmax, latmin, latmax))
                 #vprint('[DEBUG] {:4d} out of original {:4d} stations remain to be processed.'.format(Npst, Napr))
+                if Npst < 3:
+                    print('[DEBUG] Left with only {:d} stations! Cannot do anything'.format(Npst))
+                    sys.exit(0)
         except:
             ## TODO we should exit with error here
             print('[ERROR] Failed to parse region argument \"{:}\"'.format(args.region))
@@ -458,15 +488,16 @@ def webtool_results():
     ##  TODO is this mean_lon the optimal?? or should it be the region's mean longtitude
     ##
     mean_lon = degrees(sum([ x.lon for x in sta_list_ell ]) / len(sta_list_ell))
-    utm_zone = floor(mean_lon/6)+31
-    utm_zone = utm_zone + int(utm_zone<=0)*60 - int(utm_zone>60)*60
+    #utm_zone = floor(mean_lon/6)+31
+    #utm_zone = utm_zone + int(utm_zone<=0)*60 - int(utm_zone>60)*60
+    lcm = radians(floor(mean_lon))
     #vprint('[DEBUG] Mean longtitude is {} deg.; using Zone = {} for UTM'.format(mean_lon, utm_zone))
     sta_list_utm = deepcopy(sta_list_ell)
     for idx, sta in enumerate(sta_list_utm):
-        N, E, Zone, lcm = ell2utm(sta.lat, sta.lon, Ellipsoid("wgs84"), utm_zone)
+        N, E, Zone, lcm = ell2utm(sta.lat, sta.lon, Ellipsoid("wgs84"), lcm)
         sta_list_utm[idx].lon = E
         sta_list_utm[idx].lat = N
-        assert Zone == utm_zone, "[ERROR] Invalid UTM Zone."
+        #assert Zone == utm_zone, "[ERROR] Invalid UTM Zone."
     #vprint('[DEBUG] Station list transformed to UTM.')
     
     ##  Open file to write Strain Tensor estimates; write the header
@@ -513,8 +544,8 @@ def webtool_results():
         node_nr, nodes_estim = 0, 0
         for x, y in grd:
             clat, clon =  radians(y), radians(x)
-            N, E, ZN, _ = ell2utm(clat, clon, Ellipsoid("wgs84"), utm_zone)
-            assert ZN == utm_zone
+            N, E, ZN, _ = ell2utm(clat, clon, Ellipsoid("wgs84"), lcm)
+            #assert ZN == utm_zone
             #vprint('[DEBUG] Grid point at {:+8.4f}, {:8.4f} or E={:}, N={:}'.format(x, y, E, N))
             #print('[DEBUG] {:5d}/{:7d}'.format(node_nr+1, grd.xpts*grd.ypts), end="\r")
             ## Construct the Strain instance, with all args (from input)
