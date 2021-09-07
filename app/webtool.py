@@ -538,7 +538,7 @@ def webtool_results():
         
     args.d_coef = None
     args.ltype = 'gaussian'
-    args.multiproc_mode = False
+    args.multiproc_mode = True
     dargs = args
     print(dargs)
     
