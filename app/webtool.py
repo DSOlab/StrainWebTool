@@ -107,11 +107,11 @@ def webtool_params():
             stations.append(nSta)
     for sta in stations:
         sta_list_ell.append(sta)
-
+        
     with open(f_temp, 'w') as fout:
         for idx, sta in enumerate(sta_list_ell):
             #fout.write('{:10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f} {:+7.3f} {:+7.3f} \n'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03, sta.rho*1e03, sta.t ))
-            print('{} {} {} {} {} {} {} {} {}'.format(sta.name, degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03, sta.rho*1e03, sta.t ), file=fout)
+            print('{:^10s} {:+10.5f} {:10.5f} {:+7.2f} {:+7.2f} {:+7.3f} {:+7.3f} {:+7.3f} {:+7.3f}'.format(str(sta.name,'utf-8'), degrees(sta.lon), degrees(sta.lat), sta.ve*1e03, sta.vn*1e03, sta.se*1e03, sta.sn*1e03, sta.rho*1e03, sta.t ), file=fout)
             
     sta_list_ell_tmpl = deepcopy(sta_list_ell)
     for idx, sta in enumerate(sta_list_ell_tmpl):
@@ -538,7 +538,7 @@ def webtool_results():
         
     args.d_coef = None
     args.ltype = 'gaussian'
-    args.multiproc_mode = True
+    args.multiproc_mode = False
     dargs = args
     print(dargs)
     
@@ -757,6 +757,7 @@ def webtool_results():
         tri = Delaunay(points)
         print('[DEBUG] Number of Delaunay triangles: {}'.format(len(tri.simplices)))
         NoTensors = len(tri.simplices)
+        dlntr = []
         for idx, trng in enumerate(tri.simplices):
             print('[DEBUG] {:5d}/{:7d}'.format(idx+1, len(tri.simplices)), end="\r")
             ## triangle barycentre
@@ -770,8 +771,11 @@ def webtool_results():
             ## Print the triangle in the corresponding file (ellipsoidal crd, degrees)
             print('> {:}, {:}, {:}'.format(sta_list_utm[trng[0]].name, sta_list_utm[trng[1]].name, sta_list_utm[trng[2]].name), file=dlnout)
             print('{:+8.5f} {:8.5f}\n{:+8.5f} {:8.5f}\n{:+8.5f} {:8.5f}\n{:+8.5f} {:8.5f}'.format(*[ degrees(x) for x in [sta_list_ell[trng[0]].lon, sta_list_ell[trng[0]].lat, sta_list_ell[trng[1]].lon, sta_list_ell[trng[1]].lat, sta_list_ell[trng[2]].lon, sta_list_ell[trng[2]].lat, sta_list_ell[trng[0]].lon, sta_list_ell[trng[0]].lat]]), file=dlnout)
+            dlntr.append(delaunay_tr(sta_list_ell[trng[0]].lon, sta_list_ell[trng[0]].lat, sta_list_ell[trng[1]].lon, sta_list_ell[trng[1]].lat, sta_list_ell[trng[2]].lon, sta_list_ell[trng[2]].lat))
+        for tr in dlntr:
+            dlntr_info.append(tr)
         dlnout.close()
-        fout.close()
+    fout.close()
  
     #fout.close()
     write_station_info(sta_list_ell)
