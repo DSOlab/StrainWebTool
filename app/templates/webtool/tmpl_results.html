@@ -182,8 +182,14 @@ function includeHTML() {
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">Grid-Step</span>
                 </div>
-                <input type="text" class="form-control" placeholder="{{ x_step }}" disabled>
-                <input type="text" class="form-control" placeholder="{{ y_step }}" disabled>
+                {% if args.method == 'veis' %}
+                  <input type="text" class="form-control" placeholder="" disabled>
+                  <input type="text" class="form-control" placeholder="" disabled>
+                {% else %}
+                  <input type="text" class="form-control" placeholder="{{ x_step }}" disabled>
+                  <input type="text" class="form-control" placeholder="{{ y_step }}" disabled>
+                {% endif %}
+                
                 </div>
             </div>
         </div>
@@ -195,32 +201,53 @@ function includeHTML() {
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Wt</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.Wt }}" disabled>
+                    {% if args.method == 'veis' %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="" disabled>
+                    {% else %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.Wt }}" disabled>
+                    {% endif %}
+
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D min</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmin }}" disabled>
+                    {% if args.method == 'veis' %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="" disabled>
+                    {% else %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmin }}" disabled>
+                    {% endif %}               
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D max</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmax }}" disabled>
+                    {% if args.method == 'veis' %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="" disabled>
+                    {% else %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dmax }}" disabled>
+                    {% endif %}    
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D step</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dstep }}" disabled>
+                    {% if args.method == 'veis' %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="" disabled>
+                    {% else %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.dstep }}" disabled>
+                    {% endif %}
                 </div>
                 OR set:<br>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm">D parameter</span>
                     </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.d_coef }}" disabled>
+                     {% if args.method == 'veis' %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="" disabled>
+                    {% else %}
+                        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="{{ args.d_coef }}" disabled>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -499,14 +526,16 @@ function includeHTML() {
           <th> Strain paramemeters </th>
           <th><a href="{{ rooturl_folder }}/outputs/strain_info.dat" target="_blank">strain_info.dat</a></th>
         </tr>
+        {% if args.method == 'shen' %}
         <tr>
           <th> 3. </th>
           <th> Statistics </th>
           <th><a href="{{ rooturl_folder }}/outputs/strain_stats.dat" target="_blank">strain_stats.dat</a></th>
         </tr>
+        {% endif %}
         {% if args.method == 'veis' %}
         <tr>
-          <th> 4. </th>
+          <th> 3. </th>
           <th>Delaunay Triangles</th>
           <th><a href="{{ rooturl_folder }}/outputs/delaunay_info.dat" target="_blank">delaunay_info.dat</a></th>
         <tr>
@@ -546,6 +575,12 @@ function includeHTML() {
     {% endif %}
   ];
   
+  var dlntrinfo = [
+    {% for tr in dlntr_info %}
+      [ {{ tr.lat1 }}, {{ tr.lon1 }}, {{ tr.lat2 }}, {{ tr.lon2 }},  {{ tr.lat3 }}, {{ tr.lon3 }}],
+    {% endfor %}
+  ]
+  
   var stations = L.layerGroup();
   for (var i = 0; i < lonlatarray.length; i++) {
     L.circleMarker([lonlatarray[i][1], lonlatarray[i][2]], {
@@ -575,7 +610,32 @@ function includeHTML() {
        }
        return column;
     }
-    
+  
+  {% if args.one_tensor == False and args.method == 'shen' %}  
+    var grid = L.layerGroup();
+    var x_cell = ({{ grd.x_max}} - {{ grd.x_min }})/{{ grd.x_step }};
+    var y_cell = ({{ grd.y_max}} - {{ grd.y_min }})/{{ grd.y_step }};
+    for (var i = 0; i <= x_cell; i++) {
+      var lon1 = {{ grd.x_min }} + i*{{ grd.x_step }};
+      var lon2 = {{ grd.x_min }} + i*{{ grd.x_step }};
+      L.polyline([[{{ grd.y_min }}, lon1], [{{ grd.y_max }}, lon2]], {color: 'gray', weight: 1, opacity: 0.7}).addTo(grid);
+    }
+    for (var i = 0; i <= y_cell; i++) {
+      var lat1 = {{ grd.y_min }} + i*{{ grd.y_step }};
+      var lat2 = {{ grd.y_min }} + i*{{ grd.y_step }};
+      L.polyline([[lat1, {{ grd.x_min }} ], [lat2, {{ grd.x_max}}]], {color: 'gray', weight: 1, opacity: 0.7}).addTo(grid);
+    }
+  {% endif %}
+  
+  
+  {% if args.one_tensor == False and args.method == 'veis' %}  
+    var dlntr = L.layerGroup();
+    for (var i = 0; i < dlntrinfo.length; i++) {
+      L.polyline([[dlntrinfo[i][0], dlntrinfo[i][1]], [dlntrinfo[i][2], dlntrinfo[i][3]], [dlntrinfo[i][4], dlntrinfo[i][5]]], {color: 'gray', weight: 1, opacity: 0.7}).addTo(dlntr);
+    }
+  {% endif %}
+
+  
   
   var vel = L.layerGroup();
   var maxvn = Math.max.apply(Math, getCol(lonlatarray,3));
@@ -626,7 +686,6 @@ function includeHTML() {
                 }
             ]
         }).addTo(vel);
-
   
   
   var strain = L.layerGroup();
@@ -634,13 +693,18 @@ function includeHTML() {
   var min_emax = Math.min.apply(Math, getCol(strinfo,2));
   var max_emin = Math.max.apply(Math, getCol(strinfo,4));
   var min_emin = Math.min.apply(Math, getCol(strinfo,4));
-  if (max_emax > Math.abs(max_emin)) {
-    var str_scale = 2*(Math.abs(max_emax) - Math.abs(min_emax));
-  } else {
-    var str_scale = 2*(Math.abs(max_emin) - Math.abs(min_emin));
-  }
+  
+//   if (max_emax > Math.abs(max_emin)) {
+//     var str_scale = 2*(Math.abs(max_emax) - Math.abs(min_emax));
+//   } else {
+//     var str_scale = 2*(Math.abs(max_emin) - Math.abs(min_emin));
+//   }
+{% if args.one_tensor == False %}  
   var str_scale = ((max_emax+max_emin) - (min_emax + min_emin))
-	for (var i = 0; i < strinfo.length; i++) {
+{% else %}
+  var str_scale = (max_emin*3)
+{% endif %}
+  for (var i = 0; i < strinfo.length; i++) {
 	  var emax_lat1 = strinfo[i][0] + strinfo[i][2]*Math.cos(strinfo[i][6]*Math.PI/180)/str_scale;
 	  var emax_lon1 = strinfo[i][1] + strinfo[i][2]*Math.sin(strinfo[i][6]*Math.PI/180)/str_scale;
     var emax_lat2 = strinfo[i][0] - strinfo[i][2]*Math.cos(strinfo[i][6]*Math.PI/180)/str_scale;
@@ -678,8 +742,10 @@ function includeHTML() {
     )
     .addTo(strain);
   }
-  
+
+  {% if args.one_tensor == False %}  
      var lat2str = {{ grd.y_min }}  + 0/((maxvn - minvn)/2);
+     
      var lon2str = {{ grd.x_min }} - 4*{{ grd.x_step }} + (max_emax > max_emin ? 2*max_emax : 2*max_emin)/(str_scale);
      var arrowstr = L.polyline([[{{ grd.y_min }},{{ grd.x_min }} - 4*{{ grd.x_step }}], [lat2str, lon2str]], {color: 'black'})
      .bindTooltip("<b>" + (max_emax > max_emin ? max_emax : max_emin) +" nstrain/y</b>", {
@@ -687,6 +753,7 @@ function includeHTML() {
       offset: L.point({x: -40, y: 30})	
     })     
      .addTo(strain);
+  {% endif %}
      /*
      
     var arrowscHead = L.polylineDecorator(arrowsc, {
@@ -762,6 +829,7 @@ function includeHTML() {
   }
   
       
+{% if args.one_tensor == False %}  
   var SHRlegend = L.control({position: 'topright'});
   SHRlegend.onAdd = function (map) {
      var div = L.DomUtil.create('div', 'legend'),
@@ -790,7 +858,7 @@ function includeHTML() {
     div.innerHTML = labels.join('<br>');
     return div;
   };
-  
+{% endif %}
   
   var dilatation = L.layerGroup();
   var dilmin = Math.min.apply(Math, getCol(strinfo,12));
@@ -809,7 +877,8 @@ function includeHTML() {
     )
     .addTo(dilatation);
   }
-  
+
+{% if args.one_tensor == False %}  
   var DILlegend = L.control({position: 'topright'});
   DILlegend.onAdd = function (map) {
      var div = L.DomUtil.create('div', 'legend'),
@@ -838,6 +907,8 @@ function includeHTML() {
     div.innerHTML = labels.join('<br>');
     return div;
   };
+{% endif %}
+  
   
   var secinv = L.layerGroup();
   var sinvmin = Math.min.apply(Math, getCol(strinfo,14));
@@ -856,7 +927,8 @@ function includeHTML() {
     )
     .addTo(secinv);
   }
-  
+
+{% if args.one_tensor == False %}  
   var SINVlegend = L.control({position: 'topright'});
   SINVlegend.onAdd = function (map) {
      var div = L.DomUtil.create('div', 'legend'),
@@ -885,7 +957,8 @@ function includeHTML() {
     div.innerHTML = labels.join('<br>');
     return div;
   };
-  
+{% endif %}
+
 	var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
 			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
 			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -902,14 +975,15 @@ function includeHTML() {
 
 	var map = L.map('map', {
 		center: [{{ clat }}, {{ clon }}],
-		zoom: 6,
 		layers: [Esri_WorldTopoMap, strain]
 	});
 
+	
+	
 	var southWest = new L.LatLng({{ grd.y_min }}, {{ grd.x_min }}),
-        northEast = new L.LatLng({{ grd.y_max }}, {{ grd.x_max }}),
-        bounds = new L.LatLngBounds(southWest, northEast);
-        map.fitBounds(bounds, {padding: [5, 5]});
+      northEast = new L.LatLng({{ grd.y_max }}, {{ grd.x_max }}),
+      bounds = new L.LatLngBounds(southWest, northEast);
+  map.fitBounds(bounds, {padding: [10,10]});
         
 	var baseLayers = {
 		"Principal Axes": strain,
@@ -921,10 +995,17 @@ function includeHTML() {
 	var overlays = {
 		"Stations": stations,
 		"Velocities": vel
+  {% if args.one_tensor == False and args.method == 'shen' %}  
+,
+		"Grid": grid
+  {% endif %}
+  {% if args.one_tensor == False and args.method == 'veis' %}  
+,
+		"Delaunay Tr": dlntr
+  {% endif %}
 		};
 
 	L.control.layers(baseLayers, overlays, {collapsed:false}).addTo(map);
-	
 	
 
 //   Add scale Bar
@@ -955,28 +1036,9 @@ function includeHTML() {
 // 		}).addTo(map);
 $('<h6 id="mapTitle"><b>Strain parameters</b></h6>').insertBefore('div.leaflet-control-layers-base');
 
-//  Add Watermark
 
-L.Control.Watermark = L.Control.extend({
-        onAdd: function(map) {
-                var img = L.DomUtil.create('img');
 
-                img.src = 'static/img/SWTlogo.png';
-                img.style.width = '200px';
-
-                return img;
-        },
-
-        onRemove: function(map) {
-// Nothing to do here
-        }
-});
-
-L.control.watermark = function(opts) {
-        return new L.Control.Watermark(opts);
-}
-
-L.control.watermark({ position: 'bottomright' }).addTo(map);
+{% if args.one_tensor == False %}  
 
 STRlegend.addTo(map);
 currentLegend = STRlegend;
@@ -1003,7 +1065,32 @@ map.on('baselayerchange', function (eventLayer) {
        SINVlegend.addTo(map);
     }
   })
+{% endif %}
 
+//  Add Watermark
+
+L.Control.Watermark = L.Control.extend({
+        onAdd: function(map) {
+                var img = L.DomUtil.create('img');
+
+                img.src = 'static/img/SWTlogo.png';
+                img.style.width = '200px';
+
+                return img;
+        },
+
+        onRemove: function(map) {
+// Nothing to do here
+        }
+});
+
+L.control.watermark = function(opts) {
+        return new L.Control.Watermark(opts);
+}
+
+L.control.watermark({ position: 'bottomright' }).addTo(map);
+
+  
 L.easyPrint({
 	title: 'Print button',
 	position: 'topleft',
