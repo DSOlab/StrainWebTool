@@ -98,12 +98,16 @@ function includeHTML() {
 
     <!-- Strain Tool arguments column -->
     <div class="col-md-4" style="padding: 15px; background-color:  #ffcc99;">
-   	<form class="form" action="{{ rooturl_folder }}/inputs"> 
-	    <p> Duplicate record found in input file for station  </p>
+   	<form class="form" action="{{ rooturl_folder }}/inputs">
+	    <h2>[ERROR] Input file error </h2>
+	    <!--<p> Duplicate record found in input file for station  </p>
 	    {{ sta_name }}
-     i     <p> Duplicate record found in input file for station  </p>
+	    <br>-->
+            <p> Duplicate record found in input file for station  </p>
             {{ sta_name }}
 	    <br>{{ nsta_name }}
+	    <br><br>
+	    <p><b> Check input file for duplicated stations </b></p>
 	<div align="center">
             <input type = "submit" class="btn btn-danger" value = "INPUT PAGE"/>
 	</div>
