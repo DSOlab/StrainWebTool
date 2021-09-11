@@ -3,7 +3,8 @@ import sys
 
 ##Virtualenv Settings
 activate_this = '/var/www/html/StrainWebTool/flask/bin/activate_this.py'
-execfile(activate_this, dict(__file__=activate_this))
+#execfile(activate_this, dict(__file__=activate_this))
+exec(compile(open(activate_this, "rb").read(), activate_this, 'exec'), dict(__file__=activate_this))
 
 ##Replace the standard out
 sys.stdout = sys.stderr

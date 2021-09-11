@@ -26,7 +26,7 @@ from scipy.spatial import Delaunay
 #from math import sqrt, radians, sin, cos, atan2, pi, asin
 
 ############################################## Flask
-from flask import Flask, flash, request, redirect, url_for, render_template, send_file, session
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file, session, abort
 from flask_restful import reqparse
 
 
@@ -101,9 +101,11 @@ def webtool_params():
             ## check that the station is not a duplicate
             for sta in stations:
                 if sta.name == nSta.name:
-                    raise ValueError('[ERROR] Duplicate record found in input file for station {:}'.format(sta.name))
+                    #raise ValueError('[ERROR] Duplicate record found in input file for station {:}'.format(sta.name))
+                    return render_template('webtool/error_input.html', rooturl_folder=ROOTURL_FOLDER , sta_name = sta.name)
                 if sta.lat==nSta.lat and sta.lon==nSta.lon:
-                    raise ValueError('[ERROR] Exact coordinate match for stations {:} and {:}. Possible duplicate!'.format(sta.name, nSta.name))
+                    #raise ValueError('[ERROR] Exact coordinate match for stations {:} and {:}. Possible duplicate!'.format(sta.name, nSta.name))
+                    return render_template('webtool/error_input.html', rooturl_folder=ROOTURL_FOLDER, sta_name = sta.name, nsta_name = nSta.name)
             stations.append(nSta)
     for sta in stations:
         sta_list_ell.append(sta)
