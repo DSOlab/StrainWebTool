@@ -16,6 +16,7 @@ Online Portal for [StrainTool](https://github.com/DSOlab/StrainTool) software
 [![](https://img.shields.io/github/forks/DSOlab/StrainWebTool.svg)](https://github.com/DSOlab/StrainWebTool/network)
 [![](https://img.shields.io/github/issues/DSOlab/StrainWebTool.svg)](https://github.com/DSOlab/StrainWebTool/issues)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3308499.svg)](https://doi.org/10.5281/zenodo.3308499)
 
 ## General
 
@@ -61,7 +62,11 @@ virtualenv flask
 **activate venv**
 . flask/bin/activate
 
-export FLASK_APP=run.py
+**go to app directory**
+cd app
+
+**set flask application and run local server**
+export FLASK_APP=webtool.py
 flask run
 * Running on http://127.0.0.1:5000/inputs
 

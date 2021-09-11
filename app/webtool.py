@@ -40,11 +40,11 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 
 ##  set rooturl_folder , if wsgi module used for apache or set '' if you run local server
-ROOTURL_FOLDER='/StrainWebTool'
+ROOTURL_FOLDER=''
 
 ##  Set application;s root folder, for local server use function os.getcwd()
 ##+ For WSGI module use absolute path to the folder
-ROOT_FOLDER='/var/www/html/StrainWebTool/app/'  #os.getcwd()
+ROOT_FOLDER=os.getcwd()
 
 ## Upload files, not in use yet
 # UPLOAD_FOLDER = '/uploads'
@@ -754,7 +754,7 @@ def webtool_results():
         ##+ per triangle centre
         ## Open file to write delaunay triangles.
         print('[DEBUG] Estimating Strain Tensors at the barycentre of Delaunay triangles')
-        dlnout = open(f_deltr, 'w')
+        dlnout = open('delaunay_info.dat', 'w')
         points = numpy.array([ [sta.lon, sta.lat] for sta in sta_list_utm ])
         tri = Delaunay(points)
         print('[DEBUG] Number of Delaunay triangles: {}'.format(len(tri.simplices)))
